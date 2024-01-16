@@ -1,0 +1,8 @@
+CREATE TABLE usuario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    apellidos VARCHAR(50) NOT NULL,
+    correo VARCHAR(100) NOT NULL,
+    contrasena VARCHAR(255) NOT NULL,
+    admin BOOLEAN NOT NULL DEFAULT 0
+);
