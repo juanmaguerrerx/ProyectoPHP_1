@@ -99,6 +99,25 @@ class TareaModelo
             return false;
         }
     }
+
+    public function getTareas($admin){
+        try {
+            $tareas = array(
+                '' => '',
+                '' => '',
+            );
+            $stmt = $this->conexion->prepare("SELECT  FROM tareas WHERE");
+
+            $stmt->execute();
+
+            // insertas
+            
+            return $tareas;
+        } catch (PDOException $e) {
+
+            return 'error';
+        }
+    }
 }
 
 

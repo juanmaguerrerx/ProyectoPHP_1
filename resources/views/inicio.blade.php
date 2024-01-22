@@ -3,30 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio de Sesión</title>
+    <title>Inicio</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body{
-            background-image: url(../images/fondo-pared-ladrillo-rustico_53876-92955.avif);
-            background-repeat: no-repeat;
-            background-size: cover;
+        body {
+            background-color: rgb(113, 113, 113);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     </style>
 </head>
-<body style="">
+<body>
 
-@include('./navbar.blade.php')
-<div class="container mt-5">
+{{-- @include('navbar') --}}
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="text-center">BungleBuilding</h3>
+                    <h3 class="text-center">BungleBuilding S.L</h3>
                 </div>
                 <div class="card-body">
-                    <form>
+                    <form method="POST" action="">
+                        @csrf
                         <div class="form-group">
-                            <label for="email">Correo Electrónico:</label>
+                            <label for="email">Email:</label>
                             <input type="email" class="form-control" id="email" placeholder="Ingrese su correo electrónico" required>
                         </div>
                         <div class="form-group">

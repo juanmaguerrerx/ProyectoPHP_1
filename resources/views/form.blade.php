@@ -7,9 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body{
-            background-image: url(../images/fondo-pared-ladrillo-rustico_53876-92955.avif);
-            background-repeat: no-repeat;
-            background-size: cover;
+            background-color: grey
         }
         *{
             color: white;
@@ -17,13 +15,20 @@
         select>option{
             color: black;
         }
+        .mg{
+            margin-bottom: 5vh;
+        }
+        .pad{
+            padding: 5vh;
+        }
     </style>
 </head>
 <body>
-
-<div class="container mt-5">
-    <h2>Formulario de Tareas</h2>
-    <form method='POST' action="{{route(crearTarea)}}">
+{{-- incluir el navbar  --}}
+@include('navbar')
+<div class="container mt-5 pad">
+    <h2 class="tp">Formulario de Tareas</h2>
+    <form method='POST' action="">
         @csrf
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -99,7 +104,7 @@
             <label for="anotacionesPosteriores">Anotaciones Posteriores</label>
             <textarea class="form-control" id="anotacionesPosteriores" rows="3"></textarea>
         </div>
-        <button type="submit" class="btn btn-primary">Agregar Tarea</button>
+        <button type="submit" class="btn btn-primary mg">Agregar Tarea</button>
     </form>
 </div>
 

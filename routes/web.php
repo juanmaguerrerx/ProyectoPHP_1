@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\TareaCtrl;
+use App\Http\Controllers\AdminCtrl;
+use App\Http\Controllers\InicioCtrl;
+use App\Http\Controllers\TareasCtrl;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +16,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', function () {
-    return view('');
-});
+Route::get('/', [InicioCtrl::class,'mostrarLogin']);
+Route::post('/');
 
-Route::get('/form');
-Route::post('/form');
+Route::get('/form',[TareasCtrl::class,'mostrarForm']);
+Route::post('/form',[TareasCtrl::class,'enviarForm',]);
+
+Route::get('/admin',[AdminCtrl::class,'mostrarTabla']);
