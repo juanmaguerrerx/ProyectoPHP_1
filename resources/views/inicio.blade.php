@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
-            /* background-image: url('./public/images/fondo-pared-ladrillo-rustico_53876-92955.avif'); */
-            background-color: rgb(160, 160, 160);
+            background-image: url('../images/fondo-pared-ladrillo-rustico_53876-92955.avif');
+            background-repeat: no-repeat;
+            background-size: cover;
             height: 100vh;
             display: flex;
             align-items: center;
@@ -34,6 +35,13 @@
         .aste {
             color: red;
         }
+
+        .bd{
+            background-color: rgba(218, 218, 218, 0.8)
+        }
+        .in{
+            background-color: rgba(255, 255, 255, 0.5)
+        }
     </style>
 </head>
 
@@ -43,7 +51,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="card">
+                <div class="card bd">
                     <div class="card-header">
                         <h3 class="text-center">BungleBuilding S.L</h3>
                     </div>
@@ -52,7 +60,7 @@
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email:</label>
-                                <input type="text" name="email" class="form-control" id="email"
+                                <input type="text" name="email" class="form-control in" id="email"
                                     placeholder="Ingrese su correo electrónico" value="{{isset($datosFormulario['email']) ? $datosFormulario['email'] : ''}}">
                                 @if (isset($errores['email']))
                                     <div class="text-danger">{{ $errores['email'] }}</div>
@@ -60,7 +68,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="password">Contraseña:</label>
-                                <input type="password" name="contrasena" class="form-control" id="password" value=" {{isset($datosFormulario['contrasena']) ? $datosFormulario['contrasena'] : ''}}"
+                                <input type="password" name="contrasena" class="form-control in" id="password" value=" {{isset($datosFormulario['contrasena']) ? $datosFormulario['contrasena'] : ''}}"
                                     placeholder="Ingrese su contraseña">
                                    
                                 @if (isset($errores['contrasena']))

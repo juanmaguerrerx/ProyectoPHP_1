@@ -122,7 +122,7 @@ class TareasCtrl
         // $datosOperario = $o->getOperario($idOperario);
         if (empty($errores)) {
             $fecha_realizacion=NULL;
-            if($datosFormulario['estado']=='R'){
+            if($datosFormulario['estado']=='R' || $datosFormulario['estado']=='B'){
                 $fecha_realizacion=date("Y-m-d H:i:s");
             }
             // dd($fecha_realizacion);
