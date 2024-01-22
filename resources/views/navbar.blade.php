@@ -4,22 +4,34 @@
     }
 </style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <a class="navbar-brand" href="#">BungleBuilding S.L</a>
-    
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    
+    {{-- <div class="navbar-brand">BungleBuilding S.L</div> --}}
+    <div class="navbar-brand">
+        <strong>BungleBuilding S.L</strong>
+    </div>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-            <!-- Aquí puedes agregar otros elementos del menú si es necesario -->
-                {{-- @if () --}}
+                {{-- @if () si es admin --}}
+                @if (request()->is('users'))
                 <li class="nav-item">
-                    <button type="button" class="btn btn-success m">Añadir Tarea</button>
+                    <a href="{{route('formUser')}}"><button type="button" class="btn btn-success m">Añadir Operario</button></a>
                 </li>
-                {{-- @endif --}}
+                @endif
+                @if (request()->is('admin'))
+                <li class="nav-item">
+                    <a href="{{route('form')}}"><button type="button" class="btn btn-success m">Añadir Tarea</button></a>
+                </li>
+                @endif @if (!request()->is('admin')) 
+                <li class="nav-item">
+                    <a href="{{route('tabla',['p'=>1,'g'=>5])}}"><button type="button" class="btn btn-outline-success m">Ver Tareas</button></a>
+                </li>
+                @endif
+                @if (!request()->is('users')) {{--Comprobar tambien si es admin--}}
+                <li class="nav-item">
+                    <a href="{{route('tablaUsuarios',['p'=>1,'g'=>5])}}"><button type="button" class="btn btn-outline-warning m">Ver Operarios</button></a>
+                </li>
+                @endif
             <li class="nav-item">
-                <a href="#"><button type="button" class="btn btn-outline-primary">Cerrar Sesión</button></a>
+                <a href="{{route('logout')}}"><button type="button" class="btn btn-outline-danger">Cerrar Sesión</button></a>
             </li>
         </ul>
     </div>

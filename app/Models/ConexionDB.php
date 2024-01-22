@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Models;
+
+use PDO;
+use PDOException;
+
 class ConexionDB {
     private static $instancia;
     private $conexion;

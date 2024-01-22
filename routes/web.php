@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminCtrl;
 use App\Http\Controllers\InicioCtrl;
 use App\Http\Controllers\TareasCtrl;
+use App\Http\Controllers\UsuariosCtrl;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,10 +17,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [InicioCtrl::class,'mostrarLogin']);
-Route::post('/');
+Route::get('/login', [InicioCtrl::class,'mostrarLogin'])->name('inicio');
+Route::post('/login',[InicioCtrl::class,'login'])->name('login');
 
-Route::get('/form',[TareasCtrl::class,'mostrarForm']);
-Route::post('/form',[TareasCtrl::class,'enviarForm',]);
+Route::get('/logout',[InicioCtrl::class,'mostrarLoginClose'])->name('logout');
 
-Route::get('/admin',[AdminCtrl::class,'mostrarTabla']);
+Route::get('/form',[TareasCtrl::class,'mostrarForm'])->name('form');
+Route::post('/form',[TareasCtrl::class,'enviarForm'])->name('enviarForm');
+
+Route::get('/admin',[AdminCtrl::class,'mostrarTabla'])->name('tabla');
+// Route::post('/admin',[AdminCtrl::class,'mostrarTabla'])->name('tabla');
+
+Route::get('/users',[UsuariosCtrl::class,'mostrarTablaUsuarios'])->name('tablaUsuarios');
+
+Route::get('/formUser',[UsuariosCtrl::class,'mostrarFormUser'])->name('formUser');
+Route::post('/formUser',[UsuariosCtrl::class,'enviarOperario'])->name('enviarOperario');
+
+Route::get('/formModUser',[UsuariosCtrl::class,'mostrarFormModUser'])->name('formModUser');
+Route::post('/formModUser',[UsuariosCtrl::class,'enviarFormModUser'])->name('enviarFormModUser');
+
+Route::get('/deleteUser',[UsuariosCtrl::class,'deleteUser'])->name('deleteUser');
+Route::post('/deleteUser',[UsuariosCtrl::class,'confirmDeleteUser'])->name('confirmDeleteUser');
+
+Route::get('/modTarea',[TareasCtrl::class,'modTarea'])->name('modTarea');
+Route::post('/modTarea',[TareasCtrl::class,'confirmModTarea'])->name('confirmModTarea');
+
+Route::get('/deleteTarea',[TareasCtrl::class,'deleteTarea'])->name('deleteTarea');
+Route::post('/deleteTarea',[TareasCtrl::class,'confirmDeleteTarea'])->name('confirmDeleteTarea');

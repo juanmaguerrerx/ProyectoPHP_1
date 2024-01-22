@@ -3,23 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Tareas</title>
+    <title>Agregar Tarea | BungleBuilding S.L</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body{
-            background-color: grey
-        }
-        *{
+        body {
+            background-color: grey;
             color: white;
         }
-        select>option{
+
+        select>option {
             color: black;
         }
-        .mg{
+
+        .mg {
             margin-bottom: 5vh;
         }
-        .pad{
+
+        .pad {
             padding: 5vh;
+        }
+
+        /* Estilo para el asterisco rojo */
+        .required::after {
+            content: ' *';
+            color: red;
+        }
+        fieldset{
+            padding: 1%;
+            margin-bottom:2%;
+        }
+        legend{
+            margin-left: 0%;
+        }
+        .aste{
+            color: red;
         }
     </style>
 </head>
@@ -27,84 +44,101 @@
 {{-- incluir el navbar  --}}
 @include('navbar')
 <div class="container mt-5 pad">
-    <h2 class="tp">Formulario de Tareas</h2>
-    <form method='POST' action="">
-        @csrf
+    <h2 class="tp">Añadir Tarea</h2>
+    <p >&#40; <span class="aste">&#42;</span> son campos obligatorios&#41;</p>
+    
+    <form method='POST' action="{{route('enviarForm')}}">
+        {{-- @csrf --}}
+        <fieldset style="border: 1px solid white">
         <div class="form-row">
+            
+                <legend>Datos cliente:</legend>
             <div class="form-group col-md-6">
-                <label for="nif">NIF o CIF</label>
-                <input type="text" class="form-control" id="nif" placeholder="NIF o CIF" required>
+                <label for="nif" class="required">NIF Cliente</label>
+                <input type="text" name="nif" class="form-control" value="{{isset($datosFormulario['nif']) ? $datosFormulario['nif'] : ''}}" id="nif" placeholder="NIF o CIF">
+                @if(isset($errores['nif']))
+                <div class="text-danger">{{ $errores['nif'] }}</div>
+                @endif
             </div>
             <div class="form-group col-md-6">
-                <label for="personaContacto">Persona de Contacto</label>
-                <input type="text" class="form-control" id="personaContacto" placeholder="Nombre y Apellidos" required>
+                <label for="cliente" class="required">Cliente</label>
+                <input type="text" name="cliente" class="form-control" id="Cliente" value="{{isset($datosFormulario['cliente']) ? $datosFormulario['cliente'] : ''}}" placeholder="Nombre y Apellidos">
+                @if(isset($errores['cliente']))
+                <div class="text-danger">{{ $errores['cliente'] }}</div>
+                @endif
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="telefono">Teléfono de Contacto</label>
-                <input type="tel" class="form-control" id="telefono" placeholder="Teléfono" required>
+                <label for="telefono" class="required">Teléfono de Contacto</label>
+                <input type="tel" name="telefono" class="form-control" id="telefono" value="{{isset($datosFormulario['telefono']) ? $datosFormulario['telefono'] : ''}}" placeholder="Teléfono">
+                @if(isset($errores['telefono']))
+                <div class="text-danger">{{ $errores['telefono'] }}</div>
+                @endif
             </div>
             <div class="form-group col-md-6">
-                <label for="email">Correo Electrónico</label>
-                <input type="email" class="form-control" id="email" placeholder="Correo Electrónico" required>
+                <label for="email" class="required">Correo Electrónico</label>
+                <input type="email" name="email" class="form-control" id="email" value="{{isset($datosFormulario['email']) ? $datosFormulario['email'] : ''}}" placeholder="Correo Electrónico">
+                @if(isset($errores['email']))
+                <div class="text-danger">{{ $errores['email'] }}</div>
+                @endif
             </div>
         </div>
+    </fieldset>
         <div class="form-group">
-            <label for="descripcion">Descripción</label>
-            <textarea class="form-control" id="descripcion" rows="3" required></textarea>
+            <label for="descripcion" class="required">Descripción</label>
+            <textarea class="form-control" name="descripcion" id="descripcion" rows="3">{{isset($datosFormulario['descripcion']) ? $datosFormulario['descripcion'] : ''}}</textarea>
+            @if(isset($errores['descripcion']))
+            <div class="text-danger">{{ $errores['descripcion'] }}</div>
+            @endif
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="direccion">Dirección</label>
-                <input type="text" class="form-control" id="direccion" placeholder="Dirección" required>
+                <label for="direccion" class="required">Dirección</label>
+                <input type="text" name="direccion" class="form-control" value="{{isset($datosFormulario['direccion']) ? $datosFormulario['direccion'] : ''}}" id="direccion" placeholder="Dirección">
+                @if(isset($errores['direccion']))
+                <div class="text-danger">{{ $errores['direccion'] }}</div>
+                @endif
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label for="provincia" class="required">Provincia</label>
+                    <select id="provincia" name="provincia" class="form-control">
+                        @foreach ($provincias as $provincia)
+                        <option value="{{$provincia['cod']}}">{{$provincia['nombre']}}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             <div class="form-group col-md-3">
-                <label for="poblacion">Población</label>
-                <input type="text" class="form-control" id="poblacion" placeholder="Población" required>
+                <label for="poblacion" class="required">Población</label>
+                <input type="text" name="poblacion" value="{{isset($datosFormulario['poblacion']) ? $datosFormulario['poblacion'] : ''}}" class="form-control" id="poblacion" placeholder="Población">
+                @if(isset($errores['poblacion']))
+                <div class="text-danger">{{ $errores['poblacion'] }}</div>
+                @endif
             </div>
             <div class="form-group col-md-3">
-                <label for="codigoPostal">Código Postal</label>
-                <input type="text" class="form-control" id="codigoPostal" placeholder="Código Postal" required>
+                <label for="codigoPostal" class="required">Código Postal</label>
+                <input type="text" name="codigoPostal" class="form-control" value="{{isset($datosFormulario['codigoPostal']) ? $datosFormulario['codigoPostal'] : ''}}" id="codigoPostal" placeholder="Código Postal">
+                @if(isset($errores['codigoPostal']))
+                <div class="text-danger">{{ $errores['codigoPostal'] }}</div>
+                @endif
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="provincia">Provincia</label>
-                <select id="provincia" class="form-control" required>
-                    <option value="">Seleccionar...</option>
-                    <!-- Agrega las provincias con la bbdd-->
+                <label for="operario" class="required">Operario Encargado</label>
+                <select id="operario" name="operario" class="form-control form-control-md">
+                    @foreach ($operarios as $operario)
+                        <option value="{{$operario['id']}}">{{ $operario['nombre']}} {{$operario['apellidos']}}</option>  
+                    @endforeach
                 </select>
             </div>
-            <div class="form-group col-md-6">
-                <label for="estado">Estado</label>
-                <input type="text" class="form-control" id="estado" placeholder="Estado" required>
-            </div>
         </div>
-        <div class="form-row">
-            <div class="form-group col-md-6">
-                <label for="operario">Operario Encargado</label>
-                <select id="operario" class="form-control" required>
-                    <option value="">Seleccionar...</option>
-                    <!-- Agrega los operarios que necesites -->
-                    
-                    <!-- ... -->
-                </select>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="fechaRealizacion">Fecha de Realización</label>
-                <input type="date" class="form-control" id="fechaRealizacion" required>
-            </div>
-        </div>
+        
         <div class="form-group">
             <label for="anotacionesAnteriores">Anotaciones Anteriores</label>
-            <textarea class="form-control" id="anotacionesAnteriores" rows="3"></textarea>
+            <textarea class="form-control" name="anotacionesAnteriores" id="anotacionesAnteriores" rows="3">{{isset($datosFormulario['anotacionesAnteriores']) ? $datosFormulario['anotacionesAnteriores'] : ''}}</textarea>
         </div>
-        <div class="form-group">
-            <label for="anotacionesPosteriores">Anotaciones Posteriores</label>
-            <textarea class="form-control" id="anotacionesPosteriores" rows="3"></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary mg">Agregar Tarea</button>
+        <button type="submit" name="submit" class="btn btn-primary mg">Agregar Tarea</button>
     </form>
 </div>
 

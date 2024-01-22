@@ -1,138 +1,220 @@
 <?php
 
+namespace App\Models;
+
 use App\Models\ConexionDB;
+use PDO;
+use PDOException;
+use PhpParser\Node\Stmt;
 
-class TareaModelo
+class Tareas
 {
-    private $conexion;
-
-    public function __construct($conexion)
-    {
-        $this->conexion = $conexion;
-    }
 
     //Funcion para crear Tareas
-    public function crearTarea(
-        $nifCifCliente,
-        $personaContactoNombre,
-        $personaContactoApellidos,
-        $telefonoContacto,
-        $descripcion,
-        $correoElectronico,
-        $direccion,
-        $poblacion,
-        $codigoPostal,
-        $provincia,
-        $estado,
-        $fechaCreacion,
-        $operarioEncargado,
-        $fechaRealizacion,
-        $anotacionesAnteriores,
-        $anotacionesPosteriores
-    ) {
+    public function crearTarea($datos)
+    {
         try {
-            $stmt = $this->conexion->prepare("
+            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+            $stmt = $conexion->prepare("
                 INSERT INTO tareas (
-                    nif_cif_cliente,
-                    persona_contacto_nombre,
-                    persona_contacto_apellidos,
-                    telefono_contacto,
-                    descripcion,
-                    correo_electronico,
-                    direccion,
-                    poblacion,
-                    codigo_postal,
-                    provincia,
-                    estado,
-                    fecha_creacion,
-                    operario_encargado,
-                    fecha_realizacion,
-                    anotaciones_anteriores,
-                    anotaciones_posteriores
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ");
+                nif_cliente,	
+                nombre_cliente,
+                telefono_cliente,	
+                correo_cliente,	
+                descripcion,	
+                poblacion,	
+                codigo_postal,	
+                provincia,			
+                operario_id,	
+                anotaciones_anteriores	
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ");
 
-            $stmt->bindParam(1, $nifCifCliente);
-            $stmt->bindParam(2, $personaContactoNombre);
-            $stmt->bindParam(3, $personaContactoApellidos);
-            $stmt->bindParam(4, $telefonoContacto);
-            $stmt->bindParam(5, $descripcion);
-            $stmt->bindParam(6, $correoElectronico);
-            $stmt->bindParam(7, $direccion);
-            $stmt->bindParam(8, $poblacion);
-            $stmt->bindParam(9, $codigoPostal);
-            $stmt->bindParam(10, $provincia);
-            $stmt->bindParam(11, $estado);
-            $stmt->bindParam(12, $fechaCreacion);
-            $stmt->bindParam(13, $operarioEncargado);
-            $stmt->bindParam(14, $fechaRealizacion);
-            $stmt->bindParam(15, $anotacionesAnteriores);
-            $stmt->bindParam(16, $anotacionesPosteriores);
+            $stmt->bindParam(1, $datos['nif']);
+            $stmt->bindParam(2, $datos['cliente']);
+            $stmt->bindParam(3, $datos['telefono']);
+            $stmt->bindParam(4, $datos['email']);
+            $stmt->bindParam(5, $datos['descripcion']);
+            $stmt->bindParam(6, $datos['poblacion']);
+            $stmt->bindParam(7, $datos['codigoPostal']);
+            $stmt->bindParam(8, $datos['provincia']);
+            $stmt->bindParam(9, $datos['operario']);
+            $stmt->bindParam(10, $datos['anotacionesAnteriores']);
+
+            // dd($stmt);
+            echo "Consulta SQL: " . $stmt->queryString . PHP_EOL;
 
             $stmt->execute();
             return true;
         } catch (PDOException $e) {
+            dd($e->getMessage());
+        }
+    }
 
-            return false;
+
+    //Funcion para eliminar la tarea
+    public function deleteTarea($id)
+    {
+        try {
+            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+            $stmt = $conexion->prepare("DELETE FROM tareas WHERE id = ?");
+
+            $stmt->bindParam(1, $id);
+
+            $stmt->execute();
+
+            return true;
+        } catch (PDOException $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    //Funcion que obtiene las tareas asociadas a la id del operario pasado como parámetro
+    public function getTareas($operarioId)
+    {
+        try {
+            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+            $tareas = array();
+            $opMod = new Operarios;
+            // Verificar si el operario es administrador
+            $esAdmin = $opMod->esAdmin($operarioId);
+
+            // Construir la consulta SQL en función de si es admin o no
+            if ($esAdmin) {
+                $stmt = $conexion->prepare("SELECT * FROM tareas");
+            } else {
+                $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId");
+            }
+
+            $stmt->execute();
+
+            // Obtener todas las tareas como un array asociativo
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+
+            // Iterar sobre los resultados y construir el array final
+            foreach ($resultados as $fila) {
+                $opMod = new Operarios;
+                $provMod = new Provincias;
+                $tarea = array(
+                    'id' => $fila['id'],
+                    'nif_cliente' => $fila['nif_cliente'],
+                    'nombre_cliente' => $fila['nombre_cliente'],
+                    'telefono_cliente' => $fila['telefono_cliente'],
+                    'correo_cliente' => $fila['correo_cliente'],
+                    'descripcion' => $fila['descripcion'],
+                    'codigo_postal' => $fila['codigo_postal'],
+                    'provincia' => $provMod->getProv($fila['provincia']),
+                    'estado' => $fila['estado'],
+                    'fecha_creacion' => $fila['fecha_creacion'],
+                    'operario' => $opMod->getNombre($fila['operario_id']),
+                    'fecha_realizacion' => $fila['fecha_realizacion'],
+                    'anotaciones_anteriores' => $fila['anotaciones_anteriores'],
+                    'anotaciones_posteriores' => $fila['anotaciones_posteriores'],
+                );
+                $tareas[] = $tarea;
+            }
+            // dd($tareas);
+            return $tareas;
+        } catch (PDOException $e) {
+            dd($e->getMessage());
+        }
+    }
+
+    public function getTarea($id)
+    {
+        // dd($id);
+        try {
+            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+            $stmt = $conexion->prepare("SELECT * FROM tareas WHERE id = $id");
+
+            $stmt->execute();
+
+            // Obtener todos los resultados como un array asociativo
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $provMod = new Provincias;
+            $opMod = new Operarios;
+
+            // Iterar sobre los resultados y construir el array final
+            foreach ($resultados as $fila) {
+                $tarea = array(
+                    'id' => $fila['id'],
+                    'nif_cliente' => $fila['nif_cliente'],
+                    'nombre_cliente' => $fila['nombre_cliente'],
+                    'telefono_cliente' => $fila['telefono_cliente'],
+                    'correo_cliente' => $fila['correo_cliente'],
+                    'descripcion' => $fila['descripcion'],
+                    'codigo_postal' => $fila['codigo_postal'],
+                    'provincia' => $provMod->getProv($fila['provincia']),
+                    'estado' => $fila['estado'],
+                    'fecha_creacion' => $fila['fecha_creacion'],
+                    'operario' => $opMod->getNombre($fila['operario_id']),
+                    'fecha_realizacion' => $fila['fecha_realizacion'],
+                    'anotaciones_anteriores' => $fila['anotaciones_anteriores'],
+                    'anotaciones_posteriores' => $fila['anotaciones_posteriores'],
+                );
+            }
+            // dd($tarea);
+            return $tarea;
+        } catch (PDOException $e) {
+            return 'error';
         }
     }
 
     //Funcion para modificar la tarea
-    public function modificarTarea()
+    public function modTarea($idTarea, $datos, $fecha_realizacion)
     {
         try {
+            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
-            return true;
-        } catch (PDOException $e) {
+            $consulta = "
+            UPDATE tareas SET 
+            nif_cliente = ?,
+            nombre_cliente = ?,
+            telefono_cliente = ?,
+            correo_cliente = ?,
+            descripcion = ?,
+            codigo_postal = ?,
+            provincia = ?,
+            estado = ?,
+            operario_id = ?,
+            fecha_realizacion = ?,
+            anotaciones_anteriores = ?,
+            anotaciones_posteriores = ?
+            WHERE id = ?
+        ";
 
-            return false;
-        }
-    }
+            $stmt = $conexion->prepare($consulta);
 
-    //Funcion para eliminar la tarea
-    public function eliminarTarea()
-    {
-        try {
-
-            return true;
-        } catch (PDOException $e) {
-            return false;
-        }
-    }
-
-    public function getTareas($admin){
-        try {
-            $tareas = array(
-                '' => '',
-                '' => '',
-            );
-            $stmt = $this->conexion->prepare("SELECT  FROM tareas WHERE");
-
+            $stmt->bindParam(1, $datos['nif_cliente']);
+            $stmt->bindParam(2, $datos['nombre_cliente']);
+            $stmt->bindParam(3, $datos['telefono_cliente']);
+            $stmt->bindParam(4, $datos['correo_cliente']);
+            $stmt->bindParam(5, $datos['descripcion']);
+            $stmt->bindParam(6, $datos['codigo_postal']);
+            $stmt->bindParam(7, $datos['provincia']);
+            $stmt->bindParam(8, $datos['estado']);
+            $stmt->bindParam(9, $datos['operario']);
+            $stmt->bindParam(10, $fecha_realizacion);
+            $stmt->bindParam(11, $datos['anotaciones_anteriores']);
+            $stmt->bindParam(12, $datos['anotaciones_posteriores']);
+            $stmt->bindParam(13, $datos['id']);
+            // dd($stmt);
+            // dd($datos);
             $stmt->execute();
 
-            // insertas
-            
-            return $tareas;
+            return true;
         } catch (PDOException $e) {
-
-            return 'error';
+            // Manejar la excepción según tus necesidades
+            dd($e->getMessage());
         }
     }
+
+    public function getTareasPag($t, $p, $g)
+    {
+        $inicio = ($p - 1) * $g;
+        $tP = array_slice($t, $inicio, $g);
+        return $tP;
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Ejemplo de uso
-// $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
-// $tareaModelo = new TareaModelo($conexion);
