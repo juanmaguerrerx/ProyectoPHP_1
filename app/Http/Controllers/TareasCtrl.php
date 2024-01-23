@@ -110,29 +110,25 @@ class TareasCtrl
     public function confirmModTarea(Request $request){
         $idTarea = $request->input('id');
         $filtro = $request->input('f');
-        // dd($idTarea);
+
         $datosFormulario = $request->except('_token');
         $datosFormulario = array_map('trim', $datosFormulario);
+
         $validador = new Validar($datosFormulario);
         $errores = $validador->validarTareaMod();
-        // dd($errores);
-        // dd($datosFormulario);
+
         $pMod = new Provincias;
         $oMod = new Operarios;
-
         $provincias = $pMod->getProvincias();
         $operarios = $oMod->getOperarios();
 
         $t = new Tareas;
-        // $datosOperario = $o->getOperario($idOperario);
         if (empty($errores)) {
             $fecha_realizacion=NULL;
             if($datosFormulario['estado']=='R' || $datosFormulario['estado']=='B'){
                 $fecha_realizacion=date("Y-m-d H:i:s");
             }
-            // dd($fecha_realizacion);
             $respuesta = $t->modTarea($idTarea, $datosFormulario, $fecha_realizacion);
-            // dd($respuesta);
             if ($respuesta) {
                 $tareasBase = $t->getTareas(1); //ID SESSION
                 $pagina = $request->input('p', 1);

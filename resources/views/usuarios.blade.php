@@ -59,11 +59,20 @@
                 <option value="15" {{ $grupo == 15 ? 'selected' : '' }}>15</option>
                 <option value="25" {{ $grupo == 25 ? 'selected' : '' }}>25</option>
             </select>
+            <br>
+            <label for="rol">Filtrar por Rol:</label>
+            <select name="rol" id="rol">
+                <option value="">-Seleccionar-</option>
+                <option value="0" {{ $rol == 0 ? 'selected' : '' }}>Operario</option>
+                <option value="1" {{ $rol == 1 ? 'selected' : '' }}>Admin</option>
+            </select>
+            <br>
+            <button type="submit" class="btn btn-outline-secondary btn-sm">Aplicar filtros</button>
         </form>
-
-        <form action="{{url('/users')}}" method="get">
+        <br>
+        <form action="{{ url('/users') }}" method="get">
             <label for="seach">Buscar:</label>
-            <input type="text" name="search" id="search" value="{{isset($searchNomrbe) ? $searchNombre : ''}}">
+            <input type="text" name="search" id="search" value="{{ $searchNombre }}">
             <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-search"></i></button>
         </form>
 

@@ -13,18 +13,15 @@ class AdminCtrl
     public function mostrarTabla(Request $request)
     {
 
-        // $id = $_SESSION['user_id']; 
         $t = new Tareas;
        
-        // dd($tareas);
         $orderFecha = $request->input('order','');
 
         $pagina = $request->input('p',1);
         $grupo = $request->input('g',5);
         $filtro = $request->input('f','');
         $filtroName = $request->input('n','');
-        $tareasBase = $t->getTareas(2,$filtro,$filtroName,$orderFecha);
-        // dd($tareasBase);
+        $tareasBase = $t->getTareas(2,$filtro,$filtroName,$orderFecha); //ID DEL OPERARIO (SESSION)
 
         $oMod = new Operarios;
         $operarios = $oMod->getOperarios();

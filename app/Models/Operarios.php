@@ -11,7 +11,7 @@ use PhpParser\Node\Stmt;
 class Operarios
 {
 
-    public function getOperarios($s = null)
+    public function getOperarios($s = null,$r=null)
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
         $operarios = array();
@@ -40,8 +40,14 @@ class Operarios
 
             return $operarios;
         } else {
-            $stmt = $conexion->prepare("SELECT id, nombre, apellidos, correo, contrasena, admin FROM operarios");
 
+            if($r!=null){
+                $t = "WHERE admin=$r";
+            }else{
+                $t='';
+            }
+            $stmt = $conexion->prepare("SELECT id, nombre, apellidos, correo, contrasena, admin FROM operarios $t");
+            // dd($stmt);
             $stmt->execute();
 
             // Obtener todos los resultados como un array asociativo

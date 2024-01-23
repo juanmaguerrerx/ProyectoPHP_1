@@ -17,15 +17,17 @@ class UsuariosCtrl
 
 
         $searchNombre = $request->input('search','');
+        $rol = $request->input('rol','');
 
-        $operariosBase = $o->getOperarios($searchNombre);
+        $operariosBase = $o->getOperarios($searchNombre,$rol);
 
         $pagina = $request->input('p', 1);
         $grupo = $request->input('g', 5);
 
         $operarios = $o->getOperariosPag($operariosBase, $pagina, $grupo);
+        // dd($operarios);
 
-        return view('usuarios', compact('operarios', 'pagina', 'grupo', 'operariosBase'));
+        return view('usuarios', compact('operarios', 'pagina', 'grupo', 'operariosBase','searchNombre','rol'));
     }
     public function enviarFormModUser(Request $request)
     {
