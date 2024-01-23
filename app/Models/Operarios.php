@@ -60,8 +60,8 @@ class Operarios
                 $t = '';
             }
             // Hacemos el select con los parametros
-            $stmt = $conexion->prepare("SELECT id, nombre, apellidos, correo, contrasena, admin FROM operarios ?");
-            $stmt->bindParam(1, $t);
+            $stmt = $conexion->prepare("SELECT id, nombre, apellidos, correo, contrasena, admin FROM operarios $t");
+
             $stmt->execute();
 
             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
