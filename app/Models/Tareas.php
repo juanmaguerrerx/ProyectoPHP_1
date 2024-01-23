@@ -79,7 +79,7 @@ class Tareas
             if ($oF == 'fC') {
                 $oF = "ORDER BY fecha_creacion ";
             } else if ($oF == 'fR') {
-                $oF = "ORDER BY fecha_realizacion , fecha_realizacion IS NULL";
+                $oF = "ORDER BY fecha_realizacion IS NULL, fecha_realizacion";
             }
         } else $oF = 'ORDER BY id';
 
