@@ -60,12 +60,15 @@ class UsuariosCtrl
             //Si se modifica
             if ($respuesta) {
                 $operariosBase = $o->getOperarios();
+
+                $searchNombre = $request->input('search','');
+                $rol = $request->input('rol','');
                 $pagina = $request->input('p', 1);
                 $grupo = $request->input('g', 5);
 
                 $operarios = $o->getOperariosPag($operariosBase, $pagina, $grupo);
 
-                return redirect('/users')->with(compact('operarios', 'operariosBase', 'pagina', 'grupo'));
+                return redirect('/users')->with(compact('operarios', 'operariosBase', 'pagina', 'grupo','rol','searchNombre'));
             } else { //Si no se modifica
                 dd($respuesta);
             }
@@ -96,11 +99,14 @@ class UsuariosCtrl
             // Si se crea
             if ($respuesta) {
                 $operariosBase = $o->getOperarios();
+
+                $searchNombre = $request->input('search','');
+                $rol = $request->input('rol','');
                 $pagina = $request->input('p', 1);
                 $grupo = $request->input('g', 5);
 
                 $operarios = $o->getOperariosPag($operariosBase, $pagina, $grupo);
-                return view('usuarios', compact('operarios', 'operariosBase', 'pagina', 'grupo'));
+                return view('usuarios', compact('operarios', 'operariosBase', 'pagina', 'grupo','rol','searchNombre'));
             } else { //Si no se crea
                 print_r($respuesta);
             }
@@ -164,12 +170,15 @@ class UsuariosCtrl
         if ($respuesta) {
 
             $operariosBase = $o->getOperarios();
+
+            $searchNombre = $request->input('search','');
             $pagina = $request->input('p', 1);
             $grupo = $request->input('g', 5);
+            $rol = $request->input('rol','');
 
             $operarios = $o->getOperariosPag($operariosBase, $pagina, $grupo);
 
-            return redirect('/users')->with(compact('operarios', 'operariosBase', 'pagina', 'grupo'));
+            return redirect('/users')->with(compact('operarios', 'operariosBase', 'pagina', 'grupo','rol','searchNombre'));
 
             //Si no lo borra
         } else dd('error');

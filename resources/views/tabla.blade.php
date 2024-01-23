@@ -46,7 +46,6 @@
         }
 
         .b {
-            height: 3.5vh;
             margin-bottom: 1vh;
 
         }
@@ -174,19 +173,31 @@
 
             </table>
 
-            {{-- Paginacion --}}
-            <div class="container-fluid cen">
-                @if ($pagina > 1)
-                    <a class="pag" href="{{ url('/admin?p=' . ($pagina - 1) . '&g=' . $grupo) }}"><button
-                            class="btn btn-outline-primary">Anterior</button></a>
-                @endif
+            {{-- <form action="{{url('/admin')}}" method="get">
+                <button type="submit" class="btn btn-outline-primary" value="{{$pagina-1}}">Anterior</button>
                 <button disabled class="btn btn-primary">{{ $pagina }}</button>
-                @if (count($tareas) == $grupo && count($tareasBase) > $pagina * $grupo)
-                    <!-- Mostrar el botón Siguiente solo si hay mas tareas para mostrar -->
-                    <a class="pag" href="{{ url('/admin?p=' . ($pagina + 1) . '&g=' . $grupo) }}"><button
-                            class="btn btn-outline-primary">Siguiente</button></a>
+                <button type="submit" class="btn btn-outline-primary" value="{{ $pagina+1 }}">Siguiente</button>
+            </form> --}}
+
+
+            {{-- Paginacion --}}
+            <form action="{{ url('/admin') }}" method="GET" class="container-fluid cen">
+                @if ($pagina > 1)
+                    <button type="submit" name="p" value="{{ $pagina - 1 }}"
+                        class="btn btn-outline-primary">Anterior</button>
                 @endif
-            </div>
+
+                <button disabled class="btn btn-primary">{{ $pagina }}</button>
+
+                @if (count($tareas) == $grupo && count($tareasBase) > $pagina * $grupo)
+                    <!-- Mostrar el botón Siguiente solo si hay más tareas para mostrar -->
+                    <button type="submit" name="p" value="{{ $pagina + 1 }}"
+                        class="btn btn-outline-primary">Siguiente</button>
+                @endif
+
+                <input type="hidden" name="g" value="{{ $grupo }}">
+            </form>
+
         </div>
     </div>
 

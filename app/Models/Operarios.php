@@ -21,7 +21,7 @@ class Operarios
      * @param boolean|null $r -> Rol para filtrar datos en la tabla
      * @return array
      */
-    public function getOperarios(string $s = null, bool $r = null): array
+    public function getOperarios(string $s = null, $r = null): array
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
         $operarios = array();
