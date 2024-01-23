@@ -35,6 +35,10 @@
             text-align: center;
         }
 
+        .rig {
+            text-align: end;
+        }
+
         .pag {
             margin: 0px auto;
         }
@@ -58,7 +62,7 @@
 <body>
     @include('navbar')
     <div class="container-fluid marg">
-        <h3 class="text-center">Lista de Tareas</h3>
+        <h1 class="text-center">Lista de Tareas</h1>
         {{-- @if (session('success'))
     <div class="alert alert-success">
         {{ session('success') }}
@@ -66,47 +70,52 @@
     @endif --}}
 
         <form action="{{ url('/admin') }}" method="get">
-            <label for="grupo">Elementos por Página:</label>
-            <select name="g" id="grupo" onchange="this.form.submit()">
-                <option value="5" {{ $grupo == 5 ? 'selected' : '' }}>5</option>
-                <option value="10" {{ $grupo == 10 ? 'selected' : '' }}>10</option>
-                <option value="15" {{ $grupo == 15 ? 'selected' : '' }}>15</option>
-                <option value="25" {{ $grupo == 25 ? 'selected' : '' }}>25</option>
-            </select>
-        </form>
+            <fieldset>
+                <legend>Filtros</legend>
+                <label for="filtro">Estado</label>
+                <select name="f" id="filtro">
+                    <option value="" selected>-Todos-</option>
+                    <option value="R" {{ $filtro == 'R' ? 'selected' : '' }}>Realizada</option>
+                    <option value="P" {{ $filtro == 'P' ? 'selected' : '' }}>En proceso</option>
+                    <option value="C" {{ $filtro == 'C' ? 'selected' : '' }}>Cancelada</option>
+                    <option value="B" {{ $filtro == 'B' ? 'selected' : '' }}>Esperando aprobacion</option>
+                </select>
+                <br>
+                <label for="name">Operario Encargado</label>
+                <select name="n" id="nombre">
+                    <option value="" selected>-Todos-</option>
+                    @foreach ($operarios as $operario)
+                        <option value="{{ $operario['id'] }}" {{ $filtroName == $operario['id'] ? 'selected' : '' }}>
+                            {{ $operario['nombre'] . ' ' . $operario['apellidos'] }}</option>
+                    @endforeach
+                </select>
+                <br>
+                <label for="order">Ordenar por</label>
+                <select name="order" id="order">
+                    <option value="" {{ $orderFecha == '' ? 'selected' : '' }}>-Ordenar-</option>
+                    <option value="fC" {{ $orderFecha == 'fC' ? 'selected' : '' }}>Fecha de Creación</option>
+                    <option value="fR" {{ $orderFecha == 'fR' ? 'selected' : '' }}>Fecha de Realización</option>
+                </select>
+                <br>
+                <label for="grupo">Elementos por Página:</label>
+                <select name="g" id="grupo">
+                    <option value="5" {{ $grupo == 5 ? 'selected' : '' }}>5</option>
+                    <option value="10" {{ $grupo == 10 ? 'selected' : '' }}>10</option>
+                    <option value="15" {{ $grupo == 15 ? 'selected' : '' }}>15</option>
+                    <option value="25" {{ $grupo == 25 ? 'selected' : '' }}>25</option>
+                </select>
+            </fieldset>
+            
+            
 
-        <form action="{{ url('/admin') }}" method="get">
-            <label for="filtro">Estado</label>
-            <select name="f" id="filtro">
-                <option value="" selected>-Todos-</option>
-                <option value="R" {{ $filtro == 'R' ? 'selected' : '' }}>Realizada</option>
-                <option value="P" {{ $filtro == 'P' ? 'selected' : '' }}>En proceso</option>
-                <option value="C" {{ $filtro == 'C' ? 'selected' : '' }}>Cancelada</option>
-                <option value="B" {{ $filtro == 'B' ? 'selected' : '' }}>Esperando aprobacion</option>
-            </select>
-            <label for="name">Operario Encargado</label>
-            <select name="n" id="nombre">
-                <option value="" selected>-Todos-</option>
-                @foreach ($operarios as $operario)
-                    <option value="{{ $operario['id'] }}" {{ $filtroName == $operario['id'] ? 'selected' : '' }}>
-                        {{ $operario['nombre'] . ' ' . $operario['apellidos'] }}</option>
-                @endforeach
-            </select>
-
-            <label for="order">Ordenar por</label>
-            <select name="order" id="order">
-                <option value="" {{ $orderFecha == '' ? 'selected' : '' }}>-Ordenar-</option>
-                <option value="fC" {{ $orderFecha == 'fC' ? 'selected' : '' }}>Fecha de Creación</option>
-                <option value="fR" {{ $orderFecha == 'fR' ? 'selected' : '' }}>Fecha de Realización</option>
-            </select>
-
-            <br>
             <button type="submit" class="btn btn-outline-secondary b">Aplicar Filtros</button>
+
+
         </form>
 
         <div class="container-xxl">
             <!-- Tabla Bootstrap -->
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="tbl">
                 <!-- Encabezado de la tabla -->
                 <thead>
                     <tr>
@@ -163,9 +172,9 @@
                             </td>
                             <td><a href="{{ url('modTarea?id=' . $tarea['id']) }}">
                                     @if (isset($tarea['id']))
-                                        <button class="btn btn-warning l">Modificar</button>
+                                        <button class="btn btn-warning btn-sm l">Modificar</button>
                                 </a><a href="{{ url('deleteTarea?id=' . $tarea['id']) }}"><button
-                                        class="btn btn-danger l">Eliminar</button></a></td>
+                                        class="btn btn-danger btn-sm l">Eliminar</button></a></td>
                     @endif
                     </tr>
                     @endforeach
@@ -205,6 +214,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
 </body>
 

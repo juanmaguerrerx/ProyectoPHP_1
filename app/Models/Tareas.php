@@ -239,7 +239,7 @@ class Tareas
      * @param string $datos -> datos a cambiar
      * @return Bool
      */
-    public function modTarea(int $idTarea, array $datos, string $fecha_realizacion): Bool
+    public function modTarea(int $idTarea, array $datos, $fecha_realizacion): Bool
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
