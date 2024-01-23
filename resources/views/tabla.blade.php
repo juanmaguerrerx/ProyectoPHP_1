@@ -44,6 +44,11 @@
             text-align: left;
             font-size: small;
         }
+        .b{
+            height: 3.5vh;
+            margin-bottom: 1vh;
+
+        }
     </style>
 
     <!-- Enlace a los estilos de Bootstrap -->
@@ -68,6 +73,26 @@
                 <option value="15" {{ $grupo == 15 ? 'selected' : '' }}>15</option>
                 <option value="25" {{ $grupo == 25 ? 'selected' : '' }}>25</option>
             </select>
+        </form>
+
+        <form action="{{url('/admin')}}" method="get">
+            <label for="filtro">Estado</label>
+            <select name="f" id="filtro">
+                <option value="" selected>-Todos-</option>
+                <option value="R" {{ $filtro == 'R' ? 'selected' : ''}}>Realizada</option>
+                <option value="P" {{ $filtro == 'P' ? 'selected' : ''}}>En proceso</option>
+                <option value="C" {{ $filtro == 'C' ? 'selected' : ''}}>Cancelada</option>
+                <option value="B" {{ $filtro == 'B' ? 'selected' : ''}}>Esperando aprobacion</option>
+            </select>
+            <label for="name">Operario Encargado</label>
+            <select name="n" id="nombre">
+                <option value="" selected>-Todos-</option>
+                @foreach ($operarios as $operario)
+                <option value="{{$operario['id']}}" {{ $filtroName == $operario['id'] ? 'selected' : ''}}>{{$operario['nombre'] . " ".$operario['apellidos']}}</option>
+                @endforeach
+            </select>
+            <br>
+            <button type="submit" class="btn btn-outline-secondary b">Aplicar Filtros</button>
         </form>
 
         <div class="container-xxl">
@@ -127,7 +152,7 @@
                             </td>
                             <td>{{ isset($tarea['anotaciones_posteriores']) ? $tarea['anotaciones_posteriores'] : '' }}
                             </td>
-                            <td><a href="{{url('modTarea?id='.$tarea['id'])}}">
+                            <td><a href="{{ url('modTarea?id=' . $tarea['id']) }}">
                                     @if (isset($tarea['id']))
                                         <button class="btn btn-warning l">Modificar</button>
                                 </a><a href="{{ url('deleteTarea?id=' . $tarea['id']) }}"><button

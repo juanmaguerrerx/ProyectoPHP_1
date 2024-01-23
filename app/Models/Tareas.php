@@ -70,7 +70,7 @@ class Tareas
     }
 
     //Funcion que obtiene las tareas asociadas a la id del operario pasado como parámetro
-    public function getTareas($operarioId)
+    public function getTareas($operarioId, $f = null, $n = null)
     {
         try {
             $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
@@ -78,12 +78,28 @@ class Tareas
             $opMod = new Operarios;
             // Verificar si el operario es administrador
             $esAdmin = $opMod->esAdmin($operarioId);
+            if ($f != NULL) {
+                // Construir la consulta SQL en función de si es admin o no
 
-            // Construir la consulta SQL en función de si es admin o no
-            if ($esAdmin) {
-                $stmt = $conexion->prepare("SELECT * FROM tareas");
+                if ($esAdmin) {
+                    if ($n != null) {
+                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f' AND operario_id = '$n'");
+                    } else {
+                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f'");
+                    }
+                } else {
+                    $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId AND estado = '$f'");
+                }
             } else {
-                $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId");
+                if ($esAdmin) {
+                    if ($n != null) {
+                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE operario_id = '$n'");
+                    } else {
+                        $stmt = $conexion->prepare("SELECT * FROM tareas ");
+                    }
+                } else {
+                    $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId");
+                }
             }
 
             $stmt->execute();
@@ -120,6 +136,8 @@ class Tareas
             dd($e->getMessage());
         }
     }
+
+
 
     public function getTarea($id)
     {

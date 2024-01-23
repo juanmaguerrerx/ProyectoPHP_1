@@ -13,7 +13,6 @@ class Operarios
 
     public function getOperarios()
     {
-        try {
             $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
             $operarios = array();
             $stmt = $conexion->prepare("SELECT id, nombre, apellidos, correo, contrasena, admin FROM operarios");
@@ -38,15 +37,11 @@ class Operarios
             }
 
             return $operarios;
-        } catch (PDOException $e) {
-            return 'error';
-        }
+    
     }
 
     public function crearOperario($datos)
     {
-
-        try {
             $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
             $stmt = $conexion->prepare("
                 INSERT INTO operarios (
@@ -65,20 +60,20 @@ class Operarios
             $stmt->bindParam(5, $datos['admin']);
 
             // dd($stmt);
-            echo "Consulta SQL: " . $stmt->queryString . PHP_EOL;
+            // echo "Consulta SQL: " . $stmt->queryString . PHP_EOL;
 
             $stmt->execute();
             return true;
-        } catch (PDOException $e) {
-            dd($e->getMessage());
-        }
+        
     }
 
     public function esAdmin($id)
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
-        $stmt = $conexion->prepare("SELECT admin FROM operarios WHERE id = $id");
+        $stmt = $conexion->prepare("SELECT admin FROM operarios WHERE id = ?");
+
+        $stmt->bindParam(1,$id);
 
         $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -90,9 +85,10 @@ class Operarios
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
-        $stmt = $conexion->prepare("SELECT nombre, apellidos FROM operarios WHERE id = $id");
+        $stmt = $conexion->prepare("SELECT nombre, apellidos FROM operarios WHERE id = :id");
 
-        $stmt->execute();
+        // $stmt->bindParam(1,$id);
+        $stmt->execute([':id'=>$id]);
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $nombreCompleto = $resultado['nombre'] . ' ' . $resultado['apellidos'];

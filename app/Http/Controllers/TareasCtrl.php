@@ -47,13 +47,16 @@ class TareasCtrl
             $respuesta = $tareaMod->crearTarea($datosFormulario);
 
             if ($respuesta) {
-                $tareasBase = $tareaMod->getTareas(1);
+
+                $filtro = $request->input('f','');
+
+                $tareasBase = $tareaMod->getTareas(1, $filtro);
                 // dd($tareas);
                 $pagina = $request->input('p', 1);
                 $grupo = $request->input('g', 5);
 
                 $tareas = $tareaMod->getTareasPag($tareasBase, $pagina, $grupo);
-                return redirect('/admin')->with(compact('tareas','tareasBase','pagina','grupo'));
+                return redirect('/admin')->with(compact('tareas','tareasBase','pagina','grupo','filtro'));
             } else {
                 print_r($respuesta);
             }
@@ -77,16 +80,17 @@ class TareasCtrl
         $idTarea = $request->input('id');
         $t = new Tareas;
 
+        $filtro = $request->input('f');
         $respuesta = $t->deleteTarea($idTarea);
 
         if ($respuesta) {
-            $tareasBase = $t->getTareas(2); //ID -> SESSION 
+            $tareasBase = $t->getTareas(2,$filtro); //ID -> SESSION 
             $pagina = $request->input('p', 1);
             $grupo = $request->input('g', 5);
 
             $tareas = $t->getTareasPag($tareasBase, $pagina, $grupo);
 
-            return redirect('/admin')->with(compact('tareas', 'tareasBase', 'pagina', 'grupo'));
+            return redirect('/admin')->with(compact('tareas', 'tareasBase', 'pagina', 'grupo','filtro'));
         } else dd('error');
         return view('deleteTarea');
     }
@@ -105,6 +109,7 @@ class TareasCtrl
     }
     public function confirmModTarea(Request $request){
         $idTarea = $request->input('id');
+        $filtro = $request->input('f');
         // dd($idTarea);
         $datosFormulario = $request->except('_token');
         $datosFormulario = array_map('trim', $datosFormulario);
@@ -135,7 +140,7 @@ class TareasCtrl
 
                 $tareas = $t->getTareasPag($tareasBase, $pagina, $grupo);
 
-                return redirect('/admin')->with(compact('tareas', 'tareasBase', 'pagina', 'grupo','operarios','provincias'));
+                return redirect('/admin')->with(compact('tareas', 'tareasBase', 'pagina', 'grupo','filtro','operarios','provincias'));
             } else {
                 dd($respuesta);
             }
