@@ -55,93 +55,89 @@ class Tareas
     //Funcion para eliminar la tarea
     public function deleteTarea($id)
     {
-        try {
-            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
-            $stmt = $conexion->prepare("DELETE FROM tareas WHERE id = ?");
+        $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+        $stmt = $conexion->prepare("DELETE FROM tareas WHERE id = ?");
 
-            $stmt->bindParam(1, $id);
+        $stmt->bindParam(1, $id);
 
-            $stmt->execute();
+        $stmt->execute();
 
-            return true;
-        } catch (PDOException $e) {
-            dd($e->getMessage());
-        }
+        return true;
     }
 
     //Funcion que obtiene las tareas asociadas a la id del operario pasado como parámetro
     public function getTareas($operarioId, $f = null, $n = null, $oF = null, $a_d = null)
     {
-            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
-            $tareas = array();
-            $opMod = new Operarios;
-            // Verificar si el operario es administrador
-            $esAdmin = $opMod->esAdmin($operarioId);
-            // dd($oF);
+        $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+        $tareas = array();
+        $opMod = new Operarios;
+        // Verificar si el operario es administrador
+        $esAdmin = $opMod->esAdmin($operarioId);
+        // dd($oF);
 
-            if ($oF != null) {
-                if ($oF == 'fC') {
-                    $oF = "ORDER BY fecha_creacion ";
-                } else if ($oF == 'fR') {
-                    $oF = "ORDER BY fecha_realizacion , fecha_realizacion IS NULL";
-                }
-            } else $oF = 'ORDER BY id';
+        if ($oF != null) {
+            if ($oF == 'fC') {
+                $oF = "ORDER BY fecha_creacion ";
+            } else if ($oF == 'fR') {
+                $oF = "ORDER BY fecha_realizacion , fecha_realizacion IS NULL";
+            }
+        } else $oF = 'ORDER BY id';
 
 
-            // dd($oF);
-            if ($f != NULL) {
-                // Construir la consulta SQL en función de si es admin o no
+        // dd($oF);
+        if ($f != NULL) {
+            // Construir la consulta SQL en función de si es admin o no
 
-                if ($esAdmin) {
-                    if ($n != null) {
-                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f' AND operario_id = '$n' $oF");
-                    } else {
-                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f' $oF");
-                    }
+            if ($esAdmin) {
+                if ($n != null) {
+                    $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f' AND operario_id = '$n' $oF");
                 } else {
-                    $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId AND estado = '$f' $oF");
+                    $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f' $oF");
                 }
             } else {
-                if ($esAdmin) {
-                    if ($n != null) {
-                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE operario_id = '$n' $oF");
-                    } else {
-                        $stmt = $conexion->prepare("SELECT * FROM tareas $oF");
-                    }
+                $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId AND estado = '$f' $oF");
+            }
+        } else {
+            if ($esAdmin) {
+                if ($n != null) {
+                    $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE operario_id = '$n' $oF");
                 } else {
-                    $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId $oF");
+                    $stmt = $conexion->prepare("SELECT * FROM tareas $oF");
                 }
+            } else {
+                $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId $oF");
             }
-            // dd($stmt);
-            $stmt->execute();
+        }
+        // dd($stmt);
+        $stmt->execute();
 
-            // Obtener todas las tareas como un array asociativo
-            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        // Obtener todas las tareas como un array asociativo
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 
-            // Iterar sobre los resultados y construir el array final
-            foreach ($resultados as $fila) {
-                $opMod = new Operarios;
-                $provMod = new Provincias;
-                $tarea = array(
-                    'id' => $fila['id'],
-                    'nif_cliente' => $fila['nif_cliente'],
-                    'nombre_cliente' => $fila['nombre_cliente'],
-                    'telefono_cliente' => $fila['telefono_cliente'],
-                    'correo_cliente' => $fila['correo_cliente'],
-                    'descripcion' => $fila['descripcion'],
-                    'codigo_postal' => $fila['codigo_postal'],
-                    'provincia' => $provMod->getProv($fila['provincia']),
-                    'estado' => $fila['estado'],
-                    'fecha_creacion' => $fila['fecha_creacion'],
-                    'operario' => $opMod->getNombre($fila['operario_id']),
-                    'fecha_realizacion' => $fila['fecha_realizacion'],
-                    'anotaciones_anteriores' => $fila['anotaciones_anteriores'],
-                    'anotaciones_posteriores' => $fila['anotaciones_posteriores'],
-                );
-                $tareas[] = $tarea;
-            }
-            return $tareas;
+        // Iterar sobre los resultados y construir el array final
+        foreach ($resultados as $fila) {
+            $opMod = new Operarios;
+            $provMod = new Provincias;
+            $tarea = array(
+                'id' => $fila['id'],
+                'nif_cliente' => $fila['nif_cliente'],
+                'nombre_cliente' => $fila['nombre_cliente'],
+                'telefono_cliente' => $fila['telefono_cliente'],
+                'correo_cliente' => $fila['correo_cliente'],
+                'descripcion' => $fila['descripcion'],
+                'codigo_postal' => $fila['codigo_postal'],
+                'provincia' => $provMod->getProv($fila['provincia']),
+                'estado' => $fila['estado'],
+                'fecha_creacion' => $fila['fecha_creacion'],
+                'operario' => $opMod->getNombre($fila['operario_id']),
+                'fecha_realizacion' => $fila['fecha_realizacion'],
+                'anotaciones_anteriores' => $fila['anotaciones_anteriores'],
+                'anotaciones_posteriores' => $fila['anotaciones_posteriores'],
+            );
+            $tareas[] = $tarea;
+        }
+        return $tareas;
     }
 
 
@@ -149,7 +145,6 @@ class Tareas
     public function getTarea($id)
     {
         // dd($id);
-        try {
             $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
             $stmt = $conexion->prepare("SELECT * FROM tareas WHERE id = $id");
 
@@ -182,15 +177,11 @@ class Tareas
             }
             // dd($tarea);
             return $tarea;
-        } catch (PDOException $e) {
-            return 'error';
-        }
     }
 
     //Funcion para modificar la tarea
     public function modTarea($idTarea, $datos, $fecha_realizacion)
     {
-        try {
             $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
             $consulta = "
@@ -230,10 +221,8 @@ class Tareas
             $stmt->execute();
 
             return true;
-        } catch (PDOException $e) {
             // Manejar la excepción según tus necesidades
-            dd($e->getMessage());
-        }
+
     }
 
     public function getTareasPag($t, $p, $g)
