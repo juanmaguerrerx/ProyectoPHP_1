@@ -11,10 +11,35 @@ use PhpParser\Node\Stmt;
 class Operarios
 {
 
-    public function getOperarios()
+    public function getOperarios($s = null)
     {
-            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
-            $operarios = array();
+        $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+        $operarios = array();
+
+        if ($s != null) {
+            $stmt = $conexion->prepare("SELECT * FROM operarios WHERE nombre LIKE '%$s%' OR id LIKE '%$s%' OR apellidos LIKE '%$s%' OR correo LIKE '%$s%' OR contrasena LIKE '%$s%'");
+
+            $stmt->execute();
+
+            // Obtener todos los resultados como un array asociativo
+            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Iterar sobre los resultados y construir el array final
+            foreach ($resultados as $fila) {
+                $operario = array(
+                    'id' => $fila['id'],
+                    'nombre' => $fila['nombre'],
+                    'apellidos' => $fila['apellidos'],
+                    'correo' => $fila['correo'],
+                    'contrasena' => $fila['contrasena'],
+                    'admin' => $fila['admin'],
+                );
+                // Agregar el operario al array principal
+                $operarios[] = $operario;
+            }
+
+            return $operarios;
+        } else {
             $stmt = $conexion->prepare("SELECT id, nombre, apellidos, correo, contrasena, admin FROM operarios");
 
             $stmt->execute();
@@ -37,13 +62,13 @@ class Operarios
             }
 
             return $operarios;
-    
+        }
     }
 
     public function crearOperario($datos)
     {
-            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
-            $stmt = $conexion->prepare("
+        $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+        $stmt = $conexion->prepare("
                 INSERT INTO operarios (
                 nombre,	
                 apellidos,
@@ -53,18 +78,17 @@ class Operarios
                 ) VALUES (?, ?, ?, ?, ?)
                 ");
 
-            $stmt->bindParam(1, $datos['nombre']);
-            $stmt->bindParam(2, $datos['apellidos']);
-            $stmt->bindParam(3, $datos['correo']);
-            $stmt->bindParam(4, $datos['contrasena']);
-            $stmt->bindParam(5, $datos['admin']);
+        $stmt->bindParam(1, $datos['nombre']);
+        $stmt->bindParam(2, $datos['apellidos']);
+        $stmt->bindParam(3, $datos['correo']);
+        $stmt->bindParam(4, $datos['contrasena']);
+        $stmt->bindParam(5, $datos['admin']);
 
-            // dd($stmt);
-            // echo "Consulta SQL: " . $stmt->queryString . PHP_EOL;
+        // dd($stmt);
+        // echo "Consulta SQL: " . $stmt->queryString . PHP_EOL;
 
-            $stmt->execute();
-            return true;
-        
+        $stmt->execute();
+        return true;
     }
 
     public function esAdmin($id)
@@ -73,7 +97,7 @@ class Operarios
 
         $stmt = $conexion->prepare("SELECT admin FROM operarios WHERE id = ?");
 
-        $stmt->bindParam(1,$id);
+        $stmt->bindParam(1, $id);
 
         $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -88,7 +112,7 @@ class Operarios
         $stmt = $conexion->prepare("SELECT nombre, apellidos FROM operarios WHERE id = :id");
 
         // $stmt->bindParam(1,$id);
-        $stmt->execute([':id'=>$id]);
+        $stmt->execute([':id' => $id]);
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         $nombreCompleto = $resultado['nombre'] . ' ' . $resultado['apellidos'];

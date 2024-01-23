@@ -41,6 +41,9 @@
 
     <!-- Enlace a los estilos de Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {{-- Font Awesome --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 </head>
 
 <body>
@@ -56,6 +59,12 @@
                 <option value="15" {{ $grupo == 15 ? 'selected' : '' }}>15</option>
                 <option value="25" {{ $grupo == 25 ? 'selected' : '' }}>25</option>
             </select>
+        </form>
+
+        <form action="{{url('/users')}}" method="get">
+            <label for="seach">Buscar:</label>
+            <input type="text" name="search" id="search" value="{{isset($searchNomrbe) ? $searchNombre : ''}}">
+            <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-search"></i></button>
         </form>
 
         <div class="container-xxl">

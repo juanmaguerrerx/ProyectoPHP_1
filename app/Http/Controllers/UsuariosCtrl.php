@@ -15,7 +15,10 @@ class UsuariosCtrl
         // $id = $_SESSION['user_id']; 
         $o = new Operarios;
 
-        $operariosBase = $o->getOperarios();
+
+        $searchNombre = $request->input('search','');
+
+        $operariosBase = $o->getOperarios($searchNombre);
 
         $pagina = $request->input('p', 1);
         $grupo = $request->input('g', 5);
@@ -32,6 +35,7 @@ class UsuariosCtrl
         $validador = new Validar($datosFormulario);
         $errores = $validador->validarUsuarioMod();
 
+       
 
         $o = new Operarios;
         

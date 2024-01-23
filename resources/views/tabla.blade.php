@@ -91,6 +91,14 @@
                 <option value="{{$operario['id']}}" {{ $filtroName == $operario['id'] ? 'selected' : ''}}>{{$operario['nombre'] . " ".$operario['apellidos']}}</option>
                 @endforeach
             </select>
+
+            <label for="order">Ordenar por</label>
+            <select name="order" id="order">
+                <option value="" {{$orderFecha=='' ? 'selected' : ''}}>-Ordenar-</option>
+                <option value="fC" {{ $orderFecha == 'fC' ? 'selected' : '' }}>Fecha de Creación</option>
+                <option value="fR" {{ $orderFecha == 'fR' ? 'selected' : '' }}>Fecha de Realización</option>
+            </select>
+        
             <br>
             <button type="submit" class="btn btn-outline-secondary b">Aplicar Filtros</button>
         </form>

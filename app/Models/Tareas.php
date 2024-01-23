@@ -70,38 +70,49 @@ class Tareas
     }
 
     //Funcion que obtiene las tareas asociadas a la id del operario pasado como parámetro
-    public function getTareas($operarioId, $f = null, $n = null)
+    public function getTareas($operarioId, $f = null, $n = null, $oF = null, $a_d = null)
     {
-        try {
             $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
             $tareas = array();
             $opMod = new Operarios;
             // Verificar si el operario es administrador
             $esAdmin = $opMod->esAdmin($operarioId);
+            // dd($oF);
+
+            if ($oF != null) {
+                if ($oF == 'fC') {
+                    $oF = "ORDER BY fecha_creacion ";
+                } else if ($oF == 'fR') {
+                    $oF = "ORDER BY fecha_realizacion , fecha_realizacion IS NULL";
+                }
+            } else $oF = 'ORDER BY id';
+
+
+            // dd($oF);
             if ($f != NULL) {
                 // Construir la consulta SQL en función de si es admin o no
 
                 if ($esAdmin) {
                     if ($n != null) {
-                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f' AND operario_id = '$n'");
+                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f' AND operario_id = '$n' $oF");
                     } else {
-                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f'");
+                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f' $oF");
                     }
                 } else {
-                    $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId AND estado = '$f'");
+                    $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId AND estado = '$f' $oF");
                 }
             } else {
                 if ($esAdmin) {
                     if ($n != null) {
-                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE operario_id = '$n'");
+                        $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE operario_id = '$n' $oF");
                     } else {
-                        $stmt = $conexion->prepare("SELECT * FROM tareas ");
+                        $stmt = $conexion->prepare("SELECT * FROM tareas $oF");
                     }
                 } else {
-                    $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId");
+                    $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId $oF");
                 }
             }
-
+            // dd($stmt);
             $stmt->execute();
 
             // Obtener todas las tareas como un array asociativo
@@ -130,11 +141,7 @@ class Tareas
                 );
                 $tareas[] = $tarea;
             }
-            // dd($tareas);
             return $tareas;
-        } catch (PDOException $e) {
-            dd($e->getMessage());
-        }
     }
 
 

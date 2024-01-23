@@ -17,18 +17,20 @@ class AdminCtrl
         $t = new Tareas;
        
         // dd($tareas);
+        $orderFecha = $request->input('order','');
 
         $pagina = $request->input('p',1);
         $grupo = $request->input('g',5);
         $filtro = $request->input('f','');
         $filtroName = $request->input('n','');
-        $tareasBase = $t->getTareas(2,$filtro,$filtroName);
+        $tareasBase = $t->getTareas(2,$filtro,$filtroName,$orderFecha);
+        // dd($tareasBase);
 
         $oMod = new Operarios;
         $operarios = $oMod->getOperarios();
 
         $tareas = $t->getTareasPag($tareasBase,$pagina,$grupo);
 
-        return view('tabla', compact('tareas','pagina','grupo','tareasBase','filtro','filtroName','operarios'));
+        return view('tabla', compact('tareas','pagina','grupo','tareasBase','filtro','filtroName','operarios','orderFecha'));
     }
 }
