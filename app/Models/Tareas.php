@@ -1,17 +1,30 @@
 <?php
 
+/**
+ * DOCUMENTACION
+ */
 namespace App\Models;
 
 use App\Models\ConexionDB;
 use PDO;
 use PDOException;
+use PhpParser\Node\ArrayItem;
+use PhpParser\Node\Expr\Cast\Bool_;
 use PhpParser\Node\Stmt;
 
+/**
+ * 
+ */
 class Tareas
 {
 
-    //Funcion para crear Tareas
-    public function crearTarea($datos)
+    /**
+     * Undocumented function
+     *
+     * @param [type] $datos
+     * @return void
+     */
+    public function crearTarea($datos) : Bool
     {
         try {
             $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
@@ -52,8 +65,13 @@ class Tareas
     }
 
 
-    //Funcion para eliminar la tarea
-    public function deleteTarea($id)
+    /**
+     * Undocumented function
+     *
+     * @param [type] $id
+     * @return void
+     */
+    public function deleteTarea($id) : Bool
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
         $stmt = $conexion->prepare("DELETE FROM tareas WHERE id = ?");
@@ -65,8 +83,17 @@ class Tareas
         return true;
     }
 
-    //Funcion que obtiene las tareas asociadas a la id del operario pasado como parámetro
-    public function getTareas($operarioId, $f = null, $n = null, $oF = null, $a_d = null)
+    /**
+     * Undocumented function
+     *
+     * @param [type] $operarioId
+     * @param [type] $f
+     * @param [type] $n
+     * @param [type] $oF
+     * @param [type] $a_d
+     * @return void
+     */
+    public function getTareas($operarioId, $f = null, $n = null, $oF = null, $a_d = null) : Array
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
         $tareas = array();
@@ -142,7 +169,7 @@ class Tareas
 
 
 
-    public function getTarea($id)
+    public function getTarea($id) : Array
     {
         // dd($id);
             $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
@@ -180,7 +207,7 @@ class Tareas
     }
 
     //Funcion para modificar la tarea
-    public function modTarea($idTarea, $datos, $fecha_realizacion)
+    public function modTarea($idTarea, $datos, $fecha_realizacion) : Bool
     {
             $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
@@ -225,7 +252,7 @@ class Tareas
 
     }
 
-    public function getTareasPag($t, $p, $g)
+    public function getTareasPag($t, $p, $g) : Array
     {
         $inicio = ($p - 1) * $g;
         $tP = array_slice($t, $inicio, $g);
