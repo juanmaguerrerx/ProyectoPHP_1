@@ -308,7 +308,7 @@ class Validar
     }
     protected function validarCorreoMod()
     {
-        if (empty($this->datos['correo_cliente'])) {
+        if (empty($this->datos['correo'])) {
             $this->agregarError('correo', 'El correo electrónico es obligatorio.');
         } elseif (!filter_var($this->datos['correo'], FILTER_VALIDATE_EMAIL)) {
             $this->agregarError('correo', 'El formato del correo electrónico no es válido.');

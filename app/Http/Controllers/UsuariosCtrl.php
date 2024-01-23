@@ -27,19 +27,16 @@ class UsuariosCtrl
     public function enviarFormModUser(Request $request)
     {
         $idOperario = $request->input('id');
-        // dd($idOperario);
         $datosFormulario = $request->except('_token');
         $datosFormulario = array_map('trim', $datosFormulario);
         $validador = new Validar($datosFormulario);
         $errores = $validador->validarUsuarioMod();
 
-        //dd($datosFormulario);
 
         $o = new Operarios;
-        // $datosOperario = $o->getOperario($idOperario);
+        
         if (empty($errores)) {
             $respuesta = $o->modOperario($idOperario, $datosFormulario);
-            // dd($respuesta);
             if ($respuesta) {
                 $operariosBase = $o->getOperarios();
                 $pagina = $request->input('p', 1);
