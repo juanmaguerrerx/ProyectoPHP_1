@@ -2,4 +2,4 @@
 
 ## Sobre el proyecto
 
-El proyecto es sobre una empresa llamada BungleBuilding S.L, consiste en un gestor de tareas para Operarios, en el que el administrador pone los datos necesarios para las tareas, los Operarios la ven, la realizan y cambian su estado, una vez realizada, los administradores dan la aprobación o no de la tarea.
+El proyecto es sobre una empresa llamada BungleBuilding S.L, consiste en un gestor de tareas para Operarios, en el que el administrador pone los datos necesarios para las tareas, los Operarios la ven, la realizan y cambian su estado. Una vez realizada, los administradores dan la aprobación o no de la tarea.
