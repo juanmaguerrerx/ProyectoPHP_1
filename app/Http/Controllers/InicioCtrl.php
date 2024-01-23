@@ -7,19 +7,32 @@ use App\Models\Validar;
 use Illuminate\Http\Request;
 use App\Models\Tareas;
 
+/**
+ * Clase del controlador de la pagina de inicio
+ */
 class InicioCtrl
 {
+    /**
+     * Mostrar login
+     *
+     */
     public function mostrarLogin()
     {
         return view('inicio');
     }
 
+    /**Mostrar el login al cerrar sesion */
     public function mostrarLoginClose()
     {
 
         return redirect('/login');
     }
 
+    /**
+     * Logearse
+     *
+     * @param Request $request
+     */
     public function login(Request $request)
     {
         $oMod = new Operarios;
@@ -33,10 +46,7 @@ class InicioCtrl
             $tareaMod = new Tareas;
 
             $id = $oMod->getId($datosFormulario['email']);
-            // dd($id);
-            // dd($_SESSION['id']);
-            // $tareasBase = $tareaMod->getTareas($_SESSION['id']);
-            // dd($tareas);
+
             $pagina = $request->input('p', 1);
             $grupo = $request->input('g', 5);
 

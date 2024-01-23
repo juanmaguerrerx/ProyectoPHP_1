@@ -99,28 +99,27 @@
                     <label for="">Estado</label>
                     @php
                         switch ($datosFormulario['estado']) {
-                                case 'P':
-                                    $st = 'En proceso';
-                                    break;
-                                case 'C':
-                                    $st = 'Cancelada';
-                                    break;
-                                case 'R':
-                                    $st = 'Realizada';
-                                    break;
-                                case 'B':
-                                    $st = 'Esperando aprobacion...';
-                                    break;
-                            }
+                            case 'P':
+                                $st = 'En proceso';
+                                break;
+                            case 'C':
+                                $st = 'Cancelada';
+                                break;
+                            case 'R':
+                                $st = 'Realizada';
+                                break;
+                            case 'B':
+                                $st = 'Esperando aprobacion...';
+                                break;
+                        }
                     @endphp
-                    <input type="text" class="form-control" id="estado" value="{{ $st }}"
-                        readonly>
+                    <input type="text" class="form-control" id="estado" value="{{ $st }}" readonly>
                 </div>
 
                 <div class="mb-3">
                     <label for="">Fecha de creación</label>
-                    <input type="datetime" class="form-control" id="rol" value="{{ $datosFormulario['fecha_creacion'] }}"
-                        readonly>
+                    <input type="datetime" class="form-control" id="rol"
+                        value="{{ $datosFormulario['fecha_creacion'] }}" readonly>
                 </div>
 
                 <div class="mb-3">

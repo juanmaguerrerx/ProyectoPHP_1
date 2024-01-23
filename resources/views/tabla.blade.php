@@ -44,7 +44,8 @@
             text-align: left;
             font-size: small;
         }
-        .b{
+
+        .b {
             height: 3.5vh;
             margin-bottom: 1vh;
 
@@ -75,30 +76,31 @@
             </select>
         </form>
 
-        <form action="{{url('/admin')}}" method="get">
+        <form action="{{ url('/admin') }}" method="get">
             <label for="filtro">Estado</label>
             <select name="f" id="filtro">
                 <option value="" selected>-Todos-</option>
-                <option value="R" {{ $filtro == 'R' ? 'selected' : ''}}>Realizada</option>
-                <option value="P" {{ $filtro == 'P' ? 'selected' : ''}}>En proceso</option>
-                <option value="C" {{ $filtro == 'C' ? 'selected' : ''}}>Cancelada</option>
-                <option value="B" {{ $filtro == 'B' ? 'selected' : ''}}>Esperando aprobacion</option>
+                <option value="R" {{ $filtro == 'R' ? 'selected' : '' }}>Realizada</option>
+                <option value="P" {{ $filtro == 'P' ? 'selected' : '' }}>En proceso</option>
+                <option value="C" {{ $filtro == 'C' ? 'selected' : '' }}>Cancelada</option>
+                <option value="B" {{ $filtro == 'B' ? 'selected' : '' }}>Esperando aprobacion</option>
             </select>
             <label for="name">Operario Encargado</label>
             <select name="n" id="nombre">
                 <option value="" selected>-Todos-</option>
                 @foreach ($operarios as $operario)
-                <option value="{{$operario['id']}}" {{ $filtroName == $operario['id'] ? 'selected' : ''}}>{{$operario['nombre'] . " ".$operario['apellidos']}}</option>
+                    <option value="{{ $operario['id'] }}" {{ $filtroName == $operario['id'] ? 'selected' : '' }}>
+                        {{ $operario['nombre'] . ' ' . $operario['apellidos'] }}</option>
                 @endforeach
             </select>
 
             <label for="order">Ordenar por</label>
             <select name="order" id="order">
-                <option value="" {{$orderFecha=='' ? 'selected' : ''}}>-Ordenar-</option>
+                <option value="" {{ $orderFecha == '' ? 'selected' : '' }}>-Ordenar-</option>
                 <option value="fC" {{ $orderFecha == 'fC' ? 'selected' : '' }}>Fecha de Creación</option>
                 <option value="fR" {{ $orderFecha == 'fR' ? 'selected' : '' }}>Fecha de Realización</option>
             </select>
-        
+
             <br>
             <button type="submit" class="btn btn-outline-secondary b">Aplicar Filtros</button>
         </form>

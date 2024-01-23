@@ -134,7 +134,7 @@
                         <div class="text-danger">{{ $errores['codigo_postal'] }}</div>
                     @endif
                 </div>
-                
+
 
                 <div class="form-group col-md-6">
                     <label for="operario" class="required">Operario Encargado</label>

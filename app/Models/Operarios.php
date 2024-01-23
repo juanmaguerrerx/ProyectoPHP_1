@@ -8,23 +8,32 @@ use PDOException;
 use App\Models\ConexionDB;
 use PhpParser\Node\Stmt;
 
+/**
+ * Clase Operario
+ */
 class Operarios
 {
 
-    public function getOperarios($s = null,$r=null)
+    /**
+     * Funcion que devuelve lista de operarios
+     *
+     * @param string|null $s -> Cadena de texto para hacer busqueda en la tabla
+     * @param boolean|null $r -> Rol para filtrar datos en la tabla
+     * @return array
+     */
+    public function getOperarios(string $s = null, bool $r = null): array
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
         $operarios = array();
 
+        //Si hay busqueda
         if ($s != null) {
             $stmt = $conexion->prepare("SELECT * FROM operarios WHERE nombre LIKE '%$s%' OR id LIKE '%$s%' OR apellidos LIKE '%$s%' OR correo LIKE '%$s%' OR contrasena LIKE '%$s%'");
 
             $stmt->execute();
 
-            // Obtener todos los resultados como un array asociativo
             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Iterar sobre los resultados y construir el array final
             foreach ($resultados as $fila) {
                 $operario = array(
                     'id' => $fila['id'],
@@ -34,26 +43,29 @@ class Operarios
                     'contrasena' => $fila['contrasena'],
                     'admin' => $fila['admin'],
                 );
-                // Agregar el operario al array principal
                 $operarios[] = $operario;
             }
 
             return $operarios;
+
+            // Si no hay busqueda
         } else {
 
-            if($r!=null){
+            // Si hay rol a filtrar
+            if ($r != null) {
                 $t = "WHERE admin=$r";
-            }else{
-                $t='';
+
+                // Si no hay rol
+            } else {
+                $t = '';
             }
-            $stmt = $conexion->prepare("SELECT id, nombre, apellidos, correo, contrasena, admin FROM operarios $t");
-            // dd($stmt);
+            // Hacemos el select con los parametros
+            $stmt = $conexion->prepare("SELECT id, nombre, apellidos, correo, contrasena, admin FROM operarios ?");
+            $stmt->bindParam(1, $t);
             $stmt->execute();
 
-            // Obtener todos los resultados como un array asociativo
             $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Iterar sobre los resultados y construir el array final
             foreach ($resultados as $fila) {
                 $operario = array(
                     'id' => $fila['id'],
@@ -63,7 +75,6 @@ class Operarios
                     'contrasena' => $fila['contrasena'],
                     'admin' => $fila['admin'],
                 );
-                // Agregar el operario al array principal
                 $operarios[] = $operario;
             }
 
@@ -71,7 +82,13 @@ class Operarios
         }
     }
 
-    public function crearOperario($datos)
+    /**
+     * Funcion para crear operario
+     *
+     * @param array $datos -> datos proporcionados
+     * @return boolean -> si se ejecutó correctamente
+     */
+    public function crearOperario(array $datos): bool
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
         $stmt = $conexion->prepare("
@@ -97,7 +114,14 @@ class Operarios
         return true;
     }
 
-    public function esAdmin($id)
+
+    /**
+     * Funcion para saber si un operario es admin o no
+     *
+     * @param integer $id -> id del operario
+     * @return boolean -> si es admin o no
+     */
+    public function esAdmin(int $id): bool
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
@@ -111,13 +135,18 @@ class Operarios
         return $resultado['admin'];
     }
 
-    public function getNombre($id)
+    /**
+     * Funcion que obtiene el nombre completo de un operario
+     *
+     * @param integer $id -> id del operario
+     * @return string -> nombre completo
+     */
+    public function getNombre(int $id): string
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
         $stmt = $conexion->prepare("SELECT nombre, apellidos FROM operarios WHERE id = :id");
 
-        // $stmt->bindParam(1,$id);
         $stmt->execute([':id' => $id]);
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -125,7 +154,14 @@ class Operarios
 
         return $nombreCompleto;
     }
-    public function getId($email)
+
+    /**
+     * Funcion que obtiene el id de un operario
+     *
+     * @param string $email -> el email para el que queremos saber su id
+     * @return integer -> id correspondiente
+     */
+    public function getId(string $email): int
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
@@ -138,14 +174,28 @@ class Operarios
         return $resultado['id'];
     }
 
-    public function getOperariosPag($o, $p, $g)
+    /**
+     * Funcion para paginar la tabla de operarios
+     *
+     * @param array $o -> lista de operarios
+     * @param integer $p -> pagina en la que se encuentra
+     * @param integer $g -> grupo de elementos por pagina
+     * @return array -> lista con los datos de la pagina actual
+     */
+    public function getOperariosPag(array $o, int $p, int $g): array
     {
         $inicio = ($p - 1) * $g;
         $oP = array_slice($o, $inicio, $g);
         return $oP;
     }
 
-    public function isExist($c)
+    /**
+     * Funcion que dice si existe un operario
+     *
+     * @param string $c -> correo del operario a averiguar
+     * @return boolean -> si existe o no
+     */
+    public function isExist(string $c): bool
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
@@ -158,12 +208,19 @@ class Operarios
         return $stmt->fetchColumn();
     }
 
-    public function modOperario($idOperario, $datos)
+    /**
+     * Funcion que modifica operarios
+     *
+     * @param integer $idOperario
+     * @param array $datos
+     * @return boolean
+     */
+    public function modOperario(int $idOperario, array $datos): bool
     {
-        try {
-            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
-            $consulta = "
+        $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+
+        $consulta = "
             UPDATE operarios SET
             nombre = ?,
             apellidos = ?,
@@ -173,77 +230,73 @@ class Operarios
             WHERE id = ?
         ";
 
-            $stmt = $conexion->prepare($consulta);
+        $stmt = $conexion->prepare($consulta);
 
-            $stmt->bindParam(1, $datos['nombre']);
-            $stmt->bindParam(2, $datos['apellidos']);
-            $stmt->bindParam(3, $datos['correo']);
-            $stmt->bindParam(4, $datos['contrasena']);
-            $stmt->bindParam(5, $datos['admin']);
-            $stmt->bindParam(6, $idOperario);
+        $stmt->bindParam(1, $datos['nombre']);
+        $stmt->bindParam(2, $datos['apellidos']);
+        $stmt->bindParam(3, $datos['correo']);
+        $stmt->bindParam(4, $datos['contrasena']);
+        $stmt->bindParam(5, $datos['admin']);
+        $stmt->bindParam(6, $idOperario);
 
-            // dd($datos);
-            // dd($idOperario);
+        $stmt->execute();
 
-            $stmt->execute();
-            // dd($stmt);  
-
-            return true;
-        } catch (PDOException $e) {
-            // Manejar la excepción según tus necesidades
-            dd($e->getMessage());
-        }
+        return true;
     }
 
-    public function getOperario($id)
+    /**
+     * Funcion que devuelve un operario
+     *
+     * @param integer $id -> id del operario a devolver
+     * @return array
+     */
+    public function getOperario(int $id): array
     {
-        try {
-            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
-            $operarios = array();
-            $stmt = $conexion->prepare("SELECT id, nombre, apellidos, correo, contrasena, admin FROM operarios WHERE id = $id");
+        $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+        $operarios = array();
+        $stmt = $conexion->prepare("SELECT id, nombre, apellidos, correo, contrasena, admin FROM operarios WHERE id = ?");
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
 
-            $stmt->execute();
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Obtener todos los resultados como un array asociativo
-            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            // Iterar sobre los resultados y construir el array final
-            foreach ($resultados as $fila) {
-                $operario = array(
-                    'id' => $fila['id'],
-                    'nombre' => $fila['nombre'],
-                    'apellidos' => $fila['apellidos'],
-                    'correo' => $fila['correo'],
-                    'contrasena' => $fila['contrasena'],
-                    'admin' => $fila['admin'],
-                );
-                // Agregar el operario al array principal
-            }
-            // dd($operario);
-            return $operario;
-        } catch (PDOException $e) {
-            return 'error';
+        foreach ($resultados as $fila) {
+            $operario = array(
+                'id' => $fila['id'],
+                'nombre' => $fila['nombre'],
+                'apellidos' => $fila['apellidos'],
+                'correo' => $fila['correo'],
+                'contrasena' => $fila['contrasena'],
+                'admin' => $fila['admin'],
+            );
         }
+        return $operario;
     }
 
-    public function deleteOperario($id)
+    /**
+     * Funcion para borrar un operario
+     *
+     * @param integer $id -> id del operario a eliminar
+     * @return boolean -> si lo ha borrado o no
+     */
+    public function deleteOperario(int $id): bool
     {
-        try {
-            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+        $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
-            $consulta = "DELETE FROM operarios WHERE id = ?";
+        $stmt = $conexion->prepare("DELETE FROM operarios WHERE id = ?");
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
 
-            $stmt = $conexion->prepare($consulta);
-            $stmt->bindParam(1, $id);
-            $stmt->execute();
-
-            return true;
-        } catch (PDOException $e) {
-            dd($e->getMessage());
-        }
+        return true;
     }
 
-    public function getContrasena($email)
+    /**
+     * Funcion que devuelve la contraseña del operario
+     *
+     * @param string $email -> email del usuraio
+     * @return string -> contraseña
+     */
+    public function getContrasena(string $email): string
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
@@ -257,7 +310,7 @@ class Operarios
         if ($resultado) {
             return $resultado['contrasena'];
         } else {
-            return null; // o maneja el caso en que no se encontró ninguna contraseña
+            return null;
         }
     }
 }

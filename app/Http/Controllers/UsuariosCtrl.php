@@ -7,28 +7,40 @@ use App\Models\Validar\ConexionDB;
 use App\Models\Operarios;
 use App\Models\Validar;
 
+/**
+ * Controlador de usuarios
+ */
 class UsuariosCtrl
 {
+    /**
+     * Muestra la tabla Operarios
+     *
+     * @param Request $request
+     */
     public function mostrarTablaUsuarios(Request $request)
     {
 
-        // $id = $_SESSION['user_id']; 
         $o = new Operarios;
 
 
-        $searchNombre = $request->input('search','');
-        $rol = $request->input('rol','');
+        $searchNombre = $request->input('search', '');
+        $rol = $request->input('rol', '');
 
-        $operariosBase = $o->getOperarios($searchNombre,$rol);
+        $operariosBase = $o->getOperarios($searchNombre, $rol);
 
         $pagina = $request->input('p', 1);
         $grupo = $request->input('g', 5);
 
         $operarios = $o->getOperariosPag($operariosBase, $pagina, $grupo);
-        // dd($operarios);
 
-        return view('usuarios', compact('operarios', 'pagina', 'grupo', 'operariosBase','searchNombre','rol'));
+        return view('usuarios', compact('operarios', 'pagina', 'grupo', 'operariosBase', 'searchNombre', 'rol'));
     }
+
+    /**
+     * Envia el formulario de modificar usuraio
+     *
+     * @param Request $request
+     */
     public function enviarFormModUser(Request $request)
     {
         $idOperario = $request->input('id');
@@ -37,12 +49,15 @@ class UsuariosCtrl
         $validador = new Validar($datosFormulario);
         $errores = $validador->validarUsuarioMod();
 
-       
+
 
         $o = new Operarios;
-        
+
+        //Si no hay errores
         if (empty($errores)) {
             $respuesta = $o->modOperario($idOperario, $datosFormulario);
+
+            //Si se modifica
             if ($respuesta) {
                 $operariosBase = $o->getOperarios();
                 $pagina = $request->input('p', 1);
@@ -51,13 +66,18 @@ class UsuariosCtrl
                 $operarios = $o->getOperariosPag($operariosBase, $pagina, $grupo);
 
                 return redirect('/users')->with(compact('operarios', 'operariosBase', 'pagina', 'grupo'));
-            } else {
+            } else { //Si no se modifica
                 dd($respuesta);
             }
         }
         return view('modUser', compact('errores', 'datosFormulario'));
     }
 
+    /**
+     * Funcion que crea operario
+     *
+     * @param Request $request
+     */
     public function enviarOperario(Request $request)
     {
         $operarios = array();
@@ -68,11 +88,12 @@ class UsuariosCtrl
         $datosFormulario = array_map('trim', $datosFormulario);
         $validador = new Validar($datosFormulario);
         $errores = $validador->validarUsuario();
-        // dd($datosFormulario);
 
+        //Si no hay errores
         if (empty($errores)) {
             $respuesta = $o->crearOperario($datosFormulario);
-            // dd($respuesta);
+
+            // Si se crea
             if ($respuesta) {
                 $operariosBase = $o->getOperarios();
                 $pagina = $request->input('p', 1);
@@ -80,32 +101,44 @@ class UsuariosCtrl
 
                 $operarios = $o->getOperariosPag($operariosBase, $pagina, $grupo);
                 return view('usuarios', compact('operarios', 'operariosBase', 'pagina', 'grupo'));
-            } else {
+            } else { //Si no se crea
                 print_r($respuesta);
             }
         }
 
-        // Retorna la vista con errores y datos del formulario
         return view('formUser', compact('errores', 'datosFormulario'));
     }
 
 
-
+    /**
+     * Muestra el formulario de edicion de operario
+     *
+     * @param Request $request
+     */
     public function mostrarFormModUser(Request $request)
     {
         $oMod = new Operarios;
+
         $idOperario = $request->input('id');
-        // dd($idOperario);
         $datosFormulario = $oMod->getOperario($idOperario);
-        // dd($datosOperario);
+
         return view('modUser', compact('datosFormulario'));
     }
 
+    /**
+     * Muestra el formulario para añadir operarios
+     *
+     */
     public function mostrarFormUser()
     {
         return view('formUser');
     }
 
+    /**
+     * Muestra el formulario para borrar operarios
+     *
+     * @param Request $request
+     */
     public function deleteUser(Request $request)
     {
         $oMod = new Operarios;
@@ -115,6 +148,11 @@ class UsuariosCtrl
         return view('deleteUser', compact('datosFormulario'));
     }
 
+    /**
+     * Borra el operario seleccionado
+     *
+     * @param Request $request
+     */
     public function confirmDeleteUser(Request $request)
     {
         $idOperario = $request->input('id');
@@ -122,7 +160,9 @@ class UsuariosCtrl
 
         $respuesta = $o->deleteOperario($idOperario);
 
+        //Si lo borra
         if ($respuesta) {
+
             $operariosBase = $o->getOperarios();
             $pagina = $request->input('p', 1);
             $grupo = $request->input('g', 5);
@@ -130,7 +170,10 @@ class UsuariosCtrl
             $operarios = $o->getOperariosPag($operariosBase, $pagina, $grupo);
 
             return redirect('/users')->with(compact('operarios', 'operariosBase', 'pagina', 'grupo'));
+
+            //Si no lo borra
         } else dd('error');
+
         return view('deleteUser');
     }
 }

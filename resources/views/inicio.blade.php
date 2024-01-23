@@ -36,10 +36,11 @@
             color: red;
         }
 
-        .bd{
+        .bd {
             background-color: rgba(218, 218, 218, 0.8)
         }
-        .in{
+
+        .in {
             background-color: rgba(255, 255, 255, 0.5)
         }
     </style>
@@ -56,21 +57,23 @@
                         <h3 class="text-center">BungleBuilding S.L</h3>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{route('login')}}">
+                        <form method="POST" action="{{ route('login') }}">
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email:</label>
                                 <input type="text" name="email" class="form-control in" id="email"
-                                    placeholder="Ingrese su correo electrónico" value="{{isset($datosFormulario['email']) ? $datosFormulario['email'] : ''}}">
+                                    placeholder="Ingrese su correo electrónico"
+                                    value="{{ isset($datosFormulario['email']) ? $datosFormulario['email'] : '' }}">
                                 @if (isset($errores['email']))
                                     <div class="text-danger">{{ $errores['email'] }}</div>
                                 @endif
                             </div>
                             <div class="form-group">
                                 <label for="password">Contraseña:</label>
-                                <input type="password" name="contrasena" class="form-control in" id="password" value=" {{isset($datosFormulario['contrasena']) ? $datosFormulario['contrasena'] : ''}}"
+                                <input type="password" name="contrasena" class="form-control in" id="password"
+                                    value=" {{ isset($datosFormulario['contrasena']) ? $datosFormulario['contrasena'] : '' }}"
                                     placeholder="Ingrese su contraseña">
-                                   
+
                                 @if (isset($errores['contrasena']))
                                     <div class="text-danger">{{ $errores['contrasena'] }}</div>
                                 @endif

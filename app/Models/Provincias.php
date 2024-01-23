@@ -7,35 +7,48 @@ use PDO;
 use PDOException;
 use App\Models\ConexionDB;
 
+/**
+ * Clase Provincias
+ */
 class Provincias
 {
-
-    public function getProvincias()
+    /**
+     * Funcion que devuelve el listado de provincias
+     *
+     * @return array
+     */
+    public function getProvincias(): array
     {
-        try {
-            $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
-            $provincias = array();
-            $stmt = $conexion->prepare("SELECT cod, nombre FROM tbl_provincias");
 
-            $stmt->execute();
+        $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+        $provincias = array();
 
-            $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //Seleccionamos codigo y nombre de la tabla provincias
+        $stmt = $conexion->prepare("SELECT cod, nombre FROM tbl_provincias");
 
-            foreach ($resultados as $fila) {
-                $provincia = array(
-                    'cod' => $fila['cod'],
-                    'nombre' => $fila['nombre'],
-                );
-                $provincias[] = $provincia;
-            }
+        $stmt->execute();
 
-            return $provincias;
-        } catch (PDOException $e) {
-            return 'error';
+        $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        // Recorremos el resultado para agregarlo a un array asociativo
+        foreach ($resultados as $fila) {
+            $provincia = array(
+                'cod' => $fila['cod'],
+                'nombre' => $fila['nombre'],
+            );
+            $provincias[] = $provincia;
         }
+
+        return $provincias;
     }
 
-    public function getProv($cod)
+    /**
+     * Funcion que devuelve el nombre de la provincia correspondiente a su codigo
+     *
+     * @param int $cod -> codigo
+     * @return string -> nombre de la provincia
+     */
+    public function getProv(int $cod): string
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
@@ -44,6 +57,5 @@ class Provincias
         $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
         return $resultado['nombre'];
-
     }
 }
