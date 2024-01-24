@@ -165,7 +165,12 @@
                             <td class="{{ $tarea['estado'] }}">@php echo $st @endphp</td>
                             <td>{{ isset($tarea['fecha_creacion']) ? $tarea['fecha_creacion'] : '' }}</td>
                             <td>{{ isset($tarea['operario']) ? $tarea['operario'] : '' }}</td>
-                            <td>{{ isset($tarea['fecha_realizacion']) ? $tarea['fecha_realizacion'] : '~' }}</td>
+                            <td> @if ($tarea['fecha_realizacion'] == "-0001-11-30" || $tarea['fecha_realizacion']==null)
+                                ~ 
+                                @else
+                                {{$tarea['fecha_realizacion']}}
+                                @endif
+                            </td>
                             <td>{{ isset($tarea['anotaciones_anteriores']) ? $tarea['anotaciones_anteriores'] : '' }}
                             </td>
                             <td>{{ isset($tarea['anotaciones_posteriores']) ? $tarea['anotaciones_posteriores'] : '' }}

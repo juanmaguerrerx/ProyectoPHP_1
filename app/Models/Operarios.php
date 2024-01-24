@@ -119,9 +119,9 @@ class Operarios
      * Funcion para saber si un operario es admin o no
      *
      * @param integer $id -> id del operario
-     * @return boolean -> si es admin o no
+     * @return bool -> si es admin o no
      */
-    public function esAdmin(int $id): bool
+    public function esAdmin(int $id) : bool
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
@@ -132,6 +132,7 @@ class Operarios
         $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        // dd($resultado);
         return $resultado['admin'];
     }
 
@@ -283,6 +284,13 @@ class Operarios
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
+        // Para poder borrar el usuario antes tenemos que borrar las tareas que lo relacionan
+        $stmt = $conexion->prepare("DELETE FROM tareas WHERE operario_id= ?");
+        $stmt->bindParam(1,$id);
+        $stmt->execute();
+
+
+        //Una vez borrada sus tareas borramos el usuario
         $stmt = $conexion->prepare("DELETE FROM operarios WHERE id = ?");
         $stmt->bindParam(1, $id);
         $stmt->execute();

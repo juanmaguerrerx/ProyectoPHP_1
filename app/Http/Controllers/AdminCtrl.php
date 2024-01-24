@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Validar\ConexionDB;
 use App\Models\Tareas;
 use App\Models\Operarios;
+use DateTime;
 
 /**
  * Controlador de la pagina '/admin'
@@ -30,6 +31,8 @@ class AdminCtrl
         $filtro = $request->input('f', '');
         $filtroName = $request->input('n', '');
         $tareasBase = $tMod->getTareas(2, $filtro, $filtroName, $orderFecha); //ID DEL OPERARIO (SESSION)
+        
+
 
         $oMod = new Operarios;
         $operarios = $oMod->getOperarios();

@@ -8,6 +8,7 @@ use App\Models\Operarios;
 use App\Models\Provincias;
 use App\Models\Tareas;
 use App\Models\Validar;
+use DateTime;
 
 /**
  * Controlador de Tareas
@@ -65,8 +66,10 @@ class TareasCtrl
 
                 $filtro = $request->input('f', '');
 
-                $tareasBase = $tareaMod->getTareas(1, $filtro);
-                // dd($tareas);
+                $tareasBase = $tareaMod->getTareas(2, $filtro);
+
+
+
                 $pagina = $request->input('p', 1);
                 $grupo = $request->input('g', 5);
 
@@ -112,6 +115,7 @@ class TareasCtrl
 
         if ($respuesta) {
             $tareasBase = $t->getTareas(2, $filtro); //ID -> SESSION 
+
             $pagina = $request->input('p', 1);
             $grupo = $request->input('g', 5);
 
@@ -134,6 +138,7 @@ class TareasCtrl
         $idTarea = $request->input('id');
         // dd($idTarea);
         $datosFormulario = $tMod->getTarea($idTarea);
+        // dd($datosFormulario);
         $provincias = $pMod->getProvincias();
         $operarios = $oMod->getOperarios();
         //dd($datosFormulario);
@@ -164,16 +169,12 @@ class TareasCtrl
         $t = new Tareas;
 
         // Si no hay errores
-        if (empty($errores)) {
-            $fecha_realizacion = NULL;
-            // Si hay busqueda de estado
-            if ($datosFormulario['estado'] == 'R' || $datosFormulario['estado'] == 'B') {
-                $fecha_realizacion = date("Y-m-d H:i:s");
-            }
-            $respuesta = $t->modTarea($idTarea, $datosFormulario, $fecha_realizacion);
+        if (empty($errores)) {            
+            $respuesta = $t->modTarea($idTarea, $datosFormulario);
             // Si se ha modificado
             if ($respuesta) {
-                $tareasBase = $t->getTareas(1); //ID SESSION
+                $tareasBase = $t->getTareas(2); //ID SESSION
+
                 $pagina = $request->input('p', 1);
                 $grupo = $request->input('g', 5);
 
@@ -184,6 +185,7 @@ class TareasCtrl
                 dd($respuesta);
             }
         }
+
         // Si hay errores
         return view('modTarea', compact('errores', 'datosFormulario', 'provincias', 'operarios'));
     }

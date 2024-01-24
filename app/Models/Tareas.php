@@ -7,11 +7,14 @@
 namespace App\Models;
 
 use App\Models\ConexionDB;
+use DateTime;
 use PDO;
 use PDOException;
 use PhpParser\Node\ArrayItem;
 use PhpParser\Node\Expr\Cast\Bool_;
 use PhpParser\Node\Stmt;
+
+use function PHPUnit\Framework\isEmpty;
 
 /**
  * 
@@ -154,6 +157,7 @@ class Tareas
                 $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId $oF");
             }
         }
+        // dd($stmt);
         $stmt->execute();
 
         // Obtener las tareas como un array asociativo
@@ -164,6 +168,17 @@ class Tareas
         foreach ($resultados as $fila) {
             $opMod = new Operarios;
             $provMod = new Provincias;
+
+
+            if ($fila['fecha_realizacion'] !== null) {
+                $fechaObj = new DateTime($fila['fecha_realizacion']);
+                $fila['fecha_realizacion'] = $fechaObj->format('Y-m-d');
+            }else {
+                $fila['fecha_realizacion']=='';
+            }
+            $fechaObj = new DateTime($fila['fecha_creacion']);
+            $fila['fecha_creacion'] = $fechaObj->format('Y-m-d');
+
             $tarea = array(
                 'id' => $fila['id'],
                 'nif_cliente' => $fila['nif_cliente'],
@@ -209,8 +224,20 @@ class Tareas
         $provMod = new Provincias;
         $opMod = new Operarios;
 
+        
+
         // Construir un array final recorriendo el array de resultados
         foreach ($resultados as $fila) {
+
+            if ($fila['fecha_realizacion'] !== null) {
+                $fechaObj = new DateTime($fila['fecha_realizacion']);
+                $fila['fecha_realizacion'] = $fechaObj->format('Y-m-d');
+            }else {
+                $fila['fecha_realizacion']=='';
+            }
+            $fechaObj = new DateTime($fila['fecha_creacion']);
+            $fila['fecha_creacion'] = $fechaObj->format('Y-m-d');
+
             $tarea = array(
                 'id' => $fila['id'],
                 'nif_cliente' => $fila['nif_cliente'],
@@ -239,7 +266,7 @@ class Tareas
      * @param string $datos -> datos a cambiar
      * @return Bool
      */
-    public function modTarea(int $idTarea, array $datos, $fecha_realizacion): Bool
+    public function modTarea(int $idTarea, array $datos): Bool
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
@@ -260,6 +287,13 @@ class Tareas
             WHERE id = ?
         ";
 
+        if ($datos['fecha_realizacion'] !== null || !isEmpty($datos['fecha_realizacion']) || $datos['fecha_realizacion'] !== '0000-00-00 00:00:00') {
+            $fecha = $datos['fecha_realizacion'];
+        }else
+        $fecha = 'NULL';
+
+        // dd($fecha);
+
         $stmt = $conexion->prepare($consulta);
 
         $stmt->bindParam(1, $datos['nif_cliente']);
@@ -271,15 +305,33 @@ class Tareas
         $stmt->bindParam(7, $datos['provincia']);
         $stmt->bindParam(8, $datos['estado']);
         $stmt->bindParam(9, $datos['operario']);
-        $stmt->bindParam(10, $fecha_realizacion);
+        $stmt->bindParam(10, $fecha);
         $stmt->bindParam(11, $datos['anotaciones_anteriores']);
         $stmt->bindParam(12, $datos['anotaciones_posteriores']);
         $stmt->bindParam(13, $datos['id']);
 
+        // dd($stmt, $fecha);
+
         $stmt->execute();
+
 
         // Devuelve true al realizar
         return true;
+    }
+
+    public function getFechaCreacion(int $id)
+    {
+        $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+
+        $stmt = $conexion->prepare("SELECT fecha_creacion FROM tareas WHERE id = ?");
+        $stmt->bindParam(1, $id);
+
+        $stmt->execute();
+
+        // Obtener las tareas como un array asociativo
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $resultado['fecha_creacion'];
     }
 
     /**

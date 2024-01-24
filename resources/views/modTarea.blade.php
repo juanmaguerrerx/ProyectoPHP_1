@@ -103,6 +103,11 @@
                     <option value="B" @if ($datosFormulario['estado'] == 'B') selected @endif>Esperando aprobacion
                     </option>
                 </select>
+                <label for="fecha_realizacion">Fecha de realización</label>
+                <input type="date" step="any" name="fecha_realizacion" id="fecha_realizacion" value="{{ isset($datosFormulario['fecha_realizacion']) ? $datosFormulario['fecha_realizacion'] : '' }}">
+                @if (isset($errores['fecha']))
+                            <div class="text-danger">{{ $errores['fecha'] }}</div>
+                        @endif
             </div>
             <div class="form-group">
                 <label for="descripcion" class="required">Descripción</label>
@@ -112,7 +117,6 @@
                 @endif
             </div>
             <div class="form-row">
-
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label for="provincia" class="required">Provincia</label>
@@ -157,6 +161,8 @@
                 <label for="anotacionesAnteriores">Anotaciones Posteriores</label>
                 <textarea class="form-control" name="anotaciones_posteriores" id="anotacionesAnteriores" rows="3">{{ $datosFormulario['anotaciones_posteriores'] }}</textarea>
             </div>
+
+            <input type="hidden" value="{{$datosFormulario['fecha_creacion']}}" name="fecha_creacion">
 
             <button type="submit" name="submit" class="btn btn-primary mg">Modificar Tarea</button>
         </form>

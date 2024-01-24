@@ -39,7 +39,7 @@ class Validar
         $this->validarNif();
         $this->validarPersonaContacto();
         $this->validarTelefono();
-        $this->validarCorreo($this->datos['correo_cliente']);
+        $this->validarCorreo($this->datos['email']);
         $this->validarDescripcion();
         $this->validarDireccion();
         $this->validarPoblacion();
@@ -61,6 +61,7 @@ class Validar
         $this->validarCorreo($this->datos['correo_cliente']);
         $this->validarDescripcion();
         $this->validarCodigoPostalMod();
+        $this->validarFechaRealizacion();
 
         return $this->errores;
     }
@@ -74,7 +75,7 @@ class Validar
     {
         $this->validarNombre();
         $this->validarApellidos();
-        $this->validarCorreo($this->datos['correo'],true);
+        $this->validarCorreo($this->datos['correo'], true);
         $this->validarContrasena();
 
         return $this->errores;
@@ -89,7 +90,7 @@ class Validar
     {
         $this->validarNombre();
         $this->validarApellidos();
-        $this->validarCorreo($this->datos['correo'],true);
+        $this->validarCorreo($this->datos['correo'], true);
         $this->validarContrasena();
 
         return $this->errores;
@@ -413,8 +414,8 @@ class Validar
      */
     protected function validarCorreo(string $email, bool $checkExist = false)
     {
-        
-        if($checkExist){
+
+        if ($checkExist) {
             $oMod = new Operarios;
             if ($oMod->isExist($email)) {
                 $this->agregarError('correo', 'El correo electrónico ya existe.');
@@ -425,8 +426,30 @@ class Validar
         } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->agregarError('correo', 'El formato del correo electrónico no es válido.');
         }
-        
-       
     }
-    
+
+    /**
+     * Valida la fecha de realizacion
+     *
+     * @return void
+     */
+    protected function validarFechaRealizacion()
+    {
+        $estado = $this->datos['estado'];
+        $fecha = $this->datos['fecha_realizacion'];
+        $tMod = new Tareas;
+        
+        //Si no esta en proceso (p.e realizada) y tiene fecha nula
+        if($estado != 'P' && $fecha == null){
+            $this->agregarError('fecha','Si no está en proceso necesita fecha de realización');
+            //Si está en proceso y tiene fecha
+        }elseif ($estado =='P' && $fecha!=null){
+            $this->agregarError('fecha', 'Si no está realizada no puede tener fecha de realización');
+            //Si la fecha es superior a la actual
+        }elseif($fecha > date('Y-m-d') && $fecha!=null){
+            $this->agregarError('fecha','La fecha no puede ser superior a la actual');
+        }else if($fecha < $this->datos['fecha_creacion'] && $fecha!=null){
+            $this->agregarError('fecha', 'La fecha no puede ser menor que la fecha de creacion ('.$this->datos['fecha_creacion'].')');
+        }
+    }
 }

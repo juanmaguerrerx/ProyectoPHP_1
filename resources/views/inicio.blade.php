@@ -71,7 +71,6 @@
                             <div class="form-group">
                                 <label for="password">Contraseña:</label>
                                 <input type="password" name="contrasena" class="form-control in" id="password"
-                                    value=" {{ isset($datosFormulario['contrasena']) ? $datosFormulario['contrasena'] : '' }}"
                                     placeholder="Ingrese su contraseña">
 
                                 @if (isset($errores['contrasena']))
