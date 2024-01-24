@@ -9,19 +9,31 @@ use App\Models\Provincias;
 use App\Models\Tareas;
 use App\Models\Validar;
 use DateTime;
+use App\Models\SessionMan;
 
 /**
  * Controlador de Tareas
  */
 class TareasCtrl
 {
-
+    
     /**
      * Funcion para mostrar formulario para crear tarea
      *
      */
     public function mostrarForm()
     {
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        $o = new Operarios;
+
+        if (!$o->esAdmin($id)){
+            return redirect('/admin');
+        }
+
         $operarios = array();
         $provincias = array();
 
@@ -41,6 +53,21 @@ class TareasCtrl
      */
     public function enviarForm(Request $request)
     {
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        $o = new Operarios;
+
+        if (!$o->esAdmin($id)){
+            return redirect('/admin');
+        }
+
+        $sesion = new SessionMan;
+        $sesion->startSession();
+
+        $id = $sesion->read('id');
 
         $operarios = array();
         $provincias = array();
@@ -66,7 +93,7 @@ class TareasCtrl
 
                 $filtro = $request->input('f', '');
 
-                $tareasBase = $tareaMod->getTareas(2, $filtro);
+                $tareasBase = $tareaMod->getTareas($id, $filtro);
 
 
 
@@ -91,6 +118,16 @@ class TareasCtrl
      */
     public function deleteTarea(Request $request)
     {
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        $o = new Operarios;
+
+        if (!$o->esAdmin($id)){
+            return redirect('/admin');
+        }
 
         $tMod = new Tareas;
         $idTarea = $request->input('id');
@@ -106,6 +143,17 @@ class TareasCtrl
      */
     public function confirmDeleteTarea(Request $request)
     {
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        $o = new Operarios;
+
+        if (!$o->esAdmin($id)){
+            return redirect('/admin');
+        }
+
 
         $idTarea = $request->input('id');
         $t = new Tareas;
@@ -114,7 +162,7 @@ class TareasCtrl
         $respuesta = $t->deleteTarea($idTarea);
 
         if ($respuesta) {
-            $tareasBase = $t->getTareas(2, $filtro); //ID -> SESSION 
+            $tareasBase = $t->getTareas($id, $filtro); //ID -> SESSION 
 
             $pagina = $request->input('p', 1);
             $grupo = $request->input('g', 5);
@@ -131,17 +179,20 @@ class TareasCtrl
      * @param Request $request
      */
     public function modTarea(Request $request)
-    {
+    {   
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
         $tMod = new Tareas;
         $pMod = new Provincias;
         $oMod = new Operarios;
         $idTarea = $request->input('id');
         // dd($idTarea);
         $datosFormulario = $tMod->getTarea($idTarea);
-        // dd($datosFormulario);
         $provincias = $pMod->getProvincias();
         $operarios = $oMod->getOperarios();
-        //dd($datosFormulario);
         return view('modTarea', compact('datosFormulario', 'provincias', 'operarios'));
     }
 
@@ -152,6 +203,12 @@ class TareasCtrl
      */
     public function confirmModTarea(Request $request)
     {
+
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
         $idTarea = $request->input('id');
         $filtro = $request->input('f');
 
@@ -173,7 +230,7 @@ class TareasCtrl
             $respuesta = $t->modTarea($idTarea, $datosFormulario);
             // Si se ha modificado
             if ($respuesta) {
-                $tareasBase = $t->getTareas(2); //ID SESSION
+                $tareasBase = $t->getTareas($id); //ID SESSION
 
                 $pagina = $request->input('p', 1);
                 $grupo = $request->input('g', 5);

@@ -121,7 +121,7 @@ class Operarios
      * @param integer $id -> id del operario
      * @return bool -> si es admin o no
      */
-    public function esAdmin(int $id) : bool
+    public function esAdmin($id)
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
 
@@ -133,7 +133,7 @@ class Operarios
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // dd($resultado);
-        return $resultado['admin'];
+        return $resultado;
     }
 
     /**
@@ -318,7 +318,7 @@ class Operarios
         if ($resultado) {
             return $resultado['contrasena'];
         } else {
-            return null;
+            return false;
         }
     }
 }

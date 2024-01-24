@@ -8,6 +8,8 @@ use App\Models\ConexionDB;
 use PDO;
 use PDOException;
 
+use function PHPUnit\Framework\isEmpty;
+
 /**
  * Clase encargada de validar los datos de los formularios
  */
@@ -129,11 +131,14 @@ class Validar
     protected function validarEmailLogin()
     {
         $oMod = new Operarios;
-
+        if(empty($this->datos['email'])){
+            $this->agregarError('email','Debe rellenar el correo');
+        }
         // Si el correo no esta en la BBDD
         if (!($oMod->isExist($this->datos['email']))) {
             $this->agregarError('email', 'El correo electrónico no está registrado.');
         }
+
     }
     /**
      * Validar contraseña en el login
@@ -143,6 +148,10 @@ class Validar
     protected function validarContrasenaLogin()
     {
         $oMod = new Operarios;
+
+        if(empty($this->datos['contrasena'])){
+            $this->agregarError('contrasena','Debe escribir la contraseña');
+        }
 
         // Contraseña real del mail proporcionado
         $contrasenaOp = $oMod->getContrasena($this->datos['email']);

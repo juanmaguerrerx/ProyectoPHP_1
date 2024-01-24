@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Validar\ConexionDB;
 use App\Models\Operarios;
+use App\Models\SessionMan;
 use App\Models\Validar;
 
 /**
@@ -12,6 +13,10 @@ use App\Models\Validar;
  */
 class UsuariosCtrl
 {
+
+
+
+
     /**
      * Muestra la tabla Operarios
      *
@@ -20,9 +25,16 @@ class UsuariosCtrl
     public function mostrarTablaUsuarios(Request $request)
     {
 
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
         $o = new Operarios;
-
-
+        // dd($o->esAdmin($id),$id);
+        if (!$o->esAdmin($id)) {
+            return redirect('/admin');
+        }
         $searchNombre = $request->input('search', '');
         $rol = $request->input('rol', '');
 
@@ -43,6 +55,18 @@ class UsuariosCtrl
      */
     public function enviarFormModUser(Request $request)
     {
+
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        $o = new Operarios;
+
+        if (!$o->esAdmin($sesion->read('id'))) {
+            return redirect('/admin');
+        }
+
         $idOperario = $request->input('id');
         $datosFormulario = $request->except('_token');
         $datosFormulario = array_map('trim', $datosFormulario);
@@ -61,14 +85,14 @@ class UsuariosCtrl
             if ($respuesta) {
                 $operariosBase = $o->getOperarios();
 
-                $searchNombre = $request->input('search','');
-                $rol = $request->input('rol','');
+                $searchNombre = $request->input('search', '');
+                $rol = $request->input('rol', '');
                 $pagina = $request->input('p', 1);
                 $grupo = $request->input('g', 5);
 
                 $operarios = $o->getOperariosPag($operariosBase, $pagina, $grupo);
 
-                return redirect('/users')->with(compact('operarios', 'operariosBase', 'pagina', 'grupo','rol','searchNombre'));
+                return redirect('/users')->with(compact('operarios', 'operariosBase', 'pagina', 'grupo', 'rol', 'searchNombre'));
             } else { //Si no se modifica
                 dd($respuesta);
             }
@@ -83,6 +107,18 @@ class UsuariosCtrl
      */
     public function enviarOperario(Request $request)
     {
+
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        $o = new Operarios;
+
+        if (!$o->esAdmin($id)) {
+            return redirect('/admin');
+        }
+
         $operarios = array();
         $o = new Operarios;
         $operarios = $o->getOperarios();
@@ -100,13 +136,13 @@ class UsuariosCtrl
             if ($respuesta) {
                 $operariosBase = $o->getOperarios();
 
-                $searchNombre = $request->input('search','');
-                $rol = $request->input('rol','');
+                $searchNombre = $request->input('search', '');
+                $rol = $request->input('rol', '');
                 $pagina = $request->input('p', 1);
                 $grupo = $request->input('g', 5);
 
                 $operarios = $o->getOperariosPag($operariosBase, $pagina, $grupo);
-                return view('usuarios', compact('operarios', 'operariosBase', 'pagina', 'grupo','rol','searchNombre'));
+                return view('usuarios', compact('operarios', 'operariosBase', 'pagina', 'grupo', 'rol', 'searchNombre'));
             } else { //Si no se crea
                 print_r($respuesta);
             }
@@ -123,6 +159,18 @@ class UsuariosCtrl
      */
     public function mostrarFormModUser(Request $request)
     {
+
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        $o = new Operarios;
+
+        if (!$o->esAdmin($id)) {
+            return redirect('/admin');
+        }
+
         $oMod = new Operarios;
 
         $idOperario = $request->input('id');
@@ -137,6 +185,17 @@ class UsuariosCtrl
      */
     public function mostrarFormUser()
     {
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        $o = new Operarios;
+
+        if (!$o->esAdmin($id)) {
+            return redirect('/admin');
+        }
+
         return view('formUser');
     }
 
@@ -147,6 +206,17 @@ class UsuariosCtrl
      */
     public function deleteUser(Request $request)
     {
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        $o = new Operarios;
+
+        if (!$o->esAdmin($id)) {
+            return redirect('/admin');
+        }
+
         $oMod = new Operarios;
         $idOperario = $request->input('id');
         $datosFormulario = $oMod->getOperario($idOperario);
@@ -161,6 +231,17 @@ class UsuariosCtrl
      */
     public function confirmDeleteUser(Request $request)
     {
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        $o = new Operarios;
+
+        if (!$o->esAdmin($id)) {
+            return redirect('/admin');
+        }
+
         $idOperario = $request->input('id');
         $o = new Operarios;
 
@@ -171,14 +252,14 @@ class UsuariosCtrl
 
             $operariosBase = $o->getOperarios();
 
-            $searchNombre = $request->input('search','');
+            $searchNombre = $request->input('search', '');
             $pagina = $request->input('p', 1);
             $grupo = $request->input('g', 5);
-            $rol = $request->input('rol','');
+            $rol = $request->input('rol', '');
 
             $operarios = $o->getOperariosPag($operariosBase, $pagina, $grupo);
 
-            return redirect('/users')->with(compact('operarios', 'operariosBase', 'pagina', 'grupo','rol','searchNombre'));
+            return redirect('/users')->with(compact('operarios', 'operariosBase', 'pagina', 'grupo', 'rol', 'searchNombre'));
 
             //Si no lo borra
         } else dd('error');

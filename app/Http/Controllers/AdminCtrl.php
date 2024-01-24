@@ -7,12 +7,14 @@ use App\Models\Validar\ConexionDB;
 use App\Models\Tareas;
 use App\Models\Operarios;
 use DateTime;
+use App\Models\SessionMan;
 
 /**
  * Controlador de la pagina '/admin'
  */
 class AdminCtrl
 {
+
     /**
      * Mostrar la tabla de tareas
      *
@@ -22,6 +24,16 @@ class AdminCtrl
     public function mostrarTabla(Request $request)
     {
 
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        if (!$sesion->existSession()){
+            return redirect('/login');
+        }
+
+
         $tMod = new Tareas;
 
         $orderFecha = $request->input('order', '');
@@ -30,7 +42,7 @@ class AdminCtrl
         $grupo = $request->input('g', 5);
         $filtro = $request->input('f', '');
         $filtroName = $request->input('n', '');
-        $tareasBase = $tMod->getTareas(2, $filtro, $filtroName, $orderFecha); //ID DEL OPERARIO (SESSION)
+        $tareasBase = $tMod->getTareas($id, $filtro, $filtroName, $orderFecha);
         
 
 

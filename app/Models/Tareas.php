@@ -94,7 +94,7 @@ class Tareas
      * @param string|null $oF -> el orden de la fecha
      * @return array
      */
-    public function getTareas(int $operarioId, string $f = null, string $n = null, string $oF = null): array
+    public function getTareas($operarioId, string $f = null, string $n = null, string $oF = null): array
     {
         $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
         $tareas = array();
@@ -103,61 +103,30 @@ class Tareas
         // Verificar si el operario que está en la página es admin
         $esAdmin = $opMod->esAdmin($operarioId);
 
-        // Si el filtro de orden de fecha no es nulo
-        if ($oF != null) {
-            // Si es fC ordenar por fecha_creacion
-            if ($oF == 'fC') {
-                $oF = "ORDER BY fecha_creacion ";
-                // Si es fR por fecha_realizacion
-            } else if ($oF == 'fR') {
-                $oF = "ORDER BY fecha_realizacion IS NULL, fecha_realizacion";
-            }
-            // Y si es nulo ordenar por id
-        } else $oF = 'ORDER BY id';
+        // Construir la parte de la consulta relacionada con el orden
+        $orden = ($oF == 'fC') ? "ORDER BY fecha_creacion" : (($oF == 'fR') ? "ORDER BY fecha_realizacion IS NULL, fecha_realizacion" : "ORDER BY id");
 
-        // Si el filtro de estado no es nulo
-        if ($f != NULL) {
-            // Si es admin
-            if ($esAdmin) {
-                // Si filtro de nombre no es nulo
-                if ($n != null) {
-                    // Muestra todas las tareas segun el filtro de estado, de nombre y orden de fecha
-                    $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f' AND operario_id = '$n' $oF");
-                } else {
-                    // Si filtro de nombre es nulo
-                    // Muestra todas las tareas segun el estado y con orden de fecha
-                    $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE estado = '$f' $oF");
-                }
+        // Construir la parte de la consulta relacionada con el filtro de nombre
+        $filtroNombre = $n ? " AND operario_id = '$n'" : null;
 
-                // Si no es admin
-            } else {
-                // Muestra todas las tareas del operario que esta usando la aplicacion segun filtro de estado y fecha
+        // Construir la parte de la consulta relacionada con el filtro de estado
+        $filtroEstado = $f ? " AND estado = '$f'" : null;
 
-                $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId AND estado = '$f' $oF");
+        // Construir la consulta
+        $consulta = "SELECT * FROM tareas";
 
-                // No se pone filtro de nombre porque el operario no puede ver mas tareas aparte de las suyas
-            }
-            // Si el filtro de estado es nulo
-        } else {
-            // Si es admin
-            if ($esAdmin) {
-                // Si filtro de nombre es nulo
-                if ($n != null) {
-                    // Muestra todas las tareas segun nombre y orden de fecha
-                    $stmt = $conexion->prepare("SELECT * FROM tareas " . "WHERE operario_id = '$n' $oF");
+        // Agregar la condición de operario_id si no es admin
+        //?????????
+        $consulta .= $esAdmin ? " WHERE operario_id = '$operarioId'" : "";
 
-                    // Si filtro de nombre no es nulo
-                } else {
-                    // Muesta todas las tareas segun orden de fecha
-                    $stmt = $conexion->prepare("SELECT * FROM tareas $oF");
-                }
-                // Si no es admin
-            } else {
-                // Muestra todas las tareas del operario cliente segun orden de fech
-                $stmt = $conexion->prepare("SELECT * FROM tareas WHERE operario_id = $operarioId $oF");
-            }
-        }
-        // dd($stmt);
+        // Agregar las condiciones de filtro
+        $consulta .= $filtroEstado . $filtroNombre;
+
+        // Agregar la parte de orden
+        $consulta .= " $orden";
+        dd($consulta);  
+        // Preparar y ejecutar la consulta
+        $stmt = $conexion->prepare($consulta);
         $stmt->execute();
 
         // Obtener las tareas como un array asociativo
@@ -173,8 +142,8 @@ class Tareas
             if ($fila['fecha_realizacion'] !== null) {
                 $fechaObj = new DateTime($fila['fecha_realizacion']);
                 $fila['fecha_realizacion'] = $fechaObj->format('Y-m-d');
-            }else {
-                $fila['fecha_realizacion']=='';
+            } else {
+                $fila['fecha_realizacion'] == '';
             }
             $fechaObj = new DateTime($fila['fecha_creacion']);
             $fila['fecha_creacion'] = $fechaObj->format('Y-m-d');
@@ -224,7 +193,7 @@ class Tareas
         $provMod = new Provincias;
         $opMod = new Operarios;
 
-        
+
 
         // Construir un array final recorriendo el array de resultados
         foreach ($resultados as $fila) {
@@ -232,8 +201,8 @@ class Tareas
             if ($fila['fecha_realizacion'] !== null) {
                 $fechaObj = new DateTime($fila['fecha_realizacion']);
                 $fila['fecha_realizacion'] = $fechaObj->format('Y-m-d');
-            }else {
-                $fila['fecha_realizacion']=='';
+            } else {
+                $fila['fecha_realizacion'] == '';
             }
             $fechaObj = new DateTime($fila['fecha_creacion']);
             $fila['fecha_creacion'] = $fechaObj->format('Y-m-d');
@@ -289,8 +258,8 @@ class Tareas
 
         if ($datos['fecha_realizacion'] !== null || !isEmpty($datos['fecha_realizacion']) || $datos['fecha_realizacion'] !== '0000-00-00 00:00:00') {
             $fecha = $datos['fecha_realizacion'];
-        }else
-        $fecha = 'NULL';
+        } else
+            $fecha = 'NULL';
 
         // dd($fecha);
 
