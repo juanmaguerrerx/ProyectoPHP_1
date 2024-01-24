@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Tareas;
 
 /**
- * Clase del controlador de la pagina de inicio
+ * Clase del controlador dhe la pagina de inicio
  */
 class InicioCtrl
 {
