@@ -42,7 +42,7 @@ class InicioCtrl
         $validador = new Validar($datosFormulario);
         $errores = $validador->validarLogin();
         if (empty($errores)) {
-            session_start();
+            
             $tareaMod = new Tareas;
 
             $id = $oMod->getId($datosFormulario['email']);

@@ -39,7 +39,7 @@ class Validar
         $this->validarNif();
         $this->validarPersonaContacto();
         $this->validarTelefono();
-        $this->validarEmail();
+        $this->validarCorreo($this->datos['correo_cliente']);
         $this->validarDescripcion();
         $this->validarDireccion();
         $this->validarPoblacion();
@@ -58,7 +58,7 @@ class Validar
         $this->validarNifMod();
         $this->validarPersonaContactoMod();
         $this->validarTelefonoMod();
-        $this->validarEmailMod();
+        $this->validarCorreo($this->datos['correo_cliente']);
         $this->validarDescripcion();
         $this->validarCodigoPostalMod();
 
@@ -74,7 +74,7 @@ class Validar
     {
         $this->validarNombre();
         $this->validarApellidos();
-        $this->validarCorreo();
+        $this->validarCorreo($this->datos['correo'],true);
         $this->validarContrasena();
 
         return $this->errores;
@@ -89,7 +89,7 @@ class Validar
     {
         $this->validarNombre();
         $this->validarApellidos();
-        $this->validarCorreoMod();
+        $this->validarCorreo($this->datos['correo'],true);
         $this->validarContrasena();
 
         return $this->errores;
@@ -170,7 +170,7 @@ class Validar
             $nif = strtoupper($this->datos['nif']);
 
             // Si no sigue el patron:
-            // Comienza con Z Y Z o un numero del 0-9
+            // Comienza con Z Y X o un numero del 0-9
             // Tiene exactamente 7 digitos
             // Y termina en un caracter que puede ser de la A-H o de la J-Z, excluyendo la I y la O
             if (!preg_match('/^[XYZ0-9]\d{7}[A-HJ-NP-TV-Z]$/', $nif)) {
@@ -405,47 +405,28 @@ class Validar
     }
 
     /**
-     * Validar correo electrónico
+     * Funcion para validar email 
      *
+     * @param string $email
+     * @param boolean $checkExist -> true | Si tiene que comprobar si existe el email 
      * @return void
      */
-    protected function validarEmail()
+    protected function validarCorreo(string $email, bool $checkExist = false)
     {
-        //Si esta vacio
-        if (empty($this->datos['email'])) {
-            $this->agregarError('email', 'El correo electrónico es obligatorio.');
-
-            //Si no tiene formato de email
-        } elseif (!filter_var($this->datos['email'], FILTER_VALIDATE_EMAIL)) {
-            $this->agregarError('email', 'El formato del correo electrónico no es válido.');
+        
+        if($checkExist){
+            $oMod = new Operarios;
+            if ($oMod->isExist($email)) {
+                $this->agregarError('correo', 'El correo electrónico ya existe.');
+            }
         }
-    }
-    protected function validarEmailMod()
-    {
-        if (empty($this->datos['correo_cliente'])) {
-            $this->agregarError('correo_cliente', 'El correo electrónico es obligatorio.');
-        } elseif (!filter_var($this->datos['correo_cliente'], FILTER_VALIDATE_EMAIL)) {
-            $this->agregarError('correo_cliente', 'El formato del correo electrónico no es válido.');
-        }
-    }
-    protected function validarCorreo()
-    {
-        if (empty($this->datos['correo'])) {
+        if (empty($email)) {
             $this->agregarError('correo', 'El correo electrónico es obligatorio.');
-        } elseif (!filter_var($this->datos['correo'], FILTER_VALIDATE_EMAIL)) {
+        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->agregarError('correo', 'El formato del correo electrónico no es válido.');
         }
-        $oMod = new Operarios;
-        if ($oMod->isExist($this->datos['correo'])) {
-            $this->agregarError('correo', 'El correo electrónico ya existe.');
-        }
+        
+       
     }
-    protected function validarCorreoMod()
-    {
-        if (empty($this->datos['correo'])) {
-            $this->agregarError('correo', 'El correo electrónico es obligatorio.');
-        } elseif (!filter_var($this->datos['correo'], FILTER_VALIDATE_EMAIL)) {
-            $this->agregarError('correo', 'El formato del correo electrónico no es válido.');
-        }
-    }
+    
 }

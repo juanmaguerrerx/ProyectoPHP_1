@@ -21,7 +21,7 @@ class AdminCtrl
     public function mostrarTabla(Request $request)
     {
 
-        $t = new Tareas;
+        $tMod = new Tareas;
 
         $orderFecha = $request->input('order', '');
 
@@ -29,12 +29,12 @@ class AdminCtrl
         $grupo = $request->input('g', 5);
         $filtro = $request->input('f', '');
         $filtroName = $request->input('n', '');
-        $tareasBase = $t->getTareas(2, $filtro, $filtroName, $orderFecha); //ID DEL OPERARIO (SESSION)
+        $tareasBase = $tMod->getTareas(2, $filtro, $filtroName, $orderFecha); //ID DEL OPERARIO (SESSION)
 
         $oMod = new Operarios;
         $operarios = $oMod->getOperarios();
 
-        $tareas = $t->getTareasPag($tareasBase, $pagina, $grupo);
+        $tareas = $tMod->getTareasPag($tareasBase, $pagina, $grupo);
 
         return view('tabla', compact('tareas', 'pagina', 'grupo', 'tareasBase', 'filtro', 'filtroName', 'operarios', 'orderFecha'));
     }
