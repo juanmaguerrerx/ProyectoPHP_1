@@ -101,7 +101,8 @@ class Tareas
         $opMod = new Operarios;
 
         // Verificar si el operario que está en la página es admin
-        $esAdmin = $opMod->esAdmin($operarioId);
+        $esAdmin = $opMod->esAdmin($operarioId)['admin'];
+        // dd($esAdmin);
 
         // Construir la parte de la consulta relacionada con el orden
         $orden = ($oF == 'fC') ? "ORDER BY fecha_creacion" : (($oF == 'fR') ? "ORDER BY fecha_realizacion IS NULL, fecha_realizacion" : "ORDER BY id");
@@ -116,15 +117,14 @@ class Tareas
         $consulta = "SELECT * FROM tareas";
 
         // Agregar la condición de operario_id si no es admin
-        //?????????
-        $consulta .= $esAdmin ? " WHERE operario_id = '$operarioId'" : "";
+        $consulta .= ($esAdmin=='0') ? " WHERE operario_id = '$operarioId'" : "";
 
         // Agregar las condiciones de filtro
         $consulta .= $filtroEstado . $filtroNombre;
 
         // Agregar la parte de orden
         $consulta .= " $orden";
-        dd($consulta);  
+
         // Preparar y ejecutar la consulta
         $stmt = $conexion->prepare($consulta);
         $stmt->execute();
