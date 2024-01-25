@@ -4,6 +4,21 @@ namespace App\Models;
 
 class SessionMan
 {
+
+    /**
+     * Establecer la duración de la sesión
+     *
+     * @param integer $minutes
+     * @return void
+     */
+    public function setSessionDuration(int $minutes)
+    {
+        // Convertir minutos a segundos
+        $tiempo = $minutes * 60;
+        // Configurar el tiempo de la sesión
+        session_set_cookie_params($tiempo);
+    }
+
     /**
      * Método para iniciar la sesión
      *
@@ -13,6 +28,7 @@ class SessionMan
     {
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
+            $this->setSessionDuration(120);
         }
     }
 
@@ -49,19 +65,7 @@ class SessionMan
         return session_status() == PHP_SESSION_ACTIVE && !empty($_SESSION);
     }
 
-    /**
-     * Establecer la duración de la sesión
-     *
-     * @param integer $minutes
-     * @return void
-     */
-    public function setSessionDuration(int $minutes)
-    {
-        // Convertir minutos a segundos
-        $tiempo = $minutes * 60;
-        // Configurar el tiempo de la sesión
-        session_set_cookie_params($tiempo);
-    }
+    
 
     /**
      * Destruir la sesión
