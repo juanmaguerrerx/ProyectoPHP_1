@@ -38,30 +38,6 @@ VALUES
     ('Laura', 'Fernández Ruiz', 'laura@email.com', 'claveabc', 1),
     ('Javier', 'López Torres', 'javier@email.com', 'clavexyz', 0);
 
--- Insertar datos en la tabla tareas
-INSERT INTO tareas (
-    nif_cliente,
-    nombre_cliente,
-    apellidos_cliente,
-    telefono_cliente,
-    correo_cliente,
-    descripcion,
-    poblacion,
-    codigo_postal,
-    provincia,
-    estado,
-    operario_id,
-    fecha_realizacion,
-    anotaciones_anteriores,
-    anotaciones_posteriores
-)
-VALUES 
-    ('123456789A', 'Cliente1', 'Apellido1', 555123456, 'cliente1@email.com', 'Tarea de reparación', 'Ciudad1', 12345, 'Provincia1', 'A', 1, '2024-01-25', 'Anotación previa', 'Anotación posterior'),
-    ('987654321B', 'Cliente2', 'Apellido2', 555234567, 'cliente2@email.com', 'Instalación de software', 'Ciudad2', 54321, 'Provincia2', 'B', 2, NULL, NULL, 'Nuevas anotaciones'),
-    ('456789012C', 'Cliente3', 'Apellido3', 555345678, 'cliente3@email.com', 'Mantenimiento preventivo', 'Ciudad3', 67890, 'Provincia3', 'B', 3, '2024-01-20', 'Anotación inicial', 'Detalles adicionales'),
-    ('234567890D', 'Cliente4', 'Apellido4', 555456789, 'cliente4@email.com', 'Soporte técnico', 'Ciudad4', 01234, 'Provincia4', 'A', 4, NULL, NULL, 'Observaciones anteriores'),
-    ('345678901E', 'Cliente5', 'Apellido5', 555567890, 'cliente5@email.com', 'Actualización de hardware', 'Ciudad5', 56789, 'Provincia5', 'B', 5, '2024-01-21', 'Comentarios previos', 'Comentarios posteriores');
-
 
 
 --PROVINCIAS
