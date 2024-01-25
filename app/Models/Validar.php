@@ -38,8 +38,8 @@ class Validar
      */
     public function validarTarea(): array
     {
-        $this->validarNif();
-        $this->validarPersonaContacto();
+        $this->validarNif($this->datos['nif']);
+        $this->validarPersonaContacto($this->datos['cliente']);
         $this->validarTelefono();
         $this->validarCorreo($this->datos['email']);
         $this->validarDescripcion();
@@ -57,8 +57,8 @@ class Validar
      */
     public function validarTareaMod(): array
     {
-        $this->validarNifMod();
-        $this->validarPersonaContactoMod();
+        $this->validarNif($this->datos['nif_cliente']);
+        $this->validarPersonaContacto($this->datos['nombre_cliente']);
         $this->validarTelefonoMod();
         $this->validarCorreo($this->datos['correo_cliente']);
         $this->validarDescripcion();
@@ -77,7 +77,7 @@ class Validar
     {
         $this->validarNombre();
         $this->validarApellidos();
-        $this->validarCorreo($this->datos['correo'], true);
+        $this->validarCorreo($this->datos['correo']);
         $this->validarContrasena();
 
         return $this->errores;
@@ -92,7 +92,7 @@ class Validar
     {
         $this->validarNombre();
         $this->validarApellidos();
-        $this->validarCorreo($this->datos['correo'], true);
+        $this->validarCorreo($this->datos['correo'],false);
         $this->validarContrasena();
 
         return $this->errores;
@@ -131,14 +131,13 @@ class Validar
     protected function validarEmailLogin()
     {
         $oMod = new Operarios;
-        if(empty($this->datos['email'])){
-            $this->agregarError('email','Debe rellenar el correo');
+        if (empty($this->datos['email'])) {
+            $this->agregarError('email', 'Debe rellenar el correo');
         }
         // Si el correo no esta en la BBDD
         if (!($oMod->isExist($this->datos['email']))) {
             $this->agregarError('email', 'El correo electrónico no está registrado.');
         }
-
     }
     /**
      * Validar contraseña en el login
@@ -149,8 +148,8 @@ class Validar
     {
         $oMod = new Operarios;
 
-        if(empty($this->datos['contrasena'])){
-            $this->agregarError('contrasena','Debe escribir la contraseña');
+        if (empty($this->datos['contrasena'])) {
+            $this->agregarError('contrasena', 'Debe escribir la contraseña');
         }
 
         // Contraseña real del mail proporcionado
@@ -166,18 +165,19 @@ class Validar
     }
 
     /**
-     * Validar NIF
+     * Validar el NIF teniendo en cuenta las reglas de formato del mismo
      *
+     * @param $nif_val
      * @return void
      */
-    protected function validarNif()
+    protected function validarNif($nif_val = null)
     {
         // Si está vacío
-        if (empty($this->datos['nif'])) {
+        if (empty($this->$nif_val)) {
             $this->agregarError('nif', 'El NIF o CIF es obligatorio.');
         } else {
             // Pasamos a mayusculas
-            $nif = strtoupper($this->datos['nif']);
+            $nif = strtoupper($this->$nif_val);
 
             // Si no sigue el patron:
             // Comienza con Z Y X o un numero del 0-9
@@ -198,26 +198,6 @@ class Validar
         }
     }
 
-
-    protected function validarNifMod()
-    {
-        if (empty($this->datos['nif_cliente'])) {
-            $this->agregarError('nif_cliente', 'El NIF o CIF es obligatorio.');
-        } else {
-            $nif = strtoupper($this->datos['nif_cliente']);
-
-            if (!preg_match('/^[XYZ0-9]\d{7}[A-HJ-NP-TV-Z]$/', $nif)) {
-                $this->agregarError('nif_cliente', 'El formato del NIF no es válido.');
-            } else {
-                $letraCalculada = $this->calcularLetraNif(substr($nif, 0, -1));
-
-                if ($letraCalculada !== substr($nif, -1)) {
-                    $this->agregarError('nif_cliente', 'La letra del NIF no es válida.');
-                }
-            }
-        }
-    }
-
     /**
      * Calcular la letra del DNI
      *
@@ -233,28 +213,18 @@ class Validar
     }
 
     /**
-     * Valida campo obligatorio
+     * Validar el nombre del cliente
      *
+     * @param $nombre -> nombre del cliente
      * @return void
      */
-    protected function validarPersonaContacto()
+    protected function validarPersonaContacto($nombre = null)
     {
-        if (empty($this->datos['cliente'])) {
+        if (empty($nombre)) {
             $this->agregarError('cliente', 'El nombre del cliente es obligatorio.');
         }
     }
 
-    /**
-     * Valida campo obligatorio
-     *
-     * @return void
-     */
-    protected function validarPersonaContactoMod()
-    {
-        if (empty($this->datos['nombre_cliente'])) {
-            $this->agregarError('nombre_cliente', 'El nombre del cliente es obligatorio.');
-        }
-    }
 
     /**
      * Valida campo obligatorio
@@ -421,19 +391,18 @@ class Validar
      * @param boolean $checkExist -> true | Si tiene que comprobar si existe el email 
      * @return void
      */
-    protected function validarCorreo(string $email, bool $checkExist = false)
+    protected function validarCorreo(string $email, bool $checkExist = true)
     {
+        $oMod = new Operarios;
+
+        if (!preg_match($email, FILTER_VALIDATE_EMAIL)) {
+            $this->agregarError('correo', 'El formato no es válido');
+        }
 
         if ($checkExist) {
-            $oMod = new Operarios;
             if ($oMod->isExist($email)) {
                 $this->agregarError('correo', 'El correo electrónico ya existe.');
             }
-        }
-        if (empty($email)) {
-            $this->agregarError('correo', 'El correo electrónico es obligatorio.');
-        } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $this->agregarError('correo', 'El formato del correo electrónico no es válido.');
         }
     }
 
@@ -447,18 +416,18 @@ class Validar
         $estado = $this->datos['estado'];
         $fecha = $this->datos['fecha_realizacion'];
         $tMod = new Tareas;
-        
+
         //Si no esta en proceso (p.e realizada) y tiene fecha nula
-        if($estado != 'P' && $fecha == null){
-            $this->agregarError('fecha','Si no está en proceso necesita fecha de realización');
+        if ($estado != 'P' && $fecha == null) {
+            $this->agregarError('fecha', 'Si no está en proceso necesita fecha de realización');
             //Si está en proceso y tiene fecha
-        }elseif ($estado =='P' && $fecha!=null){
+        } elseif ($estado == 'P' && $fecha != null) {
             $this->agregarError('fecha', 'Si no está realizada no puede tener fecha de realización');
             //Si la fecha es superior a la actual
-        }elseif($fecha > date('Y-m-d') && $fecha!=null){
-            $this->agregarError('fecha','La fecha no puede ser superior a la actual');
-        }else if($fecha < $this->datos['fecha_creacion'] && $fecha!=null){
-            $this->agregarError('fecha', 'La fecha no puede ser menor que la fecha de creacion ('.$this->datos['fecha_creacion'].')');
+        } elseif ($fecha > date('Y-m-d') && $fecha != null) {
+            $this->agregarError('fecha', 'La fecha no puede ser superior a la actual');
+        } else if ($fecha < $this->datos['fecha_creacion'] && $fecha != null) {
+            $this->agregarError('fecha', 'La fecha no puede ser menor que la fecha de creacion (' . $this->datos['fecha_creacion'] . ')');
         }
     }
 }

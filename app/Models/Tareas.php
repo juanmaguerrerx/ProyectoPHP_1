@@ -102,7 +102,6 @@ class Tareas
 
         // Verificar si el operario que está en la página es admin
         $esAdmin = $opMod->esAdmin($operarioId)['admin'];
-        // dd($esAdmin);
 
         // Construir la parte de la consulta relacionada con el orden
         $orden = ($oF == 'fC') ? "ORDER BY fecha_creacion" : (($oF == 'fR') ? "ORDER BY fecha_realizacion IS NULL, fecha_realizacion" : "ORDER BY id");
@@ -117,7 +116,7 @@ class Tareas
         $consulta = "SELECT * FROM tareas";
 
         // Agregar la condición de operario_id si no es admin
-        $consulta .= ($esAdmin=='0') ? " WHERE operario_id = '$operarioId'" : "";
+        $consulta .= ($esAdmin == '0') ? " WHERE operario_id = '$operarioId'" : " WHERE id IS NOT NULL ";
 
         // Agregar las condiciones de filtro
         $consulta .= $filtroEstado . $filtroNombre;
@@ -261,8 +260,6 @@ class Tareas
         } else
             $fecha = 'NULL';
 
-        // dd($fecha);
-
         $stmt = $conexion->prepare($consulta);
 
         $stmt->bindParam(1, $datos['nif_cliente']);
@@ -278,8 +275,6 @@ class Tareas
         $stmt->bindParam(11, $datos['anotaciones_anteriores']);
         $stmt->bindParam(12, $datos['anotaciones_posteriores']);
         $stmt->bindParam(13, $datos['id']);
-
-        // dd($stmt, $fecha);
 
         $stmt->execute();
 

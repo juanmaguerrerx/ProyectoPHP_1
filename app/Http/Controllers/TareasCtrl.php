@@ -214,6 +214,7 @@ class TareasCtrl
 
         $datosFormulario = $request->except('_token');
         $datosFormulario = array_map('trim', $datosFormulario);
+        // dd($datosFormulario);
 
         $validador = new Validar($datosFormulario);
         $errores = $validador->validarTareaMod();

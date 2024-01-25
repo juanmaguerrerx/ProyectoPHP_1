@@ -27,8 +27,8 @@ class SessionMan
     public function startSession()
     {
         if (session_status() == PHP_SESSION_NONE) {
-            session_start();
             $this->setSessionDuration(120);
+            session_start();
         }
     }
 

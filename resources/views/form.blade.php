@@ -93,7 +93,7 @@
                         <input type="email" name="email" class="form-control" id="email"
                             value="{{ isset($datosFormulario['email']) ? $datosFormulario['email'] : '' }}"
                             placeholder="Correo Electrónico">
-                        @if (isset($errores['email']))
+                        @if (isset($errores['correo']))
                             <div class="text-danger">{{ $errores['email'] }}</div>
                         @endif
                     </div>
