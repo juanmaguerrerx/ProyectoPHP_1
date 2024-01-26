@@ -65,14 +65,20 @@
 </head>
 
 <body>
+
+    @php
+        use App\Models\SessionMan;
+        use App\Models\Operarios;
+        $sesion = new SessionMan();
+        $op = new Operarios();
+
+        $esAdmin = $op->esAdmin($sesion->read('id'));
+
+    @endphp
+
     @include('navbar')
     <div class="container-fluid marg">
         <h1 class="text-center">Lista de Tareas</h1>
-        {{-- @if (session('success'))
-    <div class="alert alert-success">
-        {{ session('success') }}
-    </div>
-    @endif --}}
 
         <form action="{{ url('/admin') }}" method="get">
             <fieldset>
@@ -86,18 +92,20 @@
                     <option value="B" {{ $filtro == 'B' ? 'selected' : '' }}>Esperando aprobacion</option>
                 </select>
                 <br>
-                <label for="name">Operario Encargado</label>
-                <select name="n" id="nombre">
-                    <option value="" selected>-Todos-</option>
-                    @foreach ($operarios as $operario)
-                        @if ($operario['admin'] == 1)
-                        @else
-                            <option value="{{ $operario['id'] }}"
-                                {{ $filtroName == $operario['id'] ? 'selected' : '' }}>
-                                {{ $operario['nombre'] . ' ' . $operario['apellidos'] }}</option>
-                        @endif
-                    @endforeach
-                </select>
+                @if ($esAdmin)
+                    <label for="name">Operario Encargado</label>
+                    <select name="n" id="nombre">
+                        <option value="" selected>-Todos-</option>
+                        @foreach ($operarios as $operario)
+                            @if ($operario['admin'] == 1)
+                            @else
+                                <option value="{{ $operario['id'] }}"
+                                    {{ $filtroName == $operario['id'] ? 'selected' : '' }}>
+                                    {{ $operario['nombre'] . ' ' . $operario['apellidos'] }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                @endif
                 <br>
                 <label for="order">Ordenar por</label>
                 <select name="order" id="order">

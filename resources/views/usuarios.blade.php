@@ -36,13 +36,6 @@
         }
     </style>
 
-    {{-- @php
-    if(!$_SESSION['admin']){
-        redirect()->route('/');
-    }   
-   @endphp --}}
-
-
 
     <!-- Enlace a los estilos de Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
