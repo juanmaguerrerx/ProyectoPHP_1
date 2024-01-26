@@ -144,7 +144,7 @@
                             class="btn btn-outline-primary">Siguiente</button>
                     @endif
 
-                    @if (count($operariosBase) % $grupo == 0)
+                    @if (count($operarios) >= $grupo)
                         <button type="submit" name="p" value="{{ $ultimaPag }}"
                             class="btn btn-outline-secondary if">Fin</button>
                     @endif

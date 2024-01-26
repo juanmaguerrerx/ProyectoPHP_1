@@ -185,11 +185,16 @@
                             </td>
                             <td>{{ isset($tarea['anotaciones_posteriores']) ? $tarea['anotaciones_posteriores'] : '' }}
                             </td>
-                            <td><a href="{{ url('modTarea?id=' . $tarea['id']) }}">
-                                    @if (isset($tarea['id']))
+                            <td>
+                                @if (isset($tarea['id']))
+                                    <a href="{{ url('verTarea?id=' . $tarea['id']) }}">
+                                        <button class="btn btn-outline-secondary btn-sm l">Ver</button></a>
+                                    <a href="{{ url('modTarea?id=' . $tarea['id']) }}">
+
                                         <button class="btn btn-warning btn-sm l">Modificar</button>
-                                </a><a href="{{ url('deleteTarea?id=' . $tarea['id']) }}"><button
-                                        class="btn btn-danger btn-sm l">Eliminar</button></a></td>
+                                    </a><a href="{{ url('deleteTarea?id=' . $tarea['id']) }}"><button
+                                            class="btn btn-danger btn-sm l">Eliminar</button></a>
+                            </td>
                     @endif
                     </tr>
                     @endforeach
@@ -226,7 +231,7 @@
                         class="btn btn-outline-primary">Siguiente</button>
                 @endif
 
-                @if (!count($tareasBase) % $grupo == 0)
+                @if (count($tareas) >= $grupo)
                     <button type="submit" name="p" value="{{ $ultimaPag }}"
                         class="btn btn-outline-secondary if">Fin</button>
                 @endif

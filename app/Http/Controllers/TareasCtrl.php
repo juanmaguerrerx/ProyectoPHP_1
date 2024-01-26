@@ -247,4 +247,19 @@ class TareasCtrl
         // Si hay errores
         return view('modTarea', compact('errores', 'datosFormulario', 'provincias', 'operarios'));
     }
+
+    public function verTarea(Request $request){
+        $sesion = new SessionMan;
+        $sesion->existSession();
+        $sesion->startSession();
+        $id = $sesion->read('id');
+
+        $o = new Operarios;
+
+        $tMod = new Tareas;
+        $idTarea = $request->input('id');
+        $datosFormulario = $tMod->getTarea($idTarea);
+
+        return view('verTarea', compact('datosFormulario'));
+    }
 }

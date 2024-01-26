@@ -45,3 +45,5 @@ Route::post('/modTarea',[TareasCtrl::class,'confirmModTarea'])->name('confirmMod
 
 Route::get('/deleteTarea',[TareasCtrl::class,'deleteTarea'])->name('deleteTarea');
 Route::post('/deleteTarea',[TareasCtrl::class,'confirmDeleteTarea'])->name('confirmDeleteTarea');
+
+Route::get('/verTarea',[TareasCtrl::class,'verTarea'])->name('verTarea');
