@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+Route::redirect('','/login');
 Route::get('/login', [InicioCtrl::class,'mostrarLogin'])->name('inicio');
 Route::post('/login',[InicioCtrl::class,'login'])->name('login');
 
@@ -26,7 +28,6 @@ Route::get('/form',[TareasCtrl::class,'mostrarForm'])->name('form');
 Route::post('/form',[TareasCtrl::class,'enviarForm'])->name('enviarForm');
 
 Route::get('/admin',[AdminCtrl::class,'mostrarTabla'])->name('tabla');
-// Route::post('/admin',[AdminCtrl::class,'mostrarTabla'])->name('tabla');
 
 Route::get('/users',[UsuariosCtrl::class,'mostrarTablaUsuarios'])->name('tablaUsuarios');
 

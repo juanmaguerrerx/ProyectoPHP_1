@@ -29,6 +29,11 @@
             text-align: left;
             font-size: small;
         }
+
+        .if {
+            margin-left: 2%;
+            margin-right: 2%;
+        }
     </style>
 
     {{-- @php
@@ -119,17 +124,34 @@
 
             </table>
             <div class="container-fluid cen">
+                <form action="{{ url('/users') }}" method="GET">
+                    @php
+                        $ultimaPag = intval(count($operariosBase) / $grupo + 1);
+                    @endphp
 
-                @if ($pagina > 1)
-                    <a class="pag" href="{{ url('/users?p=' . ($pagina - 1) . '&g=' . $grupo) }}"><button
-                            class="btn btn-outline-primary">Anterior</button></a>
-                @endif
-                <button disabled class="btn btn-primary">{{ $pagina }}</button>
-                @if (count($operarios) == $grupo && count($operariosBase) > $pagina * $grupo)
-                    <!-- Mostrar el botón Siguiente solo si hay mas tareas para mostrar -->
-                    <a class="pag" href="{{ url('/users?p=' . ($pagina + 1) . '&g=' . $grupo) }}"><button
-                            class="btn btn-outline-primary">Siguiente</button></a>
-                @endif
+                    @if ($pagina > 1)
+                        <button type="submit" name="p" value='1'
+                            class="btn btn-outline-secondary if">Inicio</button>
+                        <button type="submit" name="p" value="{{ $pagina - 1 }}"
+                            class="btn btn-outline-primary">Anterior</button>
+                    @endif
+
+                    <button disabled class="btn btn-primary">{{ $pagina }}</button>
+
+                    @if (count($operarios) == $grupo && count($operariosBase) > $pagina * $grupo)
+                        <!-- Mostrar el botón Siguiente solo si hay más tareas para mostrar -->
+                        <button type="submit" name="p" value="{{ $pagina + 1 }}"
+                            class="btn btn-outline-primary">Siguiente</button>
+                    @endif
+
+                    @if (count($operariosBase) % $grupo == 0)
+                        <button type="submit" name="p" value="{{ $ultimaPag }}"
+                            class="btn btn-outline-secondary if">Fin</button>
+                    @endif
+
+                    <input type="hidden" name="g" value="{{ $grupo }}">
+
+                </form>
             </div>
         </div>
     </div>

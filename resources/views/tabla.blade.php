@@ -53,6 +53,11 @@
             margin-bottom: 1vh;
 
         }
+
+        .if {
+            margin-left: 2%;
+            margin-right: 2%;
+        }
     </style>
 
     <!-- Enlace a los estilos de Bootstrap -->
@@ -85,8 +90,12 @@
                 <select name="n" id="nombre">
                     <option value="" selected>-Todos-</option>
                     @foreach ($operarios as $operario)
-                        <option value="{{ $operario['id'] }}" {{ $filtroName == $operario['id'] ? 'selected' : '' }}>
-                            {{ $operario['nombre'] . ' ' . $operario['apellidos'] }}</option>
+                        @if ($operario['admin'] == 1)
+                        @else
+                            <option value="{{ $operario['id'] }}"
+                                {{ $filtroName == $operario['id'] ? 'selected' : '' }}>
+                                {{ $operario['nombre'] . ' ' . $operario['apellidos'] }}</option>
+                        @endif
                     @endforeach
                 </select>
                 <br>
@@ -105,8 +114,8 @@
                     <option value="25" {{ $grupo == 25 ? 'selected' : '' }}>25</option>
                 </select>
             </fieldset>
-            
-            
+
+
 
             <button type="submit" class="btn btn-outline-secondary b">Aplicar Filtros</button>
 
@@ -165,10 +174,11 @@
                             <td class="{{ $tarea['estado'] }}">@php echo $st @endphp</td>
                             <td>{{ isset($tarea['fecha_creacion']) ? $tarea['fecha_creacion'] : '' }}</td>
                             <td>{{ isset($tarea['operario']) ? $tarea['operario'] : '' }}</td>
-                            <td> @if ($tarea['fecha_realizacion'] == "-0001-11-30" || $tarea['fecha_realizacion']==null)
-                                ~ 
+                            <td>
+                                @if ($tarea['fecha_realizacion'] == '-0001-11-30' || $tarea['fecha_realizacion'] == null)
+                                    ~
                                 @else
-                                {{$tarea['fecha_realizacion']}}
+                                    {{ $tarea['fecha_realizacion'] }}
                                 @endif
                             </td>
                             <td>{{ isset($tarea['anotaciones_anteriores']) ? $tarea['anotaciones_anteriores'] : '' }}
@@ -196,7 +206,14 @@
 
             {{-- Paginacion --}}
             <form action="{{ url('/admin') }}" method="GET" class="container-fluid cen">
+
+                @php
+                    $ultimaPag = intval(count($tareasBase) / $grupo + 1);
+                @endphp
+
                 @if ($pagina > 1)
+                    <button type="submit" name="p" value='1'
+                        class="btn btn-outline-secondary if">Inicio</button>
                     <button type="submit" name="p" value="{{ $pagina - 1 }}"
                         class="btn btn-outline-primary">Anterior</button>
                 @endif
@@ -207,6 +224,11 @@
                     <!-- Mostrar el botón Siguiente solo si hay más tareas para mostrar -->
                     <button type="submit" name="p" value="{{ $pagina + 1 }}"
                         class="btn btn-outline-primary">Siguiente</button>
+                @endif
+
+                @if (!count($tareasBase) % $grupo == 0)
+                    <button type="submit" name="p" value="{{ $ultimaPag }}"
+                        class="btn btn-outline-secondary if">Fin</button>
                 @endif
 
                 <input type="hidden" name="g" value="{{ $grupo }}">

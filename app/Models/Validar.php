@@ -92,7 +92,7 @@ class Validar
     {
         $this->validarNombre();
         $this->validarApellidos();
-        $this->validarCorreo($this->datos['correo'],false);
+        $this->validarCorreo($this->datos['correo'], false);
         $this->validarContrasena();
 
         return $this->errores;
@@ -391,17 +391,18 @@ class Validar
      * @param boolean $checkExist -> true | Si tiene que comprobar si existe el email 
      * @return void
      */
-    protected function validarCorreo(string $email, bool $checkExist = true)
+    protected function validarCorreo(string $email = null, bool $checkExist = true)
     {
         $oMod = new Operarios;
+        if ($email != null) {
+            if (!preg_match($email, FILTER_VALIDATE_EMAIL)) {
+                $this->agregarError('correo', 'El formato no es válido');
+            }
 
-        if (!preg_match($email, FILTER_VALIDATE_EMAIL)) {
-            $this->agregarError('correo', 'El formato no es válido');
-        }
-
-        if ($checkExist) {
-            if ($oMod->isExist($email)) {
-                $this->agregarError('correo', 'El correo electrónico ya existe.');
+            if ($checkExist) {
+                if ($oMod->isExist($email)) {
+                    $this->agregarError('correo', 'El correo electrónico ya existe.');
+                }
             }
         }
     }
