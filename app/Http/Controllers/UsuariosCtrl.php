@@ -63,7 +63,7 @@ class UsuariosCtrl
 
         $o = new Operarios;
 
-        if (!$o->esAdmin($sesion->read('id'))) {
+        if (!$o->esAdmin($id)) {
             return redirect('/admin');
         }
 

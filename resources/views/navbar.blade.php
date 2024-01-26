@@ -18,7 +18,7 @@
     </div>
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-            @if ($op->esAdmin($sesion->read('id'))['admin'])
+            @if ($op->esAdmin($sesion->read('id')))
                 @if (request()->is('users'))
                     <li class="nav-item">
                         <a href="{{ route('formUser') }}"><button type="button" class="btn btn-success m">Añadir

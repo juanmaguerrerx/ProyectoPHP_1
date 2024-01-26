@@ -173,11 +173,11 @@ class Validar
     protected function validarNif($nif_val = null)
     {
         // Si está vacío
-        if (empty($this->$nif_val)) {
+        if (empty($nif_val)) {
             $this->agregarError('nif', 'El NIF o CIF es obligatorio.');
         } else {
             // Pasamos a mayusculas
-            $nif = strtoupper($this->$nif_val);
+            $nif = strtoupper($nif_val);
 
             // Si no sigue el patron:
             // Comienza con Z Y X o un numero del 0-9
@@ -391,11 +391,11 @@ class Validar
      * @param boolean $checkExist -> true | Si tiene que comprobar si existe el email 
      * @return void
      */
-    protected function validarCorreo(string $email = null, bool $checkExist = true)
+    protected function validarCorreo($email = null, bool $checkExist = true)
     {
         $oMod = new Operarios;
         if ($email != null) {
-            if (!preg_match($email, FILTER_VALIDATE_EMAIL)) {
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->agregarError('correo', 'El formato no es válido');
             }
 

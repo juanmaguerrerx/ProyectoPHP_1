@@ -101,7 +101,7 @@ class Tareas
         $opMod = new Operarios;
 
         // Verificar si el operario que está en la página es admin
-        $esAdmin = $opMod->esAdmin($operarioId)['admin'];
+        $esAdmin = $opMod->esAdmin($operarioId);
 
         // Construir la parte de la consulta relacionada con el orden
         $orden = ($oF == 'fC') ? "ORDER BY fecha_creacion" : (($oF == 'fR') ? "ORDER BY fecha_realizacion IS NULL, fecha_realizacion" : "ORDER BY id");

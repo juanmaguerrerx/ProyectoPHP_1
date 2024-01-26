@@ -55,12 +55,12 @@
         $sesion = new SessionMan();
         $op = new Operarios();
     @endphp
-    @if (!$op->esAdmin($sesion->read('id'))['admin'])
+    @if (!$op->esAdmin($sesion->read('id')))
         {{ $texto = 'hidden' }}
-        {{ $textoSelect = 'disabled'}}
+        {{ $textoSelect = 'disabled' }}
     @else
-        {{$texto = ''}}
-        {{ $textoSelect = ''}}
+        {{ $texto = '' }}
+        {{ $textoSelect = '' }}
     @endif
     <div class="container mt-5 pad">
         <h2 class="tp">Modificar Tarea</h2>
@@ -113,9 +113,9 @@
                 <label for="estado" class="required">Estado</label>
                 <select name="estado" id="estado">
                     <option value="P" @if ($datosFormulario['estado'] == 'P') selected @endif>En proceso</option>
-                    <option value="C" @if ($datosFormulario['estado'] == 'C') selected @endif {{$texto}}>
+                    <option value="C" @if ($datosFormulario['estado'] == 'C') selected @endif {{ $texto }}>
                         Cancelada</option>
-                    <option value="R" @if ($datosFormulario['estado'] == 'R') selected @endif {{$texto}}>
+                    <option value="R" @if ($datosFormulario['estado'] == 'R') selected @endif {{ $texto }}>
                         Realizada</option>
                     <option value="B" @if ($datosFormulario['estado'] == 'B') selected @endif>Esperando aprobacion
                     </option>

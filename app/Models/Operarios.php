@@ -133,7 +133,7 @@ class Operarios
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         // dd($resultado);
-        return $resultado;
+        return $resultado['admin'];
     }
 
     /**

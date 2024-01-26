@@ -225,7 +225,7 @@ class TareasCtrl
         $operarios = $oMod->getOperarios();
 
         $t = new Tareas;
-
+        
         // Si no hay errores
         if (empty($errores)) {            
             $respuesta = $t->modTarea($idTarea, $datosFormulario);
