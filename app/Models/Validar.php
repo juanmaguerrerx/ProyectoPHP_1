@@ -404,7 +404,7 @@ class Validar
                     $this->agregarError('correo', 'El correo electrónico ya existe.');
                 }
             }
-        }
+        }else $this->agregarError('correo','El campo correo no puede estar vacío');
     }
 
     /**

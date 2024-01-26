@@ -94,7 +94,7 @@
                             value="{{ isset($datosFormulario['email']) ? $datosFormulario['email'] : '' }}"
                             placeholder="Correo Electrónico">
                         @if (isset($errores['correo']))
-                            <div class="text-danger">{{ $errores['email'] }}</div>
+                            <div class="text-danger">{{ $errores['correo'] }}</div>
                         @endif
                     </div>
                 </div>
