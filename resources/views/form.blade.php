@@ -54,7 +54,7 @@
         <p>&#40; <span class="aste">&#42;</span> son campos obligatorios&#41;</p>
 
         <form method='POST' action="{{ route('enviarForm') }}">
-            {{-- @csrf --}}
+            @csrf
             <fieldset style="border: 1px solid white">
                 <div class="form-row">
 

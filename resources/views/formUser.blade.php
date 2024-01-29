@@ -53,7 +53,7 @@
         <p>&#40; <span class="aste">&#42;</span> son campos obligatorios&#41;</p>
 
         <form method='POST' action="{{ route('enviarOperario') }}">
-            {{-- @csrf --}}
+            @csrf
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="nombre" class="required">Nombre</label>
