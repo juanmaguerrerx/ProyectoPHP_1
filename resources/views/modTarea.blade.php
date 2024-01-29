@@ -68,7 +68,6 @@
 
         <form method='POST' action="">
             @csrf
-
             <fieldset style="border: 1px solid white" {{ $texto }}>
                 <div class="form-row">
 
@@ -163,9 +162,12 @@
                     <label for="operario" class="required">Operario Encargado</label>
                     <select id="operario" name="operario" class="form-control form-control-md">
                         @foreach ($operarios as $operario)
-                            <option value="{{ $operario['id'] }}" @if ($datosFormulario['operario'] == $operario['nombre'] . ' ' . $operario['apellidos']) selected @endif>
-                                {{ $operario['nombre'] }}
-                                {{ $operario['apellidos'] }}</option>
+                            @if ($operario['admin'] == 0)
+                                <option value="{{ $operario['id'] }}"
+                                    @if ($datosFormulario['operario'] == $operario['nombre'] . ' ' . $operario['apellidos']) selected @endif>
+                                    {{ $operario['nombre'] }}
+                                    {{ $operario['apellidos'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
