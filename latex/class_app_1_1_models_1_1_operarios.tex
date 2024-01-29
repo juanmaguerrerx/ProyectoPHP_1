@@ -1,0 +1,222 @@
+\doxysection{Operarios Class Reference}
+\hypertarget{class_app_1_1_models_1_1_operarios}{}\label{class_app_1_1_models_1_1_operarios}\index{Operarios@{Operarios}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_operarios_a918d4471d86df69edb4f4504f3a92b2f}{get\+Operarios}} (string \$s=null, \$r=null)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_operarios_adaab601ef3167c9843a19942f0d7cdfd}{crear\+Operario}} (array \$datos)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_operarios_ab2190527edc73d1455f218d04adeaea9}{es\+Admin}} (\$id)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_operarios_aec8a3c5672e8e6347e8afc489206b6c8}{get\+Nombre}} (int \$id)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_operarios_aa1fdb5ea4cbe67ac932c71a5a5654802}{get\+Id}} (string \$email)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_operarios_a2f36cac32475af1420d1a550e6d7519d}{get\+Operarios\+Pag}} (array \$o, int \$p, int \$g)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_operarios_a39638491aea460e0500d898e186ee760}{is\+Exist}} (string \$c)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_operarios_aeca4b49425c9a128b07a9a9ec2c546d1}{mod\+Operario}} (int \$id\+Operario, array \$datos)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_operarios_af7fe999f41666a9ce9731d6119406c05}{get\+Operario}} (int \$id)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_operarios_a608f7b107d49775f38ad22f729206816}{delete\+Operario}} (int \$id)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_operarios_a2486e3b926470d1b0d5da747a96c3a3f}{get\+Contrasena}} (string \$email)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Clase Operario 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_app_1_1_models_1_1_operarios_adaab601ef3167c9843a19942f0d7cdfd}\label{class_app_1_1_models_1_1_operarios_adaab601ef3167c9843a19942f0d7cdfd} 
+\index{Operarios@{Operarios}!crearOperario@{crearOperario}}
+\index{crearOperario@{crearOperario}!Operarios@{Operarios}}
+\doxysubsubsection{\texorpdfstring{crearOperario()}{crearOperario()}}
+{\footnotesize\ttfamily crear\+Operario (\begin{DoxyParamCaption}\item[{array}]{\$datos }\end{DoxyParamCaption})}
+
+Funcion para crear operario
+
+
+\begin{DoxyParams}[1]{Parameters}
+array & {\em \$datos} & -\/\texorpdfstring{$>$}{>} datos proporcionados \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/\texorpdfstring{$>$}{>} si se ejecutó correctamente 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_operarios_a608f7b107d49775f38ad22f729206816}\label{class_app_1_1_models_1_1_operarios_a608f7b107d49775f38ad22f729206816} 
+\index{Operarios@{Operarios}!deleteOperario@{deleteOperario}}
+\index{deleteOperario@{deleteOperario}!Operarios@{Operarios}}
+\doxysubsubsection{\texorpdfstring{deleteOperario()}{deleteOperario()}}
+{\footnotesize\ttfamily delete\+Operario (\begin{DoxyParamCaption}\item[{int}]{\$id }\end{DoxyParamCaption})}
+
+Funcion para borrar un operario
+
+
+\begin{DoxyParams}[1]{Parameters}
+integer & {\em \$id} & -\/\texorpdfstring{$>$}{>} id del operario a eliminar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/\texorpdfstring{$>$}{>} si lo ha borrado o no 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_operarios_ab2190527edc73d1455f218d04adeaea9}\label{class_app_1_1_models_1_1_operarios_ab2190527edc73d1455f218d04adeaea9} 
+\index{Operarios@{Operarios}!esAdmin@{esAdmin}}
+\index{esAdmin@{esAdmin}!Operarios@{Operarios}}
+\doxysubsubsection{\texorpdfstring{esAdmin()}{esAdmin()}}
+{\footnotesize\ttfamily es\+Admin (\begin{DoxyParamCaption}\item[{}]{\$id }\end{DoxyParamCaption})}
+
+Funcion para saber si un operario es admin o no
+
+
+\begin{DoxyParams}[1]{Parameters}
+integer & {\em \$id} & -\/\texorpdfstring{$>$}{>} id del operario \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool -\/\texorpdfstring{$>$}{>} si es admin o no 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_operarios_a2486e3b926470d1b0d5da747a96c3a3f}\label{class_app_1_1_models_1_1_operarios_a2486e3b926470d1b0d5da747a96c3a3f} 
+\index{Operarios@{Operarios}!getContrasena@{getContrasena}}
+\index{getContrasena@{getContrasena}!Operarios@{Operarios}}
+\doxysubsubsection{\texorpdfstring{getContrasena()}{getContrasena()}}
+{\footnotesize\ttfamily get\+Contrasena (\begin{DoxyParamCaption}\item[{string}]{\$email }\end{DoxyParamCaption})}
+
+Funcion que devuelve la contraseña del operario
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$email} & -\/\texorpdfstring{$>$}{>} email del usuraio \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string -\/\texorpdfstring{$>$}{>} contraseña 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_operarios_aa1fdb5ea4cbe67ac932c71a5a5654802}\label{class_app_1_1_models_1_1_operarios_aa1fdb5ea4cbe67ac932c71a5a5654802} 
+\index{Operarios@{Operarios}!getId@{getId}}
+\index{getId@{getId}!Operarios@{Operarios}}
+\doxysubsubsection{\texorpdfstring{getId()}{getId()}}
+{\footnotesize\ttfamily get\+Id (\begin{DoxyParamCaption}\item[{string}]{\$email }\end{DoxyParamCaption})}
+
+Funcion que obtiene el id de un operario
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$email} & -\/\texorpdfstring{$>$}{>} el email para el que queremos saber su id \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+integer -\/\texorpdfstring{$>$}{>} id correspondiente 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_operarios_aec8a3c5672e8e6347e8afc489206b6c8}\label{class_app_1_1_models_1_1_operarios_aec8a3c5672e8e6347e8afc489206b6c8} 
+\index{Operarios@{Operarios}!getNombre@{getNombre}}
+\index{getNombre@{getNombre}!Operarios@{Operarios}}
+\doxysubsubsection{\texorpdfstring{getNombre()}{getNombre()}}
+{\footnotesize\ttfamily get\+Nombre (\begin{DoxyParamCaption}\item[{int}]{\$id }\end{DoxyParamCaption})}
+
+Funcion que obtiene el nombre completo de un operario
+
+
+\begin{DoxyParams}[1]{Parameters}
+integer & {\em \$id} & -\/\texorpdfstring{$>$}{>} id del operario \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string -\/\texorpdfstring{$>$}{>} nombre completo 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_operarios_af7fe999f41666a9ce9731d6119406c05}\label{class_app_1_1_models_1_1_operarios_af7fe999f41666a9ce9731d6119406c05} 
+\index{Operarios@{Operarios}!getOperario@{getOperario}}
+\index{getOperario@{getOperario}!Operarios@{Operarios}}
+\doxysubsubsection{\texorpdfstring{getOperario()}{getOperario()}}
+{\footnotesize\ttfamily get\+Operario (\begin{DoxyParamCaption}\item[{int}]{\$id }\end{DoxyParamCaption})}
+
+Funcion que devuelve un operario
+
+
+\begin{DoxyParams}[1]{Parameters}
+integer & {\em \$id} & -\/\texorpdfstring{$>$}{>} id del operario a devolver \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_operarios_a918d4471d86df69edb4f4504f3a92b2f}\label{class_app_1_1_models_1_1_operarios_a918d4471d86df69edb4f4504f3a92b2f} 
+\index{Operarios@{Operarios}!getOperarios@{getOperarios}}
+\index{getOperarios@{getOperarios}!Operarios@{Operarios}}
+\doxysubsubsection{\texorpdfstring{getOperarios()}{getOperarios()}}
+{\footnotesize\ttfamily get\+Operarios (\begin{DoxyParamCaption}\item[{string}]{\$s = {\ttfamily null},  }\item[{}]{\$r = {\ttfamily null} }\end{DoxyParamCaption})}
+
+Funcion que devuelve lista de operarios
+
+
+\begin{DoxyParams}[1]{Parameters}
+string | null & {\em \$s} & -\/\texorpdfstring{$>$}{>} Cadena de texto para hacer busqueda en la tabla \\
+\hline
+boolean | null & {\em \$r} & -\/\texorpdfstring{$>$}{>} Rol para filtrar datos en la tabla \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_operarios_a2f36cac32475af1420d1a550e6d7519d}\label{class_app_1_1_models_1_1_operarios_a2f36cac32475af1420d1a550e6d7519d} 
+\index{Operarios@{Operarios}!getOperariosPag@{getOperariosPag}}
+\index{getOperariosPag@{getOperariosPag}!Operarios@{Operarios}}
+\doxysubsubsection{\texorpdfstring{getOperariosPag()}{getOperariosPag()}}
+{\footnotesize\ttfamily get\+Operarios\+Pag (\begin{DoxyParamCaption}\item[{array}]{\$o,  }\item[{int}]{\$p,  }\item[{int}]{\$g }\end{DoxyParamCaption})}
+
+Funcion para paginar la tabla de operarios
+
+
+\begin{DoxyParams}[1]{Parameters}
+array & {\em \$o} & -\/\texorpdfstring{$>$}{>} lista de operarios \\
+\hline
+integer & {\em \$p} & -\/\texorpdfstring{$>$}{>} pagina en la que se encuentra \\
+\hline
+integer & {\em \$g} & -\/\texorpdfstring{$>$}{>} grupo de elementos por pagina \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array -\/\texorpdfstring{$>$}{>} lista con los datos de la pagina actual 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_operarios_a39638491aea460e0500d898e186ee760}\label{class_app_1_1_models_1_1_operarios_a39638491aea460e0500d898e186ee760} 
+\index{Operarios@{Operarios}!isExist@{isExist}}
+\index{isExist@{isExist}!Operarios@{Operarios}}
+\doxysubsubsection{\texorpdfstring{isExist()}{isExist()}}
+{\footnotesize\ttfamily is\+Exist (\begin{DoxyParamCaption}\item[{string}]{\$c }\end{DoxyParamCaption})}
+
+Funcion que dice si existe un operario
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$c} & -\/\texorpdfstring{$>$}{>} correo del operario a averiguar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean -\/\texorpdfstring{$>$}{>} si existe o no 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_operarios_aeca4b49425c9a128b07a9a9ec2c546d1}\label{class_app_1_1_models_1_1_operarios_aeca4b49425c9a128b07a9a9ec2c546d1} 
+\index{Operarios@{Operarios}!modOperario@{modOperario}}
+\index{modOperario@{modOperario}!Operarios@{Operarios}}
+\doxysubsubsection{\texorpdfstring{modOperario()}{modOperario()}}
+{\footnotesize\ttfamily mod\+Operario (\begin{DoxyParamCaption}\item[{int}]{\$id\+Operario,  }\item[{array}]{\$datos }\end{DoxyParamCaption})}
+
+Funcion que modifica operarios
+
+
+\begin{DoxyParams}[1]{Parameters}
+integer & {\em \$id\+Operario} & \\
+\hline
+array & {\em \$datos} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+boolean 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Models/Operarios.\+php\end{DoxyCompactItemize}

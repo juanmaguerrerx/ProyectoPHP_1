@@ -1,0 +1,136 @@
+\doxysection{Tareas Class Reference}
+\hypertarget{class_app_1_1_models_1_1_tareas}{}\label{class_app_1_1_models_1_1_tareas}\index{Tareas@{Tareas}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_tareas_a195a90f46836b7c88585d703924ce689}{crear\+Tarea}} (array \$datos)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_tareas_a208f1c7459885857dadcd887458d9b15}{delete\+Tarea}} (int \$id)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_tareas_a8325de7b176d71bb538ddd0e893b3d5f}{get\+Tareas}} (\$operario\+Id, string \$f=null, string \$n=null, string \$oF=null)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_tareas_a1d5e6743a218770f00ecbcda4dee21f7}{get\+Tarea}} (int \$id)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_tareas_a19ac69a894ce9867c99af2e3305cf296}{mod\+Tarea}} (int \$id\+Tarea, array \$datos)
+\item 
+\Hypertarget{class_app_1_1_models_1_1_tareas_a4d5ad54c7cc89960b7334a0f01380a3b}\label{class_app_1_1_models_1_1_tareas_a4d5ad54c7cc89960b7334a0f01380a3b} 
+{\bfseries get\+Fecha\+Creacion} (int \$id)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_tareas_a5999b313318ae1c258637df22a919007}{get\+Tareas\+Pag}} (array \$t, int \$p, int \$g)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_app_1_1_models_1_1_tareas_a195a90f46836b7c88585d703924ce689}\label{class_app_1_1_models_1_1_tareas_a195a90f46836b7c88585d703924ce689} 
+\index{Tareas@{Tareas}!crearTarea@{crearTarea}}
+\index{crearTarea@{crearTarea}!Tareas@{Tareas}}
+\doxysubsubsection{\texorpdfstring{crearTarea()}{crearTarea()}}
+{\footnotesize\ttfamily crear\+Tarea (\begin{DoxyParamCaption}\item[{array}]{\$datos }\end{DoxyParamCaption})}
+
+Funcion para crear una Tarea con los datos proporcionados como parámetro
+
+
+\begin{DoxyParams}[1]{Parameters}
+array & {\em \$datos} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bool 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_tareas_a208f1c7459885857dadcd887458d9b15}\label{class_app_1_1_models_1_1_tareas_a208f1c7459885857dadcd887458d9b15} 
+\index{Tareas@{Tareas}!deleteTarea@{deleteTarea}}
+\index{deleteTarea@{deleteTarea}!Tareas@{Tareas}}
+\doxysubsubsection{\texorpdfstring{deleteTarea()}{deleteTarea()}}
+{\footnotesize\ttfamily delete\+Tarea (\begin{DoxyParamCaption}\item[{int}]{\$id }\end{DoxyParamCaption})}
+
+Funcion que elimina la tarea correspondiente al id pasado como parámetro
+
+
+\begin{DoxyParams}[1]{Parameters}
+integer & {\em \$id} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bool 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_tareas_a1d5e6743a218770f00ecbcda4dee21f7}\label{class_app_1_1_models_1_1_tareas_a1d5e6743a218770f00ecbcda4dee21f7} 
+\index{Tareas@{Tareas}!getTarea@{getTarea}}
+\index{getTarea@{getTarea}!Tareas@{Tareas}}
+\doxysubsubsection{\texorpdfstring{getTarea()}{getTarea()}}
+{\footnotesize\ttfamily get\+Tarea (\begin{DoxyParamCaption}\item[{int}]{\$id }\end{DoxyParamCaption})}
+
+Funcion para obtener una sola tarea en funcion de su id
+
+
+\begin{DoxyParams}[1]{Parameters}
+integer & {\em \$id} & -\/\texorpdfstring{$>$}{>} id de la tarea \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array -\/\texorpdfstring{$>$}{>} tarea 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_tareas_a8325de7b176d71bb538ddd0e893b3d5f}\label{class_app_1_1_models_1_1_tareas_a8325de7b176d71bb538ddd0e893b3d5f} 
+\index{Tareas@{Tareas}!getTareas@{getTareas}}
+\index{getTareas@{getTareas}!Tareas@{Tareas}}
+\doxysubsubsection{\texorpdfstring{getTareas()}{getTareas()}}
+{\footnotesize\ttfamily get\+Tareas (\begin{DoxyParamCaption}\item[{}]{\$operario\+Id,  }\item[{string}]{\$f = {\ttfamily null},  }\item[{string}]{\$n = {\ttfamily null},  }\item[{string}]{\$oF = {\ttfamily null} }\end{DoxyParamCaption})}
+
+Funcion para obtener una lista de Tareas
+
+
+\begin{DoxyParams}[1]{Parameters}
+integer & {\em \$operario\+Id} & -\/\texorpdfstring{$>$}{>} id del operario que está usando la pagina \\
+\hline
+string | null & {\em \$f} & -\/\texorpdfstring{$>$}{>} filtro de estado \\
+\hline
+string | null & {\em \$n} & -\/\texorpdfstring{$>$}{>} filtro de nombre de operario \\
+\hline
+string | null & {\em \$oF} & -\/\texorpdfstring{$>$}{>} el orden de la fecha \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_tareas_a5999b313318ae1c258637df22a919007}\label{class_app_1_1_models_1_1_tareas_a5999b313318ae1c258637df22a919007} 
+\index{Tareas@{Tareas}!getTareasPag@{getTareasPag}}
+\index{getTareasPag@{getTareasPag}!Tareas@{Tareas}}
+\doxysubsubsection{\texorpdfstring{getTareasPag()}{getTareasPag()}}
+{\footnotesize\ttfamily get\+Tareas\+Pag (\begin{DoxyParamCaption}\item[{array}]{\$t,  }\item[{int}]{\$p,  }\item[{int}]{\$g }\end{DoxyParamCaption})}
+
+Funcion para paginar tareas
+
+
+\begin{DoxyParams}[1]{Parameters}
+array & {\em \$t} & -\/\texorpdfstring{$>$}{>} tareas \\
+\hline
+integer & {\em \$p} & -\/\texorpdfstring{$>$}{>} la pagina en la que está \\
+\hline
+integer & {\em \$g} & -\/\texorpdfstring{$>$}{>} la agrupacion de tareas por página \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+array 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_tareas_a19ac69a894ce9867c99af2e3305cf296}\label{class_app_1_1_models_1_1_tareas_a19ac69a894ce9867c99af2e3305cf296} 
+\index{Tareas@{Tareas}!modTarea@{modTarea}}
+\index{modTarea@{modTarea}!Tareas@{Tareas}}
+\doxysubsubsection{\texorpdfstring{modTarea()}{modTarea()}}
+{\footnotesize\ttfamily mod\+Tarea (\begin{DoxyParamCaption}\item[{int}]{\$id\+Tarea,  }\item[{array}]{\$datos }\end{DoxyParamCaption})}
+
+Funcion que modifica la tarea
+
+
+\begin{DoxyParams}[1]{Parameters}
+integer & {\em \$id\+Tarea} & -\/\texorpdfstring{$>$}{>} id de la tarea a modificar \\
+\hline
+string & {\em \$datos} & -\/\texorpdfstring{$>$}{>} datos a cambiar \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Bool 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Models/Tareas.\+php\end{DoxyCompactItemize}

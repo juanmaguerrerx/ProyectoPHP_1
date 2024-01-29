@@ -171,7 +171,6 @@
                             }
                         @endphp
                         <tr>
-                            {{-- @dd($tarea); --}}
                             <td>{{ isset($tarea['id']) ? $tarea['id'] : '' }}</td>
                             <td>{{ isset($tarea['nif_cliente']) ? $tarea['nif_cliente'] : '' }}</td>
                             <td>{{ isset($tarea['nombre_cliente']) ? $tarea['nombre_cliente'] : '' }}</td>
@@ -209,12 +208,6 @@
                 </tbody>
 
             </table>
-
-            {{-- <form action="{{url('/admin')}}" method="get">
-                <button type="submit" class="btn btn-outline-primary" value="{{$pagina-1}}">Anterior</button>
-                <button disabled class="btn btn-primary">{{ $pagina }}</button>
-                <button type="submit" class="btn btn-outline-primary" value="{{ $pagina+1 }}">Siguiente</button>
-            </form> --}}
 
 
             {{-- Paginacion --}}

@@ -1,0 +1,108 @@
+\doxysection{Session\+Man Class Reference}
+\hypertarget{class_app_1_1_models_1_1_session_man}{}\label{class_app_1_1_models_1_1_session_man}\index{SessionMan@{SessionMan}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_session_man_aaa8578c3f517c8e9c295f53563149bf7}{set\+Session\+Duration}} (int \$minutes)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_session_man_a1e201c0957bc704471a78cd492174871}{start\+Session}} ()
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_session_man_a42f8296536dced841140221f854f41ea}{write}} (string \$key, string \$value)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_session_man_a5a14c48cea9278ece215f0d70b2fb4ce}{read}} (string \$key)
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_session_man_a0a9884271e5d6210e227ee1d55b94077}{exist\+Session}} ()
+\item 
+\mbox{\hyperlink{class_app_1_1_models_1_1_session_man_a9aea96aaeaf1efd5531eb1867ee67ca6}{destroy\+Session}} ()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_app_1_1_models_1_1_session_man_a9aea96aaeaf1efd5531eb1867ee67ca6}\label{class_app_1_1_models_1_1_session_man_a9aea96aaeaf1efd5531eb1867ee67ca6} 
+\index{SessionMan@{SessionMan}!destroySession@{destroySession}}
+\index{destroySession@{destroySession}!SessionMan@{SessionMan}}
+\doxysubsubsection{\texorpdfstring{destroySession()}{destroySession()}}
+{\footnotesize\ttfamily destroy\+Session (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Destruir la sesión
+
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_session_man_a0a9884271e5d6210e227ee1d55b94077}\label{class_app_1_1_models_1_1_session_man_a0a9884271e5d6210e227ee1d55b94077} 
+\index{SessionMan@{SessionMan}!existSession@{existSession}}
+\index{existSession@{existSession}!SessionMan@{SessionMan}}
+\doxysubsubsection{\texorpdfstring{existSession()}{existSession()}}
+{\footnotesize\ttfamily exist\+Session (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Verificar si existe la sesión
+
+\begin{DoxyReturn}{Returns}
+boolean 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_session_man_a5a14c48cea9278ece215f0d70b2fb4ce}\label{class_app_1_1_models_1_1_session_man_a5a14c48cea9278ece215f0d70b2fb4ce} 
+\index{SessionMan@{SessionMan}!read@{read}}
+\index{read@{read}!SessionMan@{SessionMan}}
+\doxysubsubsection{\texorpdfstring{read()}{read()}}
+{\footnotesize\ttfamily read (\begin{DoxyParamCaption}\item[{string}]{\$key }\end{DoxyParamCaption})}
+
+Leer la sesión
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$key} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+mixed\texorpdfstring{$\vert$}{|}null 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_session_man_aaa8578c3f517c8e9c295f53563149bf7}\label{class_app_1_1_models_1_1_session_man_aaa8578c3f517c8e9c295f53563149bf7} 
+\index{SessionMan@{SessionMan}!setSessionDuration@{setSessionDuration}}
+\index{setSessionDuration@{setSessionDuration}!SessionMan@{SessionMan}}
+\doxysubsubsection{\texorpdfstring{setSessionDuration()}{setSessionDuration()}}
+{\footnotesize\ttfamily set\+Session\+Duration (\begin{DoxyParamCaption}\item[{int}]{\$minutes }\end{DoxyParamCaption})}
+
+Establecer la duración de la sesión
+
+
+\begin{DoxyParams}[1]{Parameters}
+integer & {\em \$minutes} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_session_man_a1e201c0957bc704471a78cd492174871}\label{class_app_1_1_models_1_1_session_man_a1e201c0957bc704471a78cd492174871} 
+\index{SessionMan@{SessionMan}!startSession@{startSession}}
+\index{startSession@{startSession}!SessionMan@{SessionMan}}
+\doxysubsubsection{\texorpdfstring{startSession()}{startSession()}}
+{\footnotesize\ttfamily start\+Session (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Método para iniciar la sesión
+
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+\Hypertarget{class_app_1_1_models_1_1_session_man_a42f8296536dced841140221f854f41ea}\label{class_app_1_1_models_1_1_session_man_a42f8296536dced841140221f854f41ea} 
+\index{SessionMan@{SessionMan}!write@{write}}
+\index{write@{write}!SessionMan@{SessionMan}}
+\doxysubsubsection{\texorpdfstring{write()}{write()}}
+{\footnotesize\ttfamily write (\begin{DoxyParamCaption}\item[{string}]{\$key,  }\item[{string}]{\$value }\end{DoxyParamCaption})}
+
+Escribir en la sesión
+
+
+\begin{DoxyParams}[1]{Parameters}
+string & {\em \$key} & \\
+\hline
+string & {\em \$value} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+void 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Models/Session\+Man.\+php\end{DoxyCompactItemize}
