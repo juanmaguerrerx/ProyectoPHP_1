@@ -199,8 +199,10 @@
                                     <a href="{{ url('modTarea?id=' . $tarea['id']) }}">
 
                                         <button class="btn btn-warning btn-sm l">Modificar</button>
+                                        @if ($esAdmin)
                                     </a><a href="{{ url('deleteTarea?id=' . $tarea['id']) }}"><button
                                             class="btn btn-danger btn-sm l">Eliminar</button></a>
+                                        @endif
                             </td>
                     @endif
                     </tr>

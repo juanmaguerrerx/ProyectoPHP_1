@@ -14,9 +14,6 @@ use App\Models\Validar;
 class UsuariosCtrl
 {
 
-
-
-
     /**
      * Muestra la tabla Operarios
      *
@@ -24,14 +21,12 @@ class UsuariosCtrl
      */
     public function mostrarTablaUsuarios(Request $request)
     {
-
         $sesion = new SessionMan;
         $sesion->existSession();
         $sesion->startSession();
         $id = $sesion->read('id');
 
         $o = new Operarios;
-        // dd($o->esAdmin($id),$id);
         if (!$o->esAdmin($id)) {
             return redirect('/admin');
         }

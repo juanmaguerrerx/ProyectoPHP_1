@@ -58,9 +58,6 @@ class Tareas
         $stmt->bindParam(9, $datos['operario']);
         $stmt->bindParam(10, $datos['anotacionesAnteriores']);
 
-        // dd($stmt);
-        // echo "Consulta SQL: " . $stmt->queryString . PHP_EOL;
-
         $stmt->execute();
         return true;
     }

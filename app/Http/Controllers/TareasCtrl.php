@@ -155,6 +155,8 @@ class TareasCtrl
         }
 
 
+
+
         $idTarea = $request->input('id');
         $t = new Tareas;
 
@@ -189,7 +191,7 @@ class TareasCtrl
         $pMod = new Provincias;
         $oMod = new Operarios;
         $idTarea = $request->input('id');
-        // dd($idTarea);
+
         $datosFormulario = $tMod->getTarea($idTarea);
         $provincias = $pMod->getProvincias();
         $operarios = $oMod->getOperarios();
@@ -214,7 +216,6 @@ class TareasCtrl
 
         $datosFormulario = $request->except('_token');
         $datosFormulario = array_map('trim', $datosFormulario);
-        // dd($datosFormulario);
 
         $validador = new Validar($datosFormulario);
         $errores = $validador->validarTareaMod();

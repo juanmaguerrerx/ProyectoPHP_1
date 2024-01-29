@@ -107,9 +107,6 @@ class Operarios
         $stmt->bindParam(4, $datos['contrasena']);
         $stmt->bindParam(5, $datos['admin']);
 
-        // dd($stmt);
-        // echo "Consulta SQL: " . $stmt->queryString . PHP_EOL;
-
         $stmt->execute();
         return true;
     }
@@ -132,7 +129,6 @@ class Operarios
         $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // dd($resultado);
         return $resultado['admin'];
     }
 
