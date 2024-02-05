@@ -136,7 +136,7 @@
                 <!-- Encabezado de la tabla -->
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>#</th>
                         <th>NIF/CIF Cliente</th>
                         <th>Nombre Cliente</th>
                         <th>Teléfono Contacto</th>
