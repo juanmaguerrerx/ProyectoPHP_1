@@ -218,7 +218,7 @@ class TareasCtrl
         $datosFormulario = array_map('trim', $datosFormulario);
 
         $validador = new Validar($datosFormulario);
-        $errores = $validador->validarTareaMod();
+        $errores = $validador->validarTareaMod(true);
 
         $pMod = new Provincias;
         $oMod = new Operarios;

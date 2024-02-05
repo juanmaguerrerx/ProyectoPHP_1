@@ -55,8 +55,13 @@ class Validar
      *
      * @return array
      */
-    public function validarTareaMod(): array
+    public function validarTareaMod(bool $operario = null): array
     {
+
+        if ($operario){
+            $this->validarFechaRealizacion();
+            return $this->errores;
+        }
         $this->validarNif($this->datos['nif_cliente']);
         $this->validarPersonaContacto($this->datos['nombre_cliente']);
         $this->validarTelefonoMod();
