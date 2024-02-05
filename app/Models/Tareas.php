@@ -85,7 +85,7 @@ class Tareas
     /**
      * Funcion para obtener una lista de Tareas
      *
-     * @param integer $operarioId -> id del operario que está usando la pagina
+     * @param $operarioId -> id del operario que está usando la pagina
      * @param string|null $f -> filtro de estado
      * @param string|null $n -> filtro de nombre de operario
      * @param string|null $oF -> el orden de la fecha
@@ -121,13 +121,14 @@ class Tareas
         // Agregar la parte de orden
         $consulta .= " $orden";
 
+        // dd($consulta);
+
         // Preparar y ejecutar la consulta
         $stmt = $conexion->prepare($consulta);
         $stmt->execute();
 
         // Obtener las tareas como un array asociativo
         $resultados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
         // Construir un array final recorriendo el array de resultados
         foreach ($resultados as $fila) {
