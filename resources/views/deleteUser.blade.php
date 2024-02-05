@@ -52,7 +52,7 @@
     <div class="container mt-5 pad">
         <h2 class="tp text-center">Eliminar Usuario</h2>
 
-        <p class="text-center">¿Estás seguro de eliminar el operario?</p>
+        <p class="text-center">¿Estás seguro de eliminar el operario? <br> Se eliminarán todas sus tareas correspondientes</p>
 
         <form method='POST' action="">
             @csrf
