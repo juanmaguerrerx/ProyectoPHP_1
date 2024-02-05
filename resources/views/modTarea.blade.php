@@ -76,8 +76,8 @@
                         <label for="nif" class="required">NIF Cliente</label>
                         <input name="nif_cliente" class="form-control" value="{{ $datosFormulario['nif_cliente'] }}"
                             id="nif" placeholder="NIF o CIF">
-                        @if (isset($errores['nif_cliente']))
-                            <div class="text-danger">{{ $errores['nif_cliente'] }}</div>
+                        @if (isset($errores['nif']))
+                            <div class="text-danger">{{ $errores['nif'] }}</div>
                         @endif
                     </div>
                     <div class="form-group col-md-6" {{ $texto }}>
