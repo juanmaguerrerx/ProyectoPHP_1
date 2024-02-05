@@ -108,7 +108,16 @@ class TareasCtrl
         }
 
         // Dvuelve la vista con errores, datos del formulario y más datos necesarios
-        return view('form', compact('operarios', 'provincias', 'errores', 'datosFormulario'));
+        $variables = compact('operarios', 'provincias', 'errores', 'datosFormulario');
+
+        $variables = array(
+            'operarios'=>$operarios,
+            'provincias'=>$provincias,
+            'errores'=>$errores,
+            'datosFormulario'=>$datosFormulario,
+        );
+        // dd($variables);
+        return view('form',$variables);
     }
 
     /**
@@ -214,14 +223,20 @@ class TareasCtrl
         $idTarea = $request->input('id');
         $filtro = $request->input('f');
 
+        $pMod = new Provincias;
+        $oMod = new Operarios;
+        
         $datosFormulario = $request->except('_token');
         $datosFormulario = array_map('trim', $datosFormulario);
 
-        $validador = new Validar($datosFormulario);
-        $errores = $validador->validarTareaMod(true);
+        $user = true;
+        if($oMod->esAdmin($id)){
+            $user = false;
+        }
 
-        $pMod = new Provincias;
-        $oMod = new Operarios;
+        $validador = new Validar($datosFormulario);
+        $errores = $validador->validarTareaMod($user);
+        
         $provincias = $pMod->getProvincias();
         $operarios = $oMod->getOperarios();
 

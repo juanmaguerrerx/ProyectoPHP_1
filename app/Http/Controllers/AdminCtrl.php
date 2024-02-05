@@ -35,7 +35,7 @@ class AdminCtrl
 
 
         $tMod = new Tareas;
-
+        // $pagina = $_GET['p'];
         $orderFecha = $request->input('order', '');
 
         $pagina = $request->input('p', 1);

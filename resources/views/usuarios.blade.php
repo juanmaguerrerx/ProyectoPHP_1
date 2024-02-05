@@ -50,7 +50,7 @@
         <h3 class="text-center">Lista de Operarios</h3>
 
         <form action="{{ url('/users') }}" method="get">
-            @csrf
+            {{-- @csrf --}}
             <label for="grupo">Elementos por Página:</label>
             <select name="g" id="grupo" onchange="this.form.submit()">
                 <option value="5" {{ $grupo == 5 ? 'selected' : '' }}>5</option>
@@ -76,7 +76,6 @@
         </form>
 
         <div class="container-xxl">
-            <!-- Tabla Bootstrap -->
             <table class="table table-bordered">
                 <!-- Encabezado de la tabla -->
                 <thead>

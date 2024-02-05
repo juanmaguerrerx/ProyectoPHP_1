@@ -57,7 +57,6 @@ class Validar
      */
     public function validarTareaMod(bool $operario = null): array
     {
-
         if ($operario){
             $this->validarFechaRealizacion();
             return $this->errores;
@@ -93,11 +92,11 @@ class Validar
      *
      * @return array
      */
-    public function validarUsuarioMod(): array
+    public function validarUsuarioMod(bool $emailCheck = false): array
     {
         $this->validarNombre();
         $this->validarApellidos();
-        $this->validarCorreo($this->datos['correo'], false);
+        $this->validarCorreo($this->datos['correo'], false, $emailCheck);
         $this->validarContrasena();
 
         return $this->errores;
@@ -226,6 +225,7 @@ class Validar
     protected function validarPersonaContacto($nombre = null)
     {
         if (empty($nombre)) {
+            // dd(true);
             $this->agregarError('cliente', 'El nombre del cliente es obligatorio.');
         }
     }
@@ -394,17 +394,17 @@ class Validar
      *
      * @param string $email
      * @param boolean $checkExist -> true | Si tiene que comprobar si existe el email 
+     * @param boolean $mod -> false | Si no está modificando el correo
      * @return void
      */
-    protected function validarCorreo($email = null, bool $checkExist = true)
+    protected function validarCorreo($email = null, bool $checkExist = true, bool $mod = false)
     {
         $oMod = new Operarios;
         if ($email != null) {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 $this->agregarError('correo', 'El formato no es válido');
             }
-
-            if ($checkExist) {
+            if ($checkExist || $mod) {
                 if ($oMod->isExist($email)) {
                     $this->agregarError('correo', 'El correo electrónico ya existe.');
                 }

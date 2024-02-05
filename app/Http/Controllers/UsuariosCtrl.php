@@ -62,11 +62,18 @@ class UsuariosCtrl
             return redirect('/admin');
         }
 
+
         $idOperario = $request->input('id');
         $datosFormulario = $request->except('_token');
         $datosFormulario = array_map('trim', $datosFormulario);
+
+        $correoOp = $o->getEmail($datosFormulario['id']);
+        $emailCheck = true;
+        if($correoOp == $datosFormulario['correo']){
+            $emailCheck = false;
+        }
         $validador = new Validar($datosFormulario);
-        $errores = $validador->validarUsuarioMod();
+        $errores = $validador->validarUsuarioMod($emailCheck);
 
 
 

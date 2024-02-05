@@ -128,8 +128,10 @@ class Operarios
 
         $stmt->execute();
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        return $resultado['admin'];
+        if(!empty($resultado['admin'])){
+            $resultado = $resultado['admin'];
+        }else $resultado = false;
+        return $resultado;
     }
 
     /**
@@ -169,6 +171,24 @@ class Operarios
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
 
         return $resultado['id'];
+    }
+
+    /**
+     * Obtiene email de un operario
+     *
+     * @param int $id
+     * @return string
+     */
+    public function getEmail(int $id): string
+    {
+        $conexion = ConexionDB::obtenerInstancia()->obtenerConexion();
+
+        $stmt = $conexion->prepare("SELECT correo FROM operarios WHERE id = ?");
+
+        $stmt->bindParam(1, $id);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['correo'];
     }
 
     /**

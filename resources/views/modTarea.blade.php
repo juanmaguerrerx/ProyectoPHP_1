@@ -84,8 +84,8 @@
                         <label for="cliente" class="required">Cliente</label>
                         <input name="nombre_cliente" class="form-control" id="Cliente"
                             value="{{ $datosFormulario['nombre_cliente'] }}" placeholder="Nombre y Apellidos">
-                        @if (isset($errores['nombre_cliente']))
-                            <div class="text-danger">{{ $errores['nombre_cliente'] }}</div>
+                        @if (isset($errores['cliente']))
+                            <div class="text-danger">{{ $errores['cliente'] }}</div>
                         @endif
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                         <input name="correo_cliente" class="form-control" id="email"
                             value="{{ $datosFormulario['correo_cliente'] }}" placeholder="Correo Electrónico">
                         @if (isset($errores['correo']))
-                            <div class="text-danger">{{ $errores['correo_cliente'] }}</div>
+                            <div class="text-danger">{{ $errores['correo'] }}</div>
                         @endif
                     </div>
                 </div>
