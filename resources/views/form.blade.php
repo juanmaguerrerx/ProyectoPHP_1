@@ -148,8 +148,10 @@
                     <label for="operario" class="required">Operario Encargado</label>
                     <select id="operario" name="operario" class="form-control form-control-md">
                         @foreach ($operarios as $operario)
-                            <option value="{{ $operario['id'] }}">{{ $operario['nombre'] }}
-                                {{ $operario['apellidos'] }}</option>
+                            @if ($operario['admin'] == 0)
+                                <option value="{{ $operario['id'] }}">{{ $operario['nombre'] }}
+                                    {{ $operario['apellidos'] }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>

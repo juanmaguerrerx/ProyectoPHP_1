@@ -101,7 +101,7 @@ class Tareas
         $esAdmin = $opMod->esAdmin($operarioId);
 
         // Construir la parte de la consulta relacionada con el orden
-        $orden = ($oF == 'fC') ? "ORDER BY fecha_creacion" : (($oF == 'fR') ? "ORDER BY fecha_realizacion IS NULL, fecha_realizacion" : "ORDER BY id");
+        $orden = ($oF == 'fC') ? "ORDER BY fecha_creacion" : (($oF == 'fR') ? "ORDER BY fecha_realizacion IS NULL, fecha_realizacion DESC" : "ORDER BY id");
 
         // Construir la parte de la consulta relacionada con el filtro de nombre
         $filtroNombre = $n ? " AND operario_id = '$n'" : null;
