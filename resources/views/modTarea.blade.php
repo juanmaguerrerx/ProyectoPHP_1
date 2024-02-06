@@ -140,7 +140,7 @@
                         <select id="provincia" name="provincia" class="form-control">
                             @foreach ($provincias as $provincia)
                                 <option value="{{ $provincia['cod'] }}"
-                                    @if ($datosFormulario['provincia'] == $provincia['nombre']) selected @endif>
+                                    {{ $datosFormulario['provincia'] == $provincia['cod'] ? 'selected' : '' }}>
                                     {{ $provincia['nombre'] }}
                                 </option>
                             @endforeach

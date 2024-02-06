@@ -16,7 +16,10 @@ use App\Models\SessionMan;
  */
 class TareasCtrl
 {
-    
+    private $session;
+    public function __construct() {
+        
+    }
     /**
      * Funcion para mostrar formulario para crear tarea
      *
@@ -28,16 +31,16 @@ class TareasCtrl
         $sesion->startSession();
         $id = $sesion->read('id');
 
-        $o = new Operarios;
+        $opMod = new Operarios;
 
-        if (!$o->esAdmin($id)){
+        if (!$opMod->esAdmin($id)){
             return redirect('/admin');
         }
 
         $operarios = array();
         $provincias = array();
 
-        $opMod = new Operarios;
+        
         $operarios = $opMod->getOperarios();
 
         $provMod = new Provincias;
@@ -195,6 +198,11 @@ class TareasCtrl
         $sesion->existSession();
         $sesion->startSession();
         $id = $sesion->read('id');
+
+        if (!$sesion->existSession()){
+            return redirect('/login');
+        }
+        
 
         $tMod = new Tareas;
         $pMod = new Provincias;
