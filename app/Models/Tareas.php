@@ -121,7 +121,6 @@ class Tareas
         // Agregar la parte de orden
         $consulta .= " $orden";
 
-        // dd($consulta);
 
         // Preparar y ejecutar la consulta
         $stmt = $conexion->prepare($consulta);
@@ -138,12 +137,12 @@ class Tareas
 
             if ($fila['fecha_realizacion'] !== null) {
                 $fechaObj = new DateTime($fila['fecha_realizacion']);
-                $fila['fecha_realizacion'] = $fechaObj->format('Y-m-d');
+                $fila['fecha_realizacion'] = $fechaObj->format('d/m/Y');
             } else {
                 $fila['fecha_realizacion'] == '';
             }
             $fechaObj = new DateTime($fila['fecha_creacion']);
-            $fila['fecha_creacion'] = $fechaObj->format('Y-m-d');
+            $fila['fecha_creacion'] = $fechaObj->format('d/m/Y');
 
             $tarea = array(
                 'id' => $fila['id'],
@@ -197,12 +196,13 @@ class Tareas
 
             if ($fila['fecha_realizacion'] !== null) {
                 $fechaObj = new DateTime($fila['fecha_realizacion']);
-                $fila['fecha_realizacion'] = $fechaObj->format('Y-m-d');
+                $fila['fecha_realizacion'] = $fechaObj->format('d-m-Y');
             } else {
                 $fila['fecha_realizacion'] == '';
             }
             $fechaObj = new DateTime($fila['fecha_creacion']);
-            $fila['fecha_creacion'] = $fechaObj->format('Y-m-d');
+            $fila['fecha_creacion'] = $fechaObj->format('d-m-Y');
+
 
             $tarea = array(
                 'id' => $fila['id'],

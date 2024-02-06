@@ -177,7 +177,6 @@ class TareasCtrl
 
         if ($respuesta) {
             $tareasBase = $t->getTareas($id, $filtro); //ID -> SESSION 
-
             $pagina = $request->input('p', 1);
             $grupo = $request->input('g', 5);
 
